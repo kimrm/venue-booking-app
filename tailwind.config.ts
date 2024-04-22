@@ -8,10 +8,31 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      fontFamily: {
+        sans: ["Figtree Variable", "sans-serif"],
+        serif: ["Playfair Display Variable", "serif"],
+      },
+      colors: {
+        primary: "#FF6363",
+        secondary: {
+          100: "#E2E2D5",
+          200: "#888883",
+        },
+        white: "#fff",
+        offwhite: "#f8f8f8",
+        offwhite2: "#f9f9f9",
+      },
+      // Define animation class
+      animation: {
+        "ltr-linear-infinite": "move-bg 3s linear infinite",
+      },
+      // Define keyframes
+      keyframes: {
+        "move-bg": {
+          "0%": { "background-position": "0 0" },
+          "50%": { "background-position": "1000px 0" },
+          "100%": { "background-position": "0 0" },
+        },
       },
     },
   },
