@@ -11,8 +11,8 @@ export default function Banner() {
     <div>
       <h2>Update your banner</h2>
       <Image
-        src={profile?.banner?.url}
-        alt={profile?.banner?.alt}
+        src={profile?.banner?.url ?? ""}
+        alt={profile?.banner?.alt ?? ""}
         width={200}
         height={200}
       />
