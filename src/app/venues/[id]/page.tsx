@@ -12,7 +12,7 @@ interface VenueData {
 }
 
 async function getData(id: string) {
-  const data = await fetcher(`http://localhost:3000/api/venues/${id}`);
+  const data = await fetcher(`${process.env.APP_URL}/api/venues/${id}`);
   return data;
 }
 

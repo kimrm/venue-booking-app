@@ -15,7 +15,7 @@ export default async function handler(
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "X-Noroff-API-Key": API_KEY,
+        "X-Noroff-API-Key": process.env.API_KEY ?? "",
       },
     }
   );
