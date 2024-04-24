@@ -1,12 +1,19 @@
 import React from "react";
 import { useContext } from "react";
 import { UserContext } from "../context/UserContext";
+import { UiContext } from "../context/UiContext";
 import Link from "next/link";
 import Image from "next/image";
 
 export default function Header() {
 	const { profile, setProfile } = useContext(UserContext) || {};
+	const { setSearchModalOpen } = useContext(UiContext) || {};
 
+	function searchClickHandler() {
+		if (setSearchModalOpen) {
+			setSearchModalOpen(true);
+		}
+	}
 	async function logoutClickHandler() {
 		const response = await fetch("/api/logout", {
 			method: "POST",
@@ -30,6 +37,7 @@ export default function Header() {
 						Holidation
 					</Link>
 					<button
+						onClick={searchClickHandler}
 						title="Search for your next holiday"
 						className="flex w-full items-center gap-3 rounded-lg border border-offwhite2 bg-gradient-to-r from-white to-offwhite px-3 py-2 text-gray-500 transition-all duration-500 hover:border-orange-400"
 					>
