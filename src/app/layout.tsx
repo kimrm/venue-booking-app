@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Layout from "@/components/Layout";
+import AppInitializer from "@/components/AppInitializer";
 import { cookies } from "next/headers";
 import "@fontsource-variable/playfair-display";
 import "@fontsource-variable/figtree";
@@ -48,9 +48,7 @@ export default async function RootLayout({
 	return (
 		<html lang="en">
 			<body>
-				<div className="container mx-auto">
-					<Layout userProfile={profile}>{children}</Layout>
-				</div>
+				<AppInitializer userProfile={profile}>{children}</AppInitializer>
 			</body>
 		</html>
 	);
