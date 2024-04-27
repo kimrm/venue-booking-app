@@ -68,15 +68,6 @@ export default function Home() {
 
 	const venues = data ? data.flatMap((page) => page.data) : [];
 
-	const continents = [
-		"Africa",
-		"Asia",
-		"Europe",
-		"North America",
-		"Oceania",
-		"South America",
-	];
-
 	useEffect(() => {
 		if (!infiniteScrollEnabled) return;
 		const onScroll = () => {
@@ -111,61 +102,6 @@ export default function Home() {
 
 	return (
 		<div>
-			{!profile ?? (
-				<div>
-					<LoginForm />
-				</div>
-			)}
-			<div className="my-4 flex gap-5">
-				<select
-					className="rounded-xl border p-2"
-					value={continent}
-					onChange={(e) => setContinent(e.target.value)}
-				>
-					<option value="">Continent</option>
-					{continents.map((continent) => {
-						return (
-							<option key={continent} value={continent}>
-								{continent}
-							</option>
-						);
-					})}
-				</select>
-				<select
-					className="rounded-xl border p-2"
-					value={guests}
-					onChange={(e) => setGuests(e.target.value)}
-				>
-					<option value="">Guests</option>
-					<option value="1">1</option>
-					<option value="2">2</option>
-					<option value="3">3</option>
-					<option value="4">4</option>
-					<option value="5">5</option>
-					<option value="6">6</option>
-					<option value="7">7</option>
-					<option value="8">8</option>
-					<option value="9">9</option>
-					<option value="0">More</option>
-				</select>
-				<select
-					className="rounded-xl border p-2"
-					value={maxPrice}
-					onChange={(e) => setMaxPrice(e.target.value)}
-				>
-					<option value="">Max price</option>
-					<option value="10">10</option>
-					<option value="20">20</option>
-					<option value="30">30</option>
-					<option value="40">40</option>
-					<option value="50">50</option>
-					<option value="100">100</option>
-					<option value="200">200</option>
-					<option value="1000">1000</option>
-					<option value="9000">9000</option>
-					<option value="0">More</option>
-				</select>
-			</div>
 			{isLoading && !isFetching && (
 				<p className="mt-10 text-center">Loading data...</p>
 			)}
