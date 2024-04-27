@@ -47,7 +47,7 @@ export default async function RootLayout({
 
 	return (
 		<html lang="en">
-			<body>
+			<body className="min-h-screen">
 				<AppInitializer userProfile={profile}>{children}</AppInitializer>
 			</body>
 		</html>
