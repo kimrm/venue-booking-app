@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from "react";
-import Header from "@/components/Header";
+import Header from "@/components/header";
 import Footer from "@/components/Footer";
 import { UiContext } from "@/context/UiContext";
 import { DataContext } from "@/context/DataContext";
@@ -26,7 +26,6 @@ export default function App({ children }: Props) {
 
 	return (
 		<>
-			<p>User location: {userLocation}</p>
 			{searchModalOpen && (
 				<div className="fixed inset-0 z-50 bg-black bg-opacity-50">
 					<div className="z-100 absolute inset-0 flex items-center justify-center">
@@ -153,7 +152,7 @@ export default function App({ children }: Props) {
 				</div>
 			)}
 			<div className="container mx-auto">
-				<div className="flex min-h-screen flex-col">
+				<div className="flex h-screen flex-col">
 					<Header />
 					<main className="flex-grow">{children}</main>
 					<Footer />
