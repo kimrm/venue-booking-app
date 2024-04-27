@@ -2,6 +2,8 @@ import fetcher from "@/utils/fetcher";
 import ImageLoader from "@/components/ImageLoader";
 import Venue from "@/app/types/Venue";
 import Image from "next/image";
+import BookVenue from "@/components/BookVenue";
+import CreateBooking from "@/components/booking/CreateBooking";
 
 interface Props {
 	params: { id: string };
@@ -12,7 +14,7 @@ interface VenueData {
 }
 
 async function getData(id: string) {
-	const data = await fetcher(`${process.env.APP_URL}/api/venues/${id}`);
+	const data = fetcher(`${process.env.APP_URL}/api/venues/${id}`);
 	return data;
 }
 
@@ -23,6 +25,7 @@ export default async function VenuePage({ params }: Props) {
 	if (!venue) {
 		return <div>Could not find anything here. </div>;
 	}
+
 	return (
 		venue &&
 		venue.media && (
@@ -88,6 +91,7 @@ export default async function VenuePage({ params }: Props) {
 						</div>
 					</div>
 				</div>
+				<CreateBooking />
 			</div>
 		)
 	);
