@@ -16,6 +16,20 @@ export default async function handler(
 		password: req.body.password,
 	};
 
+	if (req.method !== "POST") {
+		res.status(405).json({
+			status: "Method Not Allowed",
+		});
+		return;
+	}
+
+	if (!body.email || !body.password) {
+		res.status(400).json({
+			status: "Missing input",
+		});
+		return;
+	}
+
 	const fetchResponse = await fetch(api_url, {
 		method: "POST",
 		headers: {
@@ -26,10 +40,9 @@ export default async function handler(
 
 	const data = await fetchResponse.json();
 
-	const accessToken = data.data.accessToken;
-	const userName = data.data.name;
-
 	if (fetchResponse.ok) {
+		const accessToken = data.data.accessToken;
+		const userName = data.data.name;
 		res.setHeader(
 			"Set-Cookie",
 			`accesstoken=${accessToken}; Path=/; HttpOnly; Secure; SameSite=Strict`
