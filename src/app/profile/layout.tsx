@@ -18,7 +18,6 @@ export default function Layout({ children }: Props) {
 		return (
 			<div>
 				<h2>Please log in to view this site.</h2>
-				<LoginForm />
 			</div>
 		);
 	}
