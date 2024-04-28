@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import Venue from "../../../app/types/Venue";
+import Venue from "../../../types/Venue";
 
 const API_KEY = "74f572d2-19b2-4919-8edd-45508b626fed";
 

@@ -1,6 +1,6 @@
 import fetcher from "@/utils/fetcher";
 import ImageLoader from "@/components/ImageLoader";
-import Venue from "@/app/types/Venue";
+import Venue from "@/types/Venue";
 import Image from "next/image";
 import BookVenue from "@/components/BookVenue";
 import CreateBooking from "@/components/booking/CreateBooking";
@@ -31,6 +31,7 @@ export default async function VenuePage({ params }: Props) {
 		venue.media && (
 			<div>
 				<ImageLoader
+					priority={true}
 					url={venue.media[0].url}
 					description={venue.media[0].alt}
 					width={800}
@@ -80,7 +81,7 @@ export default async function VenuePage({ params }: Props) {
 							{venue.media.map((media) => {
 								return (
 									<ImageLoader
-										key={media.url}
+										key={media.id}
 										url={media.url}
 										description={media.alt}
 										width={200}

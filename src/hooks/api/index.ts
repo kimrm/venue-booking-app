@@ -22,12 +22,10 @@ export function usePostFetch(url: string, postData: any) {
 					},
 					body: postData ? JSON.stringify(postData) : null,
 				});
-				console.log("body: ", JSON.stringify(postData));
+
 				const data = await response.json();
 
 				if (!response.ok) {
-					console.log("response not ok: ", response);
-
 					setError({
 						code: response.status.toString(),
 						message: response.statusText,
@@ -36,7 +34,7 @@ export function usePostFetch(url: string, postData: any) {
 					setLoading(false);
 					return { error: "Failed to fetch data" };
 				}
-				console.log("hook: ", data);
+
 				setData(data);
 			} catch (err: any) {
 				setError({

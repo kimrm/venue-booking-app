@@ -3,6 +3,7 @@ interface Venue {
 	name: string;
 	description: string;
 	media?: {
+		id?: number;
 		url: string;
 		alt: string;
 	}[];

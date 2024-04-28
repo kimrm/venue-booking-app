@@ -2,7 +2,7 @@
 
 import { useContext, useEffect, useState } from "react";
 import { UserContext, UserContextType } from "../../context/UserContext";
-import UserProfile from "@/app/types/UserProfile";
+import UserProfile from "@/types/UserProfile";
 
 export default function ProfilePage() {
 	const [bio, setBio] = useState<string>("");

@@ -23,6 +23,7 @@ export default function LoginForm({ success }: Props) {
 			if ("error" in data) {
 				return;
 			}
+
 			setProfile && setProfile(data);
 			success();
 		}
@@ -54,6 +55,7 @@ export default function LoginForm({ success }: Props) {
 					onChange={handleEmailChange}
 					value={email}
 					required
+					autoComplete="email"
 				/>
 			</div>
 			<div className="mb-3">
@@ -68,6 +70,7 @@ export default function LoginForm({ success }: Props) {
 					onChange={handlePasswordChange}
 					value={password}
 					required
+					autoComplete="current-password"
 				/>
 			</div>
 

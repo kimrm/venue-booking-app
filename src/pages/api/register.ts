@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { API_URL, API_AUTH_URL } from "@/vars/api";
+import { NoroffAPIRequest } from "@/types/Request";
 
 type ResponseData = {
 	status: string;
@@ -14,16 +15,6 @@ type RequestData = {
 		alt?: string;
 		url?: string;
 	};
-};
-
-type NoroffAPIRequest = {
-	method: string;
-	headers?: {
-		"Content-Type"?: string;
-		"X-Noroff-API-Key"?: string;
-		Authorization?: string;
-	};
-	body?: string;
 };
 
 export default async function handler(

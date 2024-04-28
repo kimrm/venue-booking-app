@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useState } from "react";
 
 interface Props {
+	priority?: boolean;
 	url: string;
 	description: string;
 	className?: string;
@@ -12,6 +13,7 @@ interface Props {
 }
 
 export default function ImageLoader({
+	priority,
 	url,
 	description,
 	className,
@@ -54,6 +56,7 @@ export default function ImageLoader({
 			</div>
 
 			<Image
+				priority={priority}
 				onError={handleError}
 				onLoad={handleLoaded}
 				src={url}

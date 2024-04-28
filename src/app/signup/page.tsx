@@ -22,14 +22,13 @@ export default function SignupPage() {
 
 	useEffect(() => {
 		if (!data) return;
-		console.log("usePostFetch data: ", data);
+
 		setIsSuccessFullRegistration(true);
 	}, [data]);
 
 	useEffect(() => {
 		if (!error) return;
 		if (error.code === "400") {
-			console.log("error: ", error);
 			if (
 				error.errors &&
 				error.errors[0].message === "Profile already exists"
@@ -46,7 +45,6 @@ export default function SignupPage() {
 	}, [error]);
 
 	function handleRegisterCallback(registerData: RegisterData) {
-		console.log(registerData);
 		setSignupData(registerData);
 	}
 
@@ -101,7 +99,11 @@ export default function SignupPage() {
 				<h2 className="mb-10">
 					... or start listing your home for rent and make money.
 				</h2>
-				<RegisterForm submitCallback={handleRegisterCallback} error={error} />
+				<RegisterForm
+					submitCallback={handleRegisterCallback}
+					error={error}
+					loading={loading}
+				/>
 				{error && (
 					<motion.div
 						initial={{ opacity: 0, y: -10 }}

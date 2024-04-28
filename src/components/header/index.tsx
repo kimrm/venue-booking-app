@@ -92,7 +92,7 @@ export default function Header() {
 							<li>
 								<Link
 									href="/admin"
-									className=" transition-colors duration-300 hover:text-orange-400"
+									className="block whitespace-nowrap  transition-colors duration-300 hover:text-orange-400"
 								>
 									Manage Venues
 								</Link>
@@ -101,7 +101,7 @@ export default function Header() {
 							<li>
 								<Link
 									href="/profile/venue/register"
-									className=" block whitespace-nowrap transition-colors duration-300 hover:text-orange-400"
+									className="block whitespace-nowrap transition-colors duration-300 hover:text-orange-400"
 								>
 									Add your venue
 								</Link>

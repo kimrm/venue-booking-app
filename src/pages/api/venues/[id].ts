@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import Venue from "../../../app/types/Venue";
-
-const API_KEY = "74f572d2-19b2-4919-8edd-45508b626fed";
+import { NoroffAPIRequest } from "@/types/Request";
+import { API_URL } from "@/vars/api";
 
 export default async function handler(
 	req: NextApiRequest,
@@ -10,16 +9,32 @@ export default async function handler(
 	const { id } = req.query;
 
 	const response = await fetch(
-		`https://v2.api.noroff.dev/holidaze/venues/${id}?_owner=true&_bookings=true`,
-		{
+		`${API_URL}/venues/${id}?_owner=true&_bookings=true`,
+		<NoroffAPIRequest>{
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
-				"X-Noroff-API-Key": process.env.API_KEY ?? "",
+				"X-Noroff-API-Key": process.env.API_KEY,
 			},
 		}
 	);
 	const data = await response.json();
 
-	res.status(200).json(data);
+	const processedData = createUniqueKeysToMediaArray(data);
+
+	res.status(200).json(processedData);
+}
+
+function createUniqueKeysToMediaArray(data: any) {
+	return {
+		data: {
+			...data.data,
+			media: data.data.media.map((item: any, index: number) => {
+				return {
+					...item,
+					id: index + 1,
+				};
+			}),
+		},
+	};
 }

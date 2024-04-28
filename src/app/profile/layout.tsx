@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { use, useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext, UserContextType } from "../../context/UserContext";
-import LoginForm from "@/components/LoginForm";
+import { usePostFetch } from "@/hooks/api";
+import { boolean } from "yup";
+import { log } from "console";
 
 interface Props {
 	children: React.ReactNode;
@@ -13,6 +15,20 @@ export default function Layout({ children }: Props) {
 	const { profile } =
 		useContext<UserContextType | undefined>(UserContext) || {};
 	const pathname = usePathname();
+	const [postData, setPostData] = useState<{} | null>(null);
+	const { data, loading, error } = usePostFetch("/api/logout", postData);
+
+	useEffect(() => {
+		if (!data) return;
+		const logoutData: { status: string } = data;
+		if (logoutData.status === "ok") {
+			window.location.href = "/";
+		}
+	}, [data]);
+
+	function handleLogoutClick() {
+		setPostData({});
+	}
 
 	if (!profile) {
 		return (
@@ -79,6 +95,14 @@ export default function Layout({ children }: Props) {
 							</Link>
 						</li>
 					)}
+					<li className="mb-2 p-4">
+						<button
+							onClick={handleLogoutClick}
+							className="block text-gray-600 hover:text-black"
+						>
+							Log out
+						</button>
+					</li>
 				</ul>
 			</aside>
 			<div className="w-full">

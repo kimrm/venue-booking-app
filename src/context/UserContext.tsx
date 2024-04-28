@@ -1,5 +1,5 @@
 import { createContext, useEffect, useMemo, useState } from "react";
-import UserProfile from "@/app/types/UserProfile";
+import UserProfile from "@/types/UserProfile";
 
 export interface UserContextType {
 	profile: UserProfile | undefined;
@@ -24,6 +24,7 @@ export default function UserProvider({
 
 	useEffect(() => {
 		if (!profile) return;
+		console.log("Profile: ", profile);
 		const abortController = new AbortController();
 
 		fetch("/api/update-profile", {

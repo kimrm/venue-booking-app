@@ -53,15 +53,17 @@ interface RegisterFormProps {
 		avatarUrl: string;
 		isVenueManager: boolean;
 	}) => void;
-	error: {
+	error?: {
 		code: string;
 		message: string;
 	} | null;
+	loading?: boolean;
 }
 
 export default function RegisterForm({
 	submitCallback,
 	error,
+	loading,
 }: RegisterFormProps) {
 	const {
 		register,
@@ -173,8 +175,8 @@ export default function RegisterForm({
 			</div>
 
 			<button
-				className={`flex items-center gap-2 rounded-xl border bg-yellow-300 ${Object.keys(errors).length > 0 || error ? "border border-red-500 " : " hover:scale-105 hover:bg-yellow-400"} px-4 py-2 transition-all duration-300  `}
-				disabled={Object.keys(errors).length > 0}
+				className={`flex items-center gap-2 rounded-xl border bg-yellow-300 ${Object.keys(errors).length > 0 || error ? "border border-red-500 " : " hover:scale-105 hover:bg-yellow-400"} px-4 py-2 transition-all duration-300 ${loading ? "cursor-not-allowed text-gray-700" : "cursor-pointer"}`}
+				disabled={Object.keys(errors).length > 0 || loading}
 			>
 				{error && (
 					<svg
@@ -192,7 +194,7 @@ export default function RegisterForm({
 						/>
 					</svg>
 				)}
-				Sign up
+				{loading === true ? "Processing.." : "Sign up"}
 			</button>
 		</form>
 	);

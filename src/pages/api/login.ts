@@ -1,4 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { API_AUTH_URL, API_URL } from "@/vars/api";
+import { NoroffAPIRequest } from "@/types/Request";
 
 type ResponseData = {
 	status: string;
@@ -8,8 +10,7 @@ export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse<ResponseData>
 ) {
-	const api_url = "https://v2.api.noroff.dev/auth/login";
-	const API_KEY = "74f572d2-19b2-4919-8edd-45508b626fed";
+	const api_url = `${API_AUTH_URL}/login`;
 
 	const body = {
 		email: req.body.email,
@@ -61,9 +62,32 @@ export default async function handler(
 
 		data.data.logins = previousLogins + 1;
 
-		res.status(200).json(data.data);
+		try {
+			const profileData = await fetchProfile(userName, accessToken);
+
+			res.status(200).json(profileData);
+		} catch (error) {
+			res.status(401).json({
+				status: "Unauthorized",
+			});
+		}
+
 		return;
 	}
 
 	res.status(401).json(data);
+}
+
+async function fetchProfile(name: string, accessToken: string): Promise<any> {
+	const api_url = `${API_URL}/profiles/${name}`;
+	const response = await fetch(api_url, <NoroffAPIRequest>{
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+			"X-Noroff-API-Key": process.env.API_KEY,
+			Authorization: `Bearer ${accessToken}`,
+		},
+	});
+	const data = await response.json();
+	return data.data;
 }
