@@ -30,6 +30,7 @@ export default function BookVenue({ dateRangeSelected }: Props) {
 			</button>
 		);
 	});
+	ExampleCustomInput.displayName = "ExampleCustomInput";
 	return (
 		<DatePicker
 			startDate={startDate}
