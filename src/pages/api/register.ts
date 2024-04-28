@@ -45,7 +45,8 @@ export default async function handler(
 
 	if (!body.name || !body.email || !body.password) {
 		res.status(400).json({
-			status: "Missing input",
+			status:
+				"Missing required inputs. Please provide name, email, and password.",
 		});
 		return;
 	}
