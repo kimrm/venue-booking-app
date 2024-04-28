@@ -173,7 +173,7 @@ export default function RegisterForm({
 			</div>
 
 			<button
-				className={`flex items-center gap-2 rounded-xl ${Object.keys(errors).length > 0 ? "bg-gray-300 text-gray-600" : "bg-yellow-300 hover:scale-105 hover:bg-yellow-400"} px-4 py-2 transition-all duration-300  `}
+				className={`flex items-center gap-2 rounded-xl border bg-yellow-300 ${Object.keys(errors).length > 0 || error ? "border border-red-500 " : " hover:scale-105 hover:bg-yellow-400"} px-4 py-2 transition-all duration-300  `}
 				disabled={Object.keys(errors).length > 0}
 			>
 				{error && (
