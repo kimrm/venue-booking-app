@@ -142,7 +142,7 @@ export default function Home() {
 									</div>
 									<p>${venue.price} per night</p>
 									<p>Guests: {venue.maxGuests}</p>
-									<Link shallow href={`/venues/${venue.id}`}>
+									<Link shallow href={`/profile`}>
 										View
 									</Link>
 								</div>
