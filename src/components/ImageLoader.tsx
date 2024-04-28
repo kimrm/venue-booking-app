@@ -31,12 +31,13 @@ export default function ImageLoader({
 	const handleLoaded = () => {
 		setLoading(false);
 	};
+
 	return (
 		<div className={`relative overflow-hidden`}>
 			<div
 				className={`absolute left-0 top-0 z-10 flex h-full w-full items-center justify-center rounded-lg bg-gray-200 text-gray-300 transition-all duration-500 ${
 					!loading && "z-0 translate-x-full opacity-0"
-				}`}
+				}${loading && "z-10 animate-pulse bg-black"}`}
 			>
 				{hasError && (
 					<svg

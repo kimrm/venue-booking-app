@@ -27,13 +27,11 @@ export default async function VenuePage({ params }: Props) {
 	}
 
 	return (
-		venue &&
-		venue.media && (
+		venue && (
 			<div>
 				<ImageLoader
-					priority={true}
-					url={venue.media[0].url}
-					description={venue.media[0].alt}
+					url={venue.media ? venue.media[0].url : ""}
+					description={venue.media ? venue.media[0].alt : ""}
 					width={800}
 					height={800}
 					className="h-auto w-full object-cover lg:h-96"
@@ -78,7 +76,7 @@ export default async function VenuePage({ params }: Props) {
 					</div>
 					<div className="mt-10 p-4 ">
 						<div className="grid grid-flow-col gap-2">
-							{venue.media.map((media) => {
+							{venue.media?.map((media) => {
 								return (
 									<ImageLoader
 										key={media.id}
