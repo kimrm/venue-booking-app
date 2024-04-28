@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import fetcher from "@/utils/fetcher";
 
 export function usePostFetch(url: string, postData: any) {
 	const [error, setError] = useState<{
@@ -16,22 +15,27 @@ export function usePostFetch(url: string, postData: any) {
 			setLoading(true);
 			setError(null);
 			try {
-				const response = await fetcher(
-					url,
-					postData ? "POST" : "GET",
-					postData ?? null
-				);
+				const response = await fetch(url, {
+					method: postData ? "POST" : "GET",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: postData ? JSON.stringify(postData) : null,
+				});
+				console.log("body: ", JSON.stringify(postData));
+				const data = await response.json();
 
 				if (!response.ok) {
+					console.log("response not ok: ", response);
+
 					setError({
-						code: response.statusCode.toString(),
-						message: response.status,
-						errors: response.errors,
+						code: response.status.toString(),
+						message: response.statusText,
+						errors: data.errors || [{ message: response.statusText }],
 					});
 					setLoading(false);
 					return { error: "Failed to fetch data" };
 				}
-				const data = await response.json();
 				console.log("hook: ", data);
 				setData(data);
 			} catch (err: any) {
