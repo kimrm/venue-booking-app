@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { API_URL, API_AUTH_URL } from "@/vars/api";
 
 type ResponseData = {
 	status: string;
@@ -15,13 +16,20 @@ type RequestData = {
 	};
 };
 
+type NoroffAPIRequest = {
+	method: string;
+	headers?: {
+		"Content-Type"?: string;
+		"X-Noroff-API-Key"?: string;
+		Authorization?: string;
+	};
+	body?: string;
+};
+
 export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse<ResponseData>
 ) {
-	const api_url = "https://v2.api.noroff.dev/auth/register";
-	const API_KEY = "74f572d2-19b2-4919-8edd-45508b626fed";
-
 	const body: RequestData = {
 		name: req.body.name,
 		email: req.body.email,
@@ -51,7 +59,7 @@ export default async function handler(
 		return;
 	}
 
-	const fetchResponse = await fetch(api_url, {
+	const fetchResponse = await fetch(`${API_AUTH_URL}/register`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -61,7 +69,10 @@ export default async function handler(
 
 	const data = await fetchResponse.json();
 
-	if (fetchResponse.ok) {
+	if (fetchResponse.status === 201) {
+		if (req.body.isVenueManager) {
+			setVenueManager(req.body.email, req.body.password);
+		}
 		res.status(200).json(data.data);
 		return;
 	}
@@ -69,4 +80,38 @@ export default async function handler(
 	const statusCode = data.statusCode ?? 400;
 
 	res.status(statusCode).json(data);
+}
+
+async function setVenueManager(email: string, password: string) {
+	// get access token and update profile if user is a venue manager
+	try {
+		const loginResponse = await fetch(`${API_AUTH_URL}/login`, <
+			NoroffAPIRequest
+		>{
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				email: email,
+				password: password,
+			}),
+		});
+		const loginData = await loginResponse.json();
+		const accessToken = loginData.data.accessToken;
+
+		fetch(`${API_URL}/profiles/${loginData.data.name}`, <NoroffAPIRequest>{
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+				"X-Noroff-API-Key": process.env.API_KEY,
+				Authorization: `Bearer ${accessToken}`,
+			},
+			body: JSON.stringify({
+				venueManager: true,
+			}),
+		});
+	} catch (error) {
+		console.error(error);
+	}
 }
