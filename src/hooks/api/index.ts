@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import fetcher from "@/utils/fetcher";
 
 export function usePostFetch(url: string, postData: any) {
-	const [error, setError] = useState<{ code: string; message: string } | null>(
-		null
-	);
+	const [error, setError] = useState<{
+		code: string;
+		message: string;
+		errors: { message: string }[];
+	} | null>(null);
 	const [loading, setLoading] = useState(false);
 	const [data, setData] = useState(null);
 
@@ -24,6 +26,7 @@ export function usePostFetch(url: string, postData: any) {
 					setError({
 						code: response.statusCode.toString(),
 						message: response.status,
+						errors: response.errors,
 					});
 					setLoading(false);
 					return { error: "Failed to fetch data" };
@@ -35,6 +38,7 @@ export function usePostFetch(url: string, postData: any) {
 				setError({
 					code: "500",
 					message: err.message,
+					errors: [{ message: err.message }],
 				});
 			}
 		};
