@@ -108,8 +108,7 @@ export default function Home() {
 				{!error &&
 					venues.map((venue: Venue) => {
 						return (
-							<Link
-								href={`/venues/${venue.id}`}
+							<div
 								key={venue.id}
 								className="rounded-xl bg-offwhite p-2 transition-all duration-200"
 							>
@@ -143,8 +142,9 @@ export default function Home() {
 									</div>
 									<p>${venue.price} per night</p>
 									<p>Guests: {venue.maxGuests}</p>
+									<Link href={`/venues/${venue.id}`}>View</Link>
 								</div>
-							</Link>
+							</div>
 						);
 					})}
 			</div>
