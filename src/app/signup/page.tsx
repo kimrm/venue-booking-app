@@ -25,9 +25,19 @@ export default function SignupPage() {
 	useEffect(() => {
 		if (!error) return;
 		if (error.code === "400") {
-			setErrorFeedback(
-				"The information provided cannot be used for registration. If you already have an account, please try logging in."
-			);
+			console.log("error: ", error);
+			if (
+				error.errors &&
+				error.errors[0].message === "Profile already exists"
+			) {
+				setErrorFeedback(
+					"The information provided cannot be used for registration. If you already have an account, please try logging in."
+				);
+			} else {
+				setErrorFeedback(
+					"Could not register your profile. Please check the avatar URL if it's a valid HTTPS URL and that the image is accessible."
+				);
+			}
 		}
 	}, [error]);
 
