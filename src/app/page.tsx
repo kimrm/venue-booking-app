@@ -117,8 +117,10 @@ export default function Home() {
 								{venue.media && (
 									<ImageLoader
 										className="cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-lg"
-										url={venue.media[0].url}
-										description={venue.media[0].alt}
+										url={venue.media.length > 0 ? venue.media[0].url : ""}
+										description={
+											venue.media.length > 0 ? venue.media[0].alt : ""
+										}
 									/>
 								)}
 								<div className="mt-2">
