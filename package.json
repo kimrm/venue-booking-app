@@ -13,6 +13,7 @@
 		"@fontsource-variable/figtree": "^5.0.20",
 		"@fontsource-variable/playfair-display": "^5.0.24",
 		"@hookform/resolvers": "^3.3.4",
+		"framer-motion": "^11.1.7",
 		"next": "14.2.1",
 		"react": "^18",
 		"react-datepicker": "^6.9.0",
