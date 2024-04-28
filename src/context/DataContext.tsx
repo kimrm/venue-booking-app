@@ -31,7 +31,7 @@ export default function DataContextProvider({ children }: Props) {
 	>([]);
 	const contextValue: DataContextType = useMemo(() => {
 		return { countries, regions };
-	}, [countries]);
+	}, [countries, regions]);
 
 	useEffect(() => {
 		fetch("https://restcountries.com/v3.1/all")

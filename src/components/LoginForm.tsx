@@ -26,7 +26,7 @@ export default function LoginForm({ success }: Props) {
 			setProfile && setProfile(data);
 			success();
 		}
-	}, [data]);
+	}, [data, setProfile, success]);
 
 	async function handleSubmit() {
 		setLoginData({ email: email, password: password });
@@ -73,10 +73,10 @@ export default function LoginForm({ success }: Props) {
 
 			{!loading && error && (
 				<div className="mb-2 rounded-lg p-2 text-sm tracking-wide text-red-500 ">
-					<strong>Whoops! That didn't work.</strong>
+					<strong>Whoops! That didn&apos;t work.</strong>
 					<p>
 						It seems, either your password was wrong, or there is no user with
-						that e-mail. If you don't have an account, you can{" "}
+						that e-mail. If you don&apos;t have an account, you can{" "}
 						<Link className="font-bold underline" href="/signup">
 							sign up
 						</Link>

@@ -22,7 +22,7 @@ export default function Continents({ continentPicked }: Props) {
 				continentPicked(continent ?? "");
 			});
 		}
-	}, []);
+	}, [continentPicked]);
 
 	return (
 		<svg
