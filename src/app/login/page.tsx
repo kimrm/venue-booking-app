@@ -14,7 +14,7 @@ export default function LoginPage() {
 				</h1>
 				<LoginForm success={success} />
 				<p className="mt-5">
-					Don't have an account yet?{" "}
+					Don&apos;t have an account yet?{" "}
 					<a href="/signup" className="text-orange-400">
 						Sign up
 					</a>
