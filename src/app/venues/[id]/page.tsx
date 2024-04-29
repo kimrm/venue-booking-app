@@ -1,5 +1,3 @@
-"use client";
-import fetcher from "@/utils/fetcher";
 import ImageLoader from "@/components/ImageLoader";
 import Venue from "@/types/Venue";
 import Image from "next/image";
