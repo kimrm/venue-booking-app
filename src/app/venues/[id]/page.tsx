@@ -4,6 +4,10 @@ import CreateBooking from "@/components/booking/CreateBooking";
 import ImageLoader from "@/components/ImageLoader";
 import { Suspense } from "react";
 import Image from "next/image";
+import { cookies } from "next/headers";
+import { API_URL } from "@/vars/api";
+import { NoroffAPIRequest } from "@/types/Request";
+import { urlToHttpOptions } from "url";
 
 interface Props {
 	params: { id: string };
@@ -13,20 +17,41 @@ interface VenueData {
 	data: Venue;
 }
 
-async function getData(id: string): Promise<VenueData> {
-	const res = await fetch(
-		"https://venue-booking-app.vercel.app/api/venues/" + id
+async function getData(id: string) {
+	const options: NoroffAPIRequest = {
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+			"X-Noroff-API-Key": process.env.API_KEY,
+		},
+	};
+	const response = await fetch(
+		`${API_URL}/venues/${id}?_owner=true&_bookings=true`,
+		options
 	);
-	if (!res.ok) {
-		// This will activate the closest `error.js` Error Boundary
-		throw new Error(res.statusText);
-	}
-	return res.json();
+	const data = await response.json();
+
+	const processedData = createUniqueKeysToMediaArray(data);
+
+	return processedData.data;
+}
+
+function createUniqueKeysToMediaArray(data: any) {
+	return {
+		data: {
+			...data.data,
+			media: data.data.media.map((item: any, index: number) => {
+				return {
+					...item,
+					id: index + 1,
+				};
+			}),
+		},
+	};
 }
 
 export default async function VenuePage({ params }: Props) {
-	const data: VenueData | any = await getData(params.id);
-	const venue = data.data;
+	const venue: VenueData | any = await getData(params.id);
 
 	return (
 		<div>
