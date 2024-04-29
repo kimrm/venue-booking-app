@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
-import { Hearts } from "react-loader-spinner";
 
 interface Props {
 	priority?: boolean;
@@ -35,18 +34,6 @@ export default function ImageLoader({
 
 	return (
 		<>
-			{" "}
-			{loading && (
-				<Hearts
-					height="80"
-					width="80"
-					color="#4fa94d"
-					ariaLabel="hearts-loading"
-					wrapperStyle={{}}
-					wrapperClass=""
-					visible={true}
-				/>
-			)}
 			<div className={`relative overflow-hidden`}>
 				<div
 					className={`absolute left-0 top-0 z-10 flex h-full w-full items-center justify-center rounded-lg bg-gray-200 text-gray-300 transition-all duration-500 ${
