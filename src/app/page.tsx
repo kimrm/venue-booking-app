@@ -112,7 +112,7 @@ export default function Home() {
 								key={venue.id}
 								className="rounded-xl bg-offwhite p-2 transition-all duration-200"
 							>
-								{venue.media && (
+								{venue.media && venue.media.length > 0 && (
 									<ImageLoader
 										className="cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-lg"
 										url={venue.media.length > 0 ? venue.media[0].url : ""}
