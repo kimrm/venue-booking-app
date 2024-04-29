@@ -105,10 +105,10 @@ export default function Home() {
 		<div>
 			{isLoading && !isFetching && (
 				<div className="grid h-48 grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-					{Array.from({ length: 12 }).map((__, index) => {
+					{Array.from({ length: 6 }).map((__, index) => {
 						return (
 							<div key={index} className="h-auto rounded-xl bg-offwhite p-2">
-								<div className="h-24 w-full animate-pulse rounded-lg bg-gray-300"></div>
+								<div className="h-48 w-full animate-pulse rounded-lg bg-gray-300"></div>
 								<div>
 									<div className="my-4 h-2 animate-pulse rounded-lg bg-gray-200"></div>
 									<div className="my-4 h-2 animate-pulse rounded-lg bg-gray-200"></div>
@@ -129,11 +129,11 @@ export default function Home() {
 							>
 								{venue.media && venue.media.length > 0 && (
 									<ImageLoader
-										imageClassName="cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-lg"
-										url={venue.media.length > 0 ? venue.media[0].url : ""}
-										description={
-											venue.media.length > 0 ? venue.media[0].alt : ""
-										}
+										imageClassName=" cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-lg w-full h-48 rounded-lg object-cover"
+										src={venue.media.length > 0 ? venue.media[0].url : ""}
+										alt={venue.media.length > 0 ? venue.media[0].alt : ""}
+										width={300}
+										height={300}
 									/>
 								)}
 								<div className="mt-2">
@@ -167,7 +167,7 @@ export default function Home() {
 			<div className="mt-5 flex flex-col items-center justify-center gap-5">
 				{isValidating && isFetching && (
 					<div className="grid h-48 w-full grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-						{Array.from({ length: 12 }).map((__, index) => {
+						{Array.from({ length: 3 }).map((__, index) => {
 							return (
 								<div key={index} className="h-auto rounded-xl bg-offwhite p-2">
 									<div className="h-24 w-full animate-pulse rounded-lg bg-gray-300"></div>

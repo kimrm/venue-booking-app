@@ -34,11 +34,13 @@ export default function DataContextProvider({ children }: Props) {
 	}, [countries, regions]);
 
 	useEffect(() => {
-		fetch("https://restcountries.com/v3.1/all")
+		console.log("fetching restcountries");
+
+		fetch("api/countries")
 			.then((res) => res.json())
 			.then((data) => {
 				setCountries(
-					data.map((country: any) => {
+					data.data.map((country: any) => {
 						return {
 							name: country.name.common,
 							region: country.subregion,
@@ -51,7 +53,7 @@ export default function DataContextProvider({ children }: Props) {
 				const uniqueRegions: {
 					subregion: string;
 					continents: string;
-				}[] = data
+				}[] = data.data
 					.map((country: any) => {
 						const continent =
 							country.region === "Americas"

@@ -16,6 +16,7 @@ export const metadata: Metadata = {
 };
 
 async function getProfile() {
+	console.log("getProfile");
 	const accessToken = cookies().get("accesstoken");
 	const userName = cookies().get("username");
 	let logins = cookies().get("logins");

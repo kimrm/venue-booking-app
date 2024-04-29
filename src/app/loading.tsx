@@ -14,7 +14,7 @@ export default function loading() {
 				wrapperClass=""
 				visible={true}
 			/>
-			Loading ...
+			Loading template...
 		</div>
 	);
 }

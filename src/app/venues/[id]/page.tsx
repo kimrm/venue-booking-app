@@ -3,6 +3,7 @@ import BookVenue from "@/components/BookVenue";
 import CreateBooking from "@/components/booking/CreateBooking";
 import ImageLoader from "@/components/ImageLoader";
 import { Suspense } from "react";
+import Image from "next/image";
 
 interface Props {
 	params: { id: string };
@@ -25,31 +26,22 @@ export default async function VenuePage({ params }: Props) {
 	const data: VenueData | any = await getData(params.id);
 	const venue = data.data;
 
-	if (!venue) {
-		return <div>Could not find anything here. </div>;
-	}
-
 	return (
 		<div>
-			<Suspense
-				fallback={
-					<div
-						className={`h-auto w-full animate-pulse rounded-lg bg-red-400 object-cover lg:h-96`}
-					></div>
-				}
-			>
-				<ImageLoader
-					priority={true}
-					url={venue.media ? venue.media[0].url : ""}
-					description={venue.media ? venue.media[0].alt : ""}
-					width={800}
-					height={800}
-					imageClassName="h-auto w-full object-cover lg:h-96"
-				/>
-			</Suspense>
+			<ImageLoader
+				priority
+				src={venue.media ? venue.media[0].url : ""}
+				alt={venue.media ? venue.media[0].alt : ""}
+				width={800}
+				height={800}
+				imageClassName="h-auto w-full rounded-lg object-cover lg:h-96"
+			/>
+
 			<div className="grid grid-cols-3">
 				<div className="col-span-2">
-					<h1 className="my-4 font-serif text-5xl font-bold">{venue.name}</h1>
+					<Suspense fallback={"Loading venue name"}>
+						<h1 className="my-4 font-serif text-5xl font-bold">{venue.name}</h1>
+					</Suspense>
 					<div className="mb-5 rounded bg-offwhite p-2">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -65,25 +57,29 @@ export default async function VenuePage({ params }: Props) {
 						</svg>
 						<span className="ml-3">rated {venue.rating}</span>
 					</div>
-					<p className="max-w-prose">{venue.description}</p>
-					<div>
-						<div className="my-10 flex items-center gap-5">
-							<div className=" flex h-12 w-12 rounded-full">
-								{venue.owner?.avatar && (
-									<ImageLoader
-										url={venue.owner.avatar.url ?? ""}
-										description={venue.owner.avatar.alt ?? ""}
-										imageClassName="h-auto w-auto rounded-full object-cover object-center"
-										width={50}
-										height={50}
-									/>
-								)}
-							</div>
-							<div>
-								<strong>{venue.owner?.name}</strong> is your host
+					<Suspense fallback={"Loading venue description"}>
+						<p className="max-w-prose">{venue.description}</p>
+					</Suspense>
+					<Suspense fallback={"Loading venue location"}>
+						<div>
+							<div className="my-10 flex items-center gap-5">
+								<div className=" flex h-12 w-12 rounded-full">
+									{venue.owner?.avatar && (
+										<ImageLoader
+											src={venue.owner.avatar.url ?? ""}
+											alt={venue.owner.avatar.alt ?? ""}
+											imageClassName="h-auto w-auto cursor-pointer rounded-full object-cover object-center"
+											width={50}
+											height={50}
+										/>
+									)}
+								</div>
+								<div>
+									<strong>{venue.owner?.name}</strong> is your host
+								</div>
 							</div>
 						</div>
-					</div>
+					</Suspense>
 				</div>
 				<div className="mt-10 p-4 ">
 					<div className="grid grid-flow-col gap-2">
@@ -91,12 +87,13 @@ export default async function VenuePage({ params }: Props) {
 							venue.media?.map(
 								(media: { id: string; url: string; alt: string }) => {
 									return (
-										<ImageLoader
+										<Image
 											key={media.id}
-											url={media.url}
-											description={media.alt}
+											src={media.url}
+											alt={media.alt}
 											width={200}
 											height={200}
+											className="h-40 w-40 rounded-lg object-cover"
 										/>
 									);
 								}

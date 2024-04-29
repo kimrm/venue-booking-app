@@ -4,9 +4,8 @@ import { useState, Suspense } from "react";
 
 interface Props {
 	priority?: boolean;
-	url: string;
-	description: string;
-	className?: string;
+	src: string;
+	alt: string;
 	imageClassName?: string;
 	width?: number;
 	height?: number;
@@ -14,9 +13,8 @@ interface Props {
 
 export default function ImageLoader({
 	priority,
-	url,
-	description,
-	className,
+	src,
+	alt,
 	imageClassName,
 	width = 300,
 	height = 300,
@@ -35,7 +33,7 @@ export default function ImageLoader({
 
 	return (
 		<>
-			<div className={`relative overflow-hidden`}>
+			<div className={`relative`}>
 				<div
 					className={`absolute left-0 top-0 z-10 flex h-full w-full items-center justify-center rounded-lg bg-gray-300 text-gray-300 transition-all duration-1000 ${
 						loading ? "animate-pulse opacity-0" : "z-0 opacity-0"
@@ -62,11 +60,11 @@ export default function ImageLoader({
 					priority={priority}
 					onError={handleError}
 					onLoad={handleLoaded}
-					src={url}
-					alt={description}
+					src={src}
+					alt={alt}
 					width={width}
 					height={height}
-					className={`h-48 w-full rounded-lg object-cover ${imageClassName}`}
+					className={imageClassName}
 				/>
 			</div>
 		</>
