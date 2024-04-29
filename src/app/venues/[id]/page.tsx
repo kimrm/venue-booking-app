@@ -1,10 +1,9 @@
 import ImageLoader from "@/components/ImageLoader";
 import Venue from "@/types/Venue";
-import Image from "next/image";
 import BookVenue from "@/components/BookVenue";
 import CreateBooking from "@/components/booking/CreateBooking";
+import Image from "next/image";
 import { Suspense } from "react";
-import Loading from "./loading";
 
 interface Props {
 	params: { id: string };
@@ -32,15 +31,68 @@ export default async function VenuePage({ params }: Props) {
 	}
 
 	return (
-		<Suspense fallback={<Loading />}>
+		<Suspense
+			fallback={
+				<div>
+					<div>
+						<div className="h-auto w-full animate-pulse rounded-lg bg-gray-300 object-cover lg:h-96">
+							{" "}
+						</div>
+
+						<div className="grid grid-cols-3">
+							<div className="col-span-2">
+								<div className="my-4 h-2 animate-pulse rounded-lg bg-gray-200">
+									{" "}
+								</div>
+
+								<div className="mb-5 h-4 animate-pulse rounded bg-gray-200 bg-offwhite p-2"></div>
+								<div className="my-4 h-2 animate-pulse rounded-lg bg-gray-200">
+									{" "}
+								</div>
+								<div>
+									<div className="my-10 flex items-center gap-5">
+										<div className=" flex h-12 w-12 animate-pulse rounded-full bg-gray-200"></div>
+										<div>
+											<div className="my-4 h-2 animate-pulse rounded-lg bg-gray-200">
+												{" "}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div className="mt-10 p-4 ">
+								<div className="grid grid-flow-col gap-2">
+									<div className="my-4 h-40 w-40 animate-pulse rounded-lg bg-gray-200">
+										{" "}
+									</div>
+									<div className="my-4 h-40 w-40 animate-pulse rounded-lg bg-gray-200">
+										{" "}
+									</div>
+									<div className="my-4 h-40 w-40 animate-pulse rounded-lg bg-gray-200">
+										{" "}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			}
+		>
 			<div>
-				<ImageLoader
-					url={venue.media ? venue.media[0].url : ""}
-					description={venue.media ? venue.media[0].alt : ""}
-					width={800}
-					height={800}
-					className="h-auto w-full object-cover lg:h-96"
-				/>
+				<Suspense
+					fallback={
+						<div className="h-auto w-full animate-pulse rounded-lg bg-gray-300 object-cover lg:h-96">
+							{" "}
+						</div>
+					}
+				>
+					<Image
+						src={venue.media ? venue.media[0].url : ""}
+						alt=""
+						width={800}
+						height={800}
+					/>
+				</Suspense>
 				<div className="grid grid-cols-3">
 					<div className="col-span-2">
 						<h1 className="my-4 font-serif text-5xl font-bold">{venue.name}</h1>
@@ -81,20 +133,38 @@ export default async function VenuePage({ params }: Props) {
 					</div>
 					<div className="mt-10 p-4 ">
 						<div className="grid grid-flow-col gap-2">
-							{venue.media.length > 0 &&
-								venue.media?.map(
-									(media: { id: string; url: string; alt: string }) => {
-										return (
-											<ImageLoader
-												key={media.id}
-												url={media.url}
-												description={media.alt}
-												width={200}
-												height={200}
-											/>
-										);
-									}
-								)}
+							<Suspense
+								fallback={
+									<div className="mt-10 p-4 ">
+										<div className="grid grid-flow-col gap-2">
+											<div className="my-4 h-40 w-40 animate-pulse rounded-lg bg-gray-200">
+												{" "}
+											</div>
+											<div className="my-4 h-40 w-40 animate-pulse rounded-lg bg-gray-200">
+												{" "}
+											</div>
+											<div className="my-4 h-40 w-40 animate-pulse rounded-lg bg-gray-200">
+												{" "}
+											</div>
+										</div>
+									</div>
+								}
+							>
+								{venue.media.length > 0 &&
+									venue.media?.map(
+										(media: { id: string; url: string; alt: string }) => {
+											return (
+												<Image
+													key={media.id}
+													src={media.url}
+													alt={media.alt}
+													width={200}
+													height={200}
+												/>
+											);
+										}
+									)}
+							</Suspense>
 						</div>
 					</div>
 				</div>
