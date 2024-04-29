@@ -8,8 +8,6 @@ import Venue from "../types/Venue";
 import useSWRInfinite from "swr/infinite";
 import fetcher from "@/utils/fetcher";
 import Link from "next/link";
-import { Suspense } from "react";
-import Loading from "@/components/Loading";
 
 interface VenueData {
 	data: Venue[];
@@ -119,47 +117,70 @@ export default function Home() {
 					})}
 				</div>
 			)}
+
 			<div className=" grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
 				{!error &&
 					venues.map((venue: Venue) => {
 						return (
-							<div
+							<Link
+								className="transition-transform duration-300 hover:scale-105"
 								key={venue.id}
-								className="rounded-xl bg-offwhite p-2 transition-all duration-200"
+								href={`/venues/${venue.id}`}
 							>
-								{venue.media && venue.media.length > 0 && (
-									<ImageLoader
-										imageClassName=" cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-lg w-full h-48 rounded-lg object-cover"
-										src={venue.media.length > 0 ? venue.media[0].url : ""}
-										alt={venue.media.length > 0 ? venue.media[0].alt : ""}
-										width={300}
-										height={300}
-									/>
-								)}
-								<div className="mt-2">
-									<div className="flex items-center justify-between">
-										<h2 className="font-bold">{venue.name}</h2>
-										<span className="flex items-center gap-2 text-gray-600">
-											<svg
-												xmlns="http://www.w3.org/2000/svg"
-												viewBox="0 0 24 24"
-												fill="currentColor"
-												className="h-4 w-4"
-											>
-												<path
-													fillRule="evenodd"
-													d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
-													clipRule="evenodd"
-												/>
-											</svg>
-											{venue.rating.toFixed(1)}
-										</span>
+								<div className="rounded-xl bg-offwhite p-2 transition-all duration-200">
+									{venue.media && venue.media.length > 0 ? (
+										<ImageLoader
+											imageClassName=" cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-lg w-full h-48 rounded-lg object-cover"
+											src={venue.media.length > 0 ? venue.media[0].url : ""}
+											alt={venue.media.length > 0 ? venue.media[0].alt : ""}
+											width={300}
+											height={300}
+										/>
+									) : (
+										<div className="h-48 w-full overflow-hidden rounded-lg bg-gray-300">
+											<div className="flex items-center justify-center gap-1 bg-yellow-500 p-4 text-center">
+												<svg
+													xmlns="http://www.w3.org/2000/svg"
+													fill="none"
+													viewBox="0 0 24 24"
+													strokeWidth={1.5}
+													stroke="currentColor"
+													className="mr-4 h-6 w-6"
+												>
+													<path
+														strokeLinecap="round"
+														strokeLinejoin="round"
+														d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"
+													/>
+												</svg>
+												No images added to this venue yet
+											</div>
+										</div>
+									)}
+									<div className="mt-2">
+										<div className="flex items-center justify-between">
+											<h2 className="font-bold">{venue.name}</h2>
+											<span className="flex items-center gap-2 text-gray-600">
+												<svg
+													xmlns="http://www.w3.org/2000/svg"
+													viewBox="0 0 24 24"
+													fill="currentColor"
+													className="h-4 w-4"
+												>
+													<path
+														fillRule="evenodd"
+														d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+														clipRule="evenodd"
+													/>
+												</svg>
+												{venue.rating.toFixed(1)}
+											</span>
+										</div>
+										<p>${venue.price} per night</p>
+										<p>Guests: {venue.maxGuests}</p>
 									</div>
-									<p>${venue.price} per night</p>
-									<p>Guests: {venue.maxGuests}</p>
-									<Link href={`/venues/${venue.id}`}>View</Link>
 								</div>
-							</div>
+							</Link>
 						);
 					})}
 			</div>

@@ -3,11 +3,8 @@ import BookVenue from "@/components/BookVenue";
 import CreateBooking from "@/components/booking/CreateBooking";
 import ImageLoader from "@/components/ImageLoader";
 import { Suspense } from "react";
-import Image from "next/image";
-import { cookies } from "next/headers";
 import { API_URL } from "@/vars/api";
 import { NoroffAPIRequest } from "@/types/Request";
-import { urlToHttpOptions } from "url";
 
 interface Props {
 	params: { id: string };
@@ -55,14 +52,36 @@ export default async function VenuePage({ params }: Props) {
 
 	return (
 		<div>
-			<ImageLoader
-				priority
-				src={venue.media ? venue.media[0].url : ""}
-				alt={venue.media ? venue.media[0].alt : ""}
-				width={800}
-				height={800}
-				imageClassName="h-auto w-full rounded-lg object-cover lg:h-96"
-			/>
+			{venue.media.length > 0 ? (
+				<ImageLoader
+					priority
+					src={venue.media ? venue.media[0].url : ""}
+					alt={venue.media ? venue.media[0].alt : ""}
+					width={800}
+					height={800}
+					imageClassName="h-auto w-full rounded-lg object-cover lg:h-96"
+				/>
+			) : (
+				<div className="h-48 w-full overflow-hidden rounded-lg bg-gray-300 lg:h-96">
+					<div className="flex items-center justify-center gap-1 bg-yellow-500 p-4 text-center">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							strokeWidth={1.5}
+							stroke="currentColor"
+							className="mr-4 h-6 w-6"
+						>
+							<path
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"
+							/>
+						</svg>
+						No images added to this venue yet
+					</div>
+				</div>
+			)}
 
 			<div className="grid grid-cols-3">
 				<div className="col-span-2">
@@ -98,6 +117,7 @@ export default async function VenuePage({ params }: Props) {
 											imageClassName="h-auto w-auto cursor-pointer rounded-full object-cover object-center"
 											width={50}
 											height={50}
+											errorIcon={false}
 										/>
 									)}
 								</div>
@@ -114,13 +134,13 @@ export default async function VenuePage({ params }: Props) {
 							venue.media?.map(
 								(media: { id: string; url: string; alt: string }) => {
 									return (
-										<Image
+										<ImageLoader
 											key={media.id}
 											src={media.url}
 											alt={media.alt}
 											width={200}
 											height={200}
-											className="h-40 w-40 rounded-lg object-cover"
+											imageClassName="h-40 w-40 rounded-lg object-cover"
 										/>
 									);
 								}
