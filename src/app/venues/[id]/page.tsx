@@ -4,6 +4,7 @@ import Image from "next/image";
 import BookVenue from "@/components/BookVenue";
 import CreateBooking from "@/components/booking/CreateBooking";
 import { Suspense } from "react";
+import Loading from "./loading";
 
 interface Props {
 	params: { id: string };
@@ -31,7 +32,7 @@ export default async function VenuePage({ params }: Props) {
 	}
 
 	return (
-		<Suspense fallback={<div>Loading suspense...</div>}>
+		<Suspense fallback={<Loading />}>
 			<div>
 				<ImageLoader
 					url={venue.media ? venue.media[0].url : ""}

@@ -157,9 +157,7 @@ export default function App({ children }: Props) {
 			<div className="container mx-auto">
 				<div className="flex h-screen flex-col">
 					<Header />
-					<Suspense fallback={<Loading />}>
-						<main className="flex-grow">{children}</main>
-					</Suspense>
+					<main className="flex-grow">{children}</main>
 					<Footer />
 				</div>
 			</div>
