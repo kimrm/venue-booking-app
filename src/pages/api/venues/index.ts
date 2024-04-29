@@ -1,18 +1,19 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import Venue from "../../../types/Venue";
-
-const API_KEY = "74f572d2-19b2-4919-8edd-45508b626fed";
+import Venue from "@/types/Venue";
+import { API_URL } from "@/vars/api";
+import { NoroffAPIRequest } from "@/types/Request";
 
 async function getPage(limit: number, page: number) {
+	const options: NoroffAPIRequest = {
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+			"X-Noroff-API-Key": process.env.API_KEY,
+		},
+	};
 	const response = await fetch(
-		`https://v2.api.noroff.dev/holidaze/venues?limit=${limit}&page=${page}`,
-		{
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-				"X-Noroff-API-Key": API_KEY,
-			},
-		}
+		`${API_URL}/venues?limit=${limit}&page=${page}`,
+		options
 	);
 	const data = await response.json();
 	return data;
