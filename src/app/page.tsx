@@ -105,9 +105,9 @@ export default function Home() {
 		<div>
 			{isLoading && !isFetching && (
 				<div className="grid h-48 grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-					{Array.from({ length: 12 }).map(() => {
+					{Array.from({ length: 12 }).map((__, index) => {
 						return (
-							<div className="h-auto rounded-xl bg-offwhite p-2">
+							<div key={index} className="h-auto rounded-xl bg-offwhite p-2">
 								<div className="h-24 w-full animate-pulse rounded-lg bg-gray-300"></div>
 								<div>
 									<div className="my-4 h-2 animate-pulse rounded-lg bg-gray-200"></div>
@@ -167,9 +167,9 @@ export default function Home() {
 			<div className="mt-5 flex flex-col items-center justify-center gap-5">
 				{isValidating && isFetching && (
 					<div className="grid h-48 w-full grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-						{Array.from({ length: 12 }).map(() => {
+						{Array.from({ length: 12 }).map((__, index) => {
 							return (
-								<div className="h-auto rounded-xl bg-offwhite p-2">
+								<div key={index} className="h-auto rounded-xl bg-offwhite p-2">
 									<div className="h-24 w-full animate-pulse rounded-lg bg-gray-300"></div>
 									<div>
 										<div className="my-4 h-2 animate-pulse rounded-lg bg-gray-200"></div>
