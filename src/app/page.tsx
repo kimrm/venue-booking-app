@@ -8,6 +8,8 @@ import Venue from "../types/Venue";
 import useSWRInfinite from "swr/infinite";
 import fetcher from "@/utils/fetcher";
 import Link from "next/link";
+import { Suspense } from "react";
+import Loading from "@/components/Loading";
 
 interface VenueData {
 	data: Venue[];
@@ -101,9 +103,7 @@ export default function Home() {
 
 	return (
 		<div>
-			{isLoading && !isFetching && (
-				<p className="mt-10 text-center">Loading data...</p>
-			)}
+			{isLoading && !isFetching && <Loading />}
 			<div className=" grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
 				{!error &&
 					venues.map((venue: Venue) => {

@@ -5,6 +5,9 @@ import { UiContext } from "@/context/UiContext";
 import { DataContext } from "@/context/DataContext";
 import Continents from "./Continents";
 import useLocation from "@/hooks/useLocation";
+import { Suspense } from "react";
+import { Hearts } from "react-loader-spinner";
+import Loading from "./Loading";
 
 interface Props {
 	children: React.ReactNode;
@@ -154,7 +157,9 @@ export default function App({ children }: Props) {
 			<div className="container mx-auto">
 				<div className="flex h-screen flex-col">
 					<Header />
-					<main className="flex-grow">{children}</main>
+					<Suspense fallback={<Loading />}>
+						<main className="flex-grow">{children}</main>
+					</Suspense>
 					<Footer />
 				</div>
 			</div>
