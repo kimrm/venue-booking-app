@@ -14,7 +14,9 @@ interface VenueData {
 }
 
 async function getData(id: string): Promise<VenueData> {
-	const res = await fetch(process.env.APP_URL + "/api/venues/" + id);
+	const res = await fetch(
+		"https://venue-booking-app.vercel.app/api/venues/" + id
+	);
 	if (!res.ok) {
 		// This will activate the closest `error.js` Error Boundary
 		throw new Error(res.statusText);
