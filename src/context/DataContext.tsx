@@ -36,7 +36,7 @@ export default function DataContextProvider({ children }: Props) {
 	useEffect(() => {
 		console.log("fetching restcountries");
 
-		fetch("api/countries")
+		fetch("/api/countries")
 			.then((res) => res.json())
 			.then((data) => {
 				setCountries(
