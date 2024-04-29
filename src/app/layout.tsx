@@ -5,6 +5,8 @@ import AppInitializer from "@/components/AppInitializer";
 import { cookies } from "next/headers";
 import "@fontsource-variable/playfair-display";
 import "@fontsource-variable/figtree";
+import { API_URL } from "@/vars/api";
+import { NoroffAPIRequest } from "@/types/Request";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,15 +21,16 @@ async function getProfile() {
 	let logins = cookies().get("logins");
 
 	if (accessToken && userName) {
+		const options: NoroffAPIRequest = {
+			method: "GET",
+			headers: {
+				Authorization: `Bearer ${accessToken.value}`,
+				"X-Noroff-API-Key": process.env.API_KEY,
+			},
+		};
 		const response = await fetch(
-			`https://v2.api.noroff.dev/holidaze/profiles/${userName.value}`,
-			{
-				method: "GET",
-				headers: {
-					Authorization: `Bearer ${accessToken.value}`,
-					"X-Noroff-API-Key": "74f572d2-19b2-4919-8edd-45508b626fed",
-				},
-			}
+			`${API_URL}/profiles/${userName.value}`,
+			options
 		);
 		const data = await response.json();
 
