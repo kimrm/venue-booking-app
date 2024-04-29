@@ -1,3 +1,4 @@
+"use client";
 import fetcher from "@/utils/fetcher";
 import ImageLoader from "@/components/ImageLoader";
 import Venue from "@/types/Venue";
@@ -14,13 +15,17 @@ interface VenueData {
 	data: Venue;
 }
 
-async function getData(id: string) {
-	const data = await fetcher(`${process.env.APP_URL}/api/venues/${id}`);
-	return data;
+async function getData(id: string): Promise<VenueData> {
+	const res = await fetch(`${process.env.APP_URL}/api/venues/${id}`);
+	if (!res.ok) {
+		// This will activate the closest `error.js` Error Boundary
+		throw new Error("Failed to fetch data");
+	}
+	return res.json();
 }
 
 export default async function VenuePage({ params }: Props) {
-	const data: VenueData = await getData(params.id);
+	const data: VenueData | any = await getData(params.id);
 	const venue = data.data;
 
 	if (!venue) {
@@ -77,17 +82,20 @@ export default async function VenuePage({ params }: Props) {
 					</div>
 					<div className="mt-10 p-4 ">
 						<div className="grid grid-flow-col gap-2">
-							{venue.media?.map((media) => {
-								return (
-									<ImageLoader
-										key={media.id}
-										url={media.url}
-										description={media.alt}
-										width={200}
-										height={200}
-									/>
-								);
-							})}
+							{venue.media.length > 0 &&
+								venue.media?.map(
+									(media: { id: string; url: string; alt: string }) => {
+										return (
+											<ImageLoader
+												key={media.id}
+												url={media.url}
+												description={media.alt}
+												width={200}
+												height={200}
+											/>
+										);
+									}
+								)}
 						</div>
 					</div>
 				</div>
