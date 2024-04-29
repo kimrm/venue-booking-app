@@ -4,7 +4,6 @@ import CreateBooking from "@/components/booking/CreateBooking";
 import ImageLoader from "@/components/ImageLoader";
 import { Suspense } from "react";
 import Image from "next/image";
-import { unstable_noStore as noStore } from "next/cache";
 
 interface Props {
 	params: { id: string };
@@ -15,11 +14,12 @@ interface VenueData {
 }
 
 async function getData(id: string): Promise<VenueData> {
-	noStore();
-	const res = await fetch(`${process.env.APP_URL}/api/venues/${id}`);
+	const res = await fetch(
+		`https://venue-booking-5kdesqce6-kimrms-projects.vercel.app/api/venues/${id}`
+	);
 	if (!res.ok) {
 		// This will activate the closest `error.js` Error Boundary
-		throw new Error("Failed to fetch data");
+		throw new Error(res.statusText);
 	}
 	return res.json();
 }
