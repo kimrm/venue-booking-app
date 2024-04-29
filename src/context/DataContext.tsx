@@ -36,45 +36,45 @@ export default function DataContextProvider({ children }: Props) {
 	useEffect(() => {
 		console.log("fetching restcountries");
 
-		fetch("api/countries")
-			.then((res) => res.json())
-			.then((data) => {
-				setCountries(
-					data.data.map((country: any) => {
-						return {
-							name: country.name.common,
-							region: country.subregion,
-						};
-					})
-				);
+		// fetch("api/countries")
+		// 	.then((res) => res.json())
+		// 	.then((data) => {
+		// 		setCountries(
+		// 			data.data.map((country: any) => {
+		// 				return {
+		// 					name: country.name.common,
+		// 					region: country.subregion,
+		// 				};
+		// 			})
+		// 		);
 
-				const regionsUsed = new Set();
+		// 		const regionsUsed = new Set();
 
-				const uniqueRegions: {
-					subregion: string;
-					continents: string;
-				}[] = data.data
-					.map((country: any) => {
-						const continent =
-							country.region === "Americas"
-								? country.continents[0]
-								: country.region;
-						if (!regionsUsed.has(country.subregion) && country.subregion) {
-							regionsUsed.add(country.subregion);
-							return {
-								subregion: country.subregion,
-								continents: continent,
-							};
-						}
-						return null;
-					})
-					.filter((region: any) => region !== null);
+		// 		const uniqueRegions: {
+		// 			subregion: string;
+		// 			continents: string;
+		// 		}[] = data.data
+		// 			.map((country: any) => {
+		// 				const continent =
+		// 					country.region === "Americas"
+		// 						? country.continents[0]
+		// 						: country.region;
+		// 				if (!regionsUsed.has(country.subregion) && country.subregion) {
+		// 					regionsUsed.add(country.subregion);
+		// 					return {
+		// 						subregion: country.subregion,
+		// 						continents: continent,
+		// 					};
+		// 				}
+		// 				return null;
+		// 			})
+		// 			.filter((region: any) => region !== null);
 
-				setRegions(uniqueRegions);
-			})
-			.catch((error) => {
-				throw new Error(error);
-			});
+		// 		setRegions(uniqueRegions);
+		// 	})
+		// 	.catch((error) => {
+		// 		throw new Error(error);
+		// 	});
 	}, []);
 
 	return (
