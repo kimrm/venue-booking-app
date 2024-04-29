@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 
 interface Props {
 	priority?: boolean;
@@ -26,6 +26,7 @@ export default function ImageLoader({
 
 	const handleError = () => {
 		setHasError(true);
+		setLoading(false);
 	};
 
 	const handleLoaded = () => {
@@ -36,8 +37,8 @@ export default function ImageLoader({
 		<>
 			<div className={`relative overflow-hidden`}>
 				<div
-					className={`absolute left-0 top-0 z-10 flex h-full w-full items-center justify-center rounded-lg bg-gray-200 text-gray-300 transition-all duration-500 ${
-						!loading && "z-0 translate-x-full opacity-0"
+					className={`absolute left-0 top-0 z-10 flex h-full w-full items-center justify-center rounded-lg bg-gray-300 text-gray-300 transition-all duration-1000 ${
+						loading ? "animate-pulse opacity-0" : "z-0 opacity-0"
 					}`}
 				>
 					{hasError && (
@@ -65,7 +66,7 @@ export default function ImageLoader({
 					alt={description}
 					width={width}
 					height={height}
-					className={`h-48 w-full rounded-lg object-cover ${className}`}
+					className={`h-48 w-full rounded-lg object-cover ${imageClassName}`}
 				/>
 			</div>
 		</>

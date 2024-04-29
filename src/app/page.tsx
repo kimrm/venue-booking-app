@@ -114,7 +114,7 @@ export default function Home() {
 							>
 								{venue.media && venue.media.length > 0 && (
 									<ImageLoader
-										className="cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-lg"
+										imageClassName="cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-lg"
 										url={venue.media.length > 0 ? venue.media[0].url : ""}
 										description={
 											venue.media.length > 0 ? venue.media[0].alt : ""

@@ -2,6 +2,7 @@ import Venue from "@/types/Venue";
 import BookVenue from "@/components/BookVenue";
 import CreateBooking from "@/components/booking/CreateBooking";
 import ImageLoader from "@/components/ImageLoader";
+import { Suspense } from "react";
 
 interface Props {
 	params: { id: string };
@@ -30,13 +31,22 @@ export default async function VenuePage({ params }: Props) {
 
 	return (
 		<div>
-			<ImageLoader
-				url={venue.media ? venue.media[0].url : ""}
-				description={venue.media ? venue.media[0].alt : ""}
-				width={800}
-				height={800}
-				className="h-auto w-full object-cover lg:h-96"
-			/>
+			<Suspense
+				fallback={
+					<div
+						className={`h-auto w-full animate-pulse rounded-lg bg-red-400 object-cover lg:h-96`}
+					></div>
+				}
+			>
+				<ImageLoader
+					priority={true}
+					url={venue.media ? venue.media[0].url : ""}
+					description={venue.media ? venue.media[0].alt : ""}
+					width={800}
+					height={800}
+					imageClassName="h-auto w-full object-cover lg:h-96"
+				/>
+			</Suspense>
 			<div className="grid grid-cols-3">
 				<div className="col-span-2">
 					<h1 className="my-4 font-serif text-5xl font-bold">{venue.name}</h1>
