@@ -8,6 +8,7 @@ import Venue from "../types/Venue";
 import useSWRInfinite from "swr/infinite";
 import fetcher from "@/utils/fetcher";
 import Link from "next/link";
+import { MutatingDots } from "react-loader-spinner";
 
 interface VenueData {
 	data: Venue[];
@@ -53,6 +54,7 @@ export default function Home() {
 	const [continent, setContinent] = useState<string>("");
 	const [guests, setGuests] = useState<string>("");
 	const [maxPrice, setMaxPrice] = useState<string>("");
+	const [routeLoading, setRouteLoading] = useState<boolean>(false);
 
 	const { data, size, setSize, error, isValidating, isLoading } =
 		useSWRInfinite<VenueData>(
@@ -101,6 +103,24 @@ export default function Home() {
 
 	return (
 		<div>
+			{routeLoading && (
+				<div className="fixed bottom-0 left-0 right-0 top-0 z-50 flex h-full min-h-screen w-full opacity-100 transition-opacity duration-1000">
+					<div className="m-auto flex items-center gap-1 rounded-full bg-gray-200 shadow-md">
+						<MutatingDots
+							visible={true}
+							height="100"
+							width="100"
+							color="#4fa94d"
+							secondaryColor="#4fa94d"
+							radius="12.5"
+							ariaLabel="mutating-dots-loading"
+							wrapperStyle={{}}
+							wrapperClass=""
+						/>
+					</div>
+				</div>
+			)}
+
 			{isLoading && !isFetching && (
 				<div className="grid h-48 grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
 					{Array.from({ length: 6 }).map((__, index) => {
@@ -126,6 +146,7 @@ export default function Home() {
 								className="transition-transform duration-300 hover:scale-105"
 								key={venue.id}
 								href={`/venues/${venue.id}`}
+								onClick={() => setRouteLoading(true)}
 							>
 								<div className="rounded-xl bg-offwhite p-2 transition-all duration-200">
 									{venue.media && venue.media.length > 0 ? (

@@ -7,6 +7,7 @@ import "@fontsource-variable/playfair-display";
 import "@fontsource-variable/figtree";
 import { API_URL } from "@/vars/api";
 import { NoroffAPIRequest } from "@/types/Request";
+import { Suspense } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -51,7 +52,9 @@ export default async function RootLayout({
 	return (
 		<html lang="en">
 			<body className="min-h-screen">
-				<AppInitializer userProfile={profile}>{children}</AppInitializer>
+				<Suspense fallback={<div>Loading...</div>}>
+					<AppInitializer userProfile={profile}>{children}</AppInitializer>
+				</Suspense>
 			</body>
 		</html>
 	);

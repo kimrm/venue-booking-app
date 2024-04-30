@@ -4,7 +4,7 @@ import { Circles } from "react-loader-spinner";
 
 export default function loading() {
 	return (
-		<div className="flex w-full flex-row items-center justify-center">
+		<div className="flex w-full flex-row items-center justify-center bg-black bg-opacity-30">
 			<Circles
 				height="80"
 				width="80"
