@@ -5,6 +5,7 @@ import ImageLoader from "@/components/ImageLoader";
 import { Suspense } from "react";
 import { API_URL } from "@/vars/api";
 import { NoroffAPIRequest } from "@/types/Request";
+import VenueItemSkeleton from "@/components/loaders/VenueItemSkeleton";
 
 interface Props {
 	params: { id: string };

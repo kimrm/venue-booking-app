@@ -35,6 +35,11 @@ interface Venue {
 			alt: string;
 		};
 	};
+	bookings?: [
+		{
+			id: string;
+		},
+	];
 }
 
 export default Venue;
