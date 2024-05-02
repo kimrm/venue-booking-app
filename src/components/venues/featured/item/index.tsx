@@ -52,7 +52,7 @@ export default function Item({ venue }: Props) {
 					className="flex overflow-visible"
 				>
 					<Link
-						className="mt-10 w-fit rounded-2xl bg-yellow-200 px-4 py-2 text-lg font-bold uppercase text-gray-900 transition-transform duration-300 hover:scale-105 hover:bg-yellow-300 hover:text-gray-800 hover:shadow-lg"
+						className="mt-10 w-fit rounded-2xl border border-white bg-yellow-400 px-4 py-2 text-sm font-bold uppercase tracking-wider text-gray-800 transition-transform duration-300 hover:scale-105 hover:rounded-2xl hover:border-0 hover:border-b-4 hover:border-r-4 hover:border-b-white hover:border-r-white hover:bg-yellow-500 hover:text-gray-700 hover:outline-black"
 						href={`/venues/${venue.id}`}
 					>
 						Book today
