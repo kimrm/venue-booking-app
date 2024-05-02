@@ -48,18 +48,22 @@ export default async function FeaturedVenues() {
 	return (
 		<div>
 			<article className="mt-3">
-				<h1 className="w-fit p-2 font-serif text-xs font-bold uppercase tracking-wider text-gray-900">
+				<h1 className="w-fit p-2 font-serif text-xs font-extrabold uppercase tracking-widest text-gray-700">
 					Featured venue
 				</h1>
 				<Item venue={randomVenue} />
 			</article>
 			<article className="mt-10">
-				<h1 className="w-fit p-2 font-serif text-xs font-bold uppercase tracking-wider text-gray-900">
-					Other popular venues
+				<h1 className="w-fit p-2 font-serif text-xs font-extrabold uppercase tracking-widest text-gray-700">
+					Popular venues
 				</h1>
 				<div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
 					{popularVenues.map((venue) => (
-						<div key={venue.id}>
+						<Link
+							key={venue.id}
+							href={`/venues/${venue.id}`}
+							className="rounded-2xl bg-white p-2 outline-gray-200 transition-all duration-300 hover:shadow-lg hover:outline"
+						>
 							{venue.media && venue.media.length > 0 && (
 								<Image
 									src={venue?.media[0].url}
@@ -73,11 +77,13 @@ export default async function FeaturedVenues() {
 								<h2 className="text-lg font-bold uppercase text-gray-900">
 									{venue.name}
 								</h2>
-								<p className="text-gray-900">{venue.description}</p>
+								<p className="overflow-hidden text-ellipsis whitespace-nowrap text-gray-900">
+									{venue.description}
+								</p>
 								<p>Rating: {venue.rating}</p>
-								<Link href={`/venues/${venue.id}`}>Book today</Link>
+								<p>Bookings: {venue.bookings?.length}</p>
 							</div>
-						</div>
+						</Link>
 					))}
 				</div>
 			</article>
