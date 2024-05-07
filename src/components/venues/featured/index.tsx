@@ -7,10 +7,8 @@ import Item from "./item";
 
 async function getData() {
 	const featuredVenueIds = [
-		"b3b0f4dd-2d13-470d-af3e-c332a3b534c9",
-		"eb1f109e-4833-464c-a489-547f7861cca0",
-		"b6441f43-9da8-48df-8eef-9772c6d6ddba",
-		"2a2a5d7c-8f67-47e0-91ee-a3280553ca54",
+		"cc3982d5-0b77-4c7b-b6c3-f26fd16502b6",
+		"1dd7b520-a058-438f-a374-f8d85cca95d5",
 	];
 	const featuredVenues: Venue[] = [];
 	for (const id of featuredVenueIds) {
@@ -77,8 +75,9 @@ export default async function FeaturedVenues() {
 								<h2 className="text-lg font-bold uppercase text-gray-900">
 									{venue.name}
 								</h2>
-								<p className="overflow-hidden text-ellipsis whitespace-nowrap text-gray-900">
-									{venue.description}
+								<p className=" text-gray-900">
+									{venue.description.slice(0, 150)}
+									{venue.description.length > 150 ? " ..." : ""}
 								</p>
 								<p>Rating: {venue.rating}</p>
 								<p>Bookings: {venue.bookings?.length}</p>

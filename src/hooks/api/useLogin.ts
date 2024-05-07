@@ -22,7 +22,7 @@ export function useLogin(loginData: LoginData | null) {
 		setLoading(true);
 		setError("");
 		try {
-			const response = await fetch("/api/login", {
+			const response = await fetch("/api/account/login", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",

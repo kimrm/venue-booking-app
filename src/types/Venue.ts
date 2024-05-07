@@ -1,5 +1,5 @@
 interface Venue {
-	id: string;
+	id?: string;
 	name: string;
 	description: string;
 	media?: {
@@ -10,8 +10,8 @@ interface Venue {
 	price: number;
 	maxGuests: number;
 	rating: number;
-	created: string;
-	updated: string;
+	created?: string;
+	updated?: string;
 	meta: {
 		wifi?: boolean;
 		parking?: boolean;

@@ -1,3 +1,4 @@
+"use client";
 import { createContext, useEffect, useMemo, useState } from "react";
 import UserProfile from "@/types/UserProfile";
 
@@ -21,24 +22,6 @@ export default function UserProvider({
 	const contextValue: UserContextType = useMemo(() => {
 		return { profile, setProfile };
 	}, [profile, setProfile]);
-
-	useEffect(() => {
-		if (!profile) return;
-		console.log("Profile: ", profile);
-		const abortController = new AbortController();
-
-		fetch("/api/update-profile", {
-			method: "POST",
-			body: JSON.stringify(profile),
-		})
-			.then((res) => res.json())
-			.catch((error) => {
-				throw new Error(error);
-			});
-		return () => {
-			abortController.abort();
-		};
-	}, [profile]);
 
 	return (
 		<UserContext.Provider value={contextValue}>{children}</UserContext.Provider>

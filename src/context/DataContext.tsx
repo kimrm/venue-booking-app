@@ -1,3 +1,4 @@
+"use client";
 import { createContext, useEffect, useMemo, useState } from "react";
 
 export interface DataContextType {
@@ -34,9 +35,7 @@ export default function DataContextProvider({ children }: Props) {
 	}, [countries, regions]);
 
 	useEffect(() => {
-		console.log("fetching restcountries");
-
-		fetch("/api/countries")
+		fetch("/api/data/countries")
 			.then((res) => res.json())
 			.then((data) => {
 				setCountries(

@@ -1,33 +1,70 @@
-import React from "react";
+"use client";
+import { useEffect, useState } from "react";
 import { useContext } from "react";
 import { UserContext } from "../../context/UserContext";
 import { UiContext } from "../../context/UiContext";
 import Link from "next/link";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
+import router from "next/router";
 
 export default function Header() {
-	const { profile, setProfile } = useContext(UserContext) || {};
 	const { setSearchModalOpen } = useContext(UiContext) || {};
+	const { profile } = useContext(UserContext) || {};
+	const searchParams = useSearchParams();
+	const [toastVisible, setToastVisible] = useState(false);
+	const [toastMessage, setToastMessage] = useState<string | null>("");
+
+	useEffect(() => {
+		if (searchParams?.get("toast")) {
+			const toast = searchParams.get("toast");
+			switch (toast) {
+				case "logout-successful":
+					setToastMessage("You have been logged out");
+					break;
+				case "login-successful":
+					setToastMessage("You have been logged in");
+					break;
+				default:
+					break;
+			}
+		}
+	}, [searchParams]);
+
+	useEffect(() => {
+		let timeout: NodeJS.Timeout;
+		if (toastMessage !== "") {
+			setToastVisible(true);
+			timeout = setTimeout(() => {
+				setToastVisible(false);
+				setToastMessage("");
+				window.history.replaceState({}, "", "/");
+			}, 5000);
+		}
+		return () => clearTimeout(timeout);
+	}, [toastMessage, toastVisible]);
 
 	function searchClickHandler() {
 		if (setSearchModalOpen) {
 			setSearchModalOpen(true);
 		}
 	}
-	async function logoutClickHandler() {
-		const response = await fetch("/api/logout", {
-			method: "POST",
-		});
-		if (response.ok) {
-			if (setProfile) {
-				setProfile(undefined);
-			}
-		} else {
-			throw new Error("Failed to log out");
-		}
-	}
+
 	return (
 		<header className="py-6">
+			<AnimatePresence>
+				{toastVisible && (
+					<motion.div
+						initial={{ opacity: 0, y: -10 }}
+						animate={{ opacity: 1, y: 0 }}
+						exit={{ opacity: 0, y: -10 }}
+						className="fixed right-2 top-2 z-50 border-l-4 border-l-green-500 bg-gray-300 p-2 font-bold text-gray-950"
+					>
+						{toastMessage}
+					</motion.div>
+				)}
+			</AnimatePresence>
 			<nav className="flex items-center justify-between gap-10">
 				<div className=" flex w-full items-center gap-10">
 					<Link
@@ -143,16 +180,14 @@ export default function Header() {
 								<div className="mx-auto max-w-7xl">
 									<div className="group relative cursor-pointer">
 										<div className="absolute -inset-1 rounded-lg bg-gradient-to-r from-red-600 to-violet-600 opacity-25 blur transition duration-1000 group-hover:opacity-100 group-hover:duration-200"></div>
-										<div className="items-top relative flex justify-start space-x-6 rounded-full bg-white leading-none ring-1 ring-gray-900/5">
-											<div className="space-y-2">
-												<Image
-													src={profile?.avatar?.url ?? "/placeholder.jpg"}
-													alt={profile?.avatar?.alt ?? "placeholder"}
-													width={100}
-													height={100}
-													className="h-full w-full rounded-full object-cover"
-												/>
-											</div>
+										<div className="items-top relative flex h-10 w-10 justify-start space-x-6 overflow-hidden rounded-full bg-white leading-none ring-1 ring-gray-900/5">
+											<Image
+												src={profile?.avatar?.url ?? "/placeholder.jpg"}
+												alt={profile?.avatar?.alt ?? "placeholder"}
+												width={100}
+												height={100}
+												className="h-full w-full object-cover object-center"
+											/>
 										</div>
 									</div>
 								</div>
