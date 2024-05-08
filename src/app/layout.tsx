@@ -13,7 +13,7 @@ import DataContextProvider from "@/context/DataContext";
 import UserProfile from "@/types/UserProfile";
 
 export const metadata: Metadata = {
-	title: "Holiday",
+	title: "Holidation",
 	description: "Rent a venue for your next event",
 };
 
