@@ -1,13 +1,13 @@
 "use client";
 import { useState, forwardRef } from "react";
 import DatePicker from "react-datepicker";
-import "../css/date-picker.css";
+import "@/css/date-picker.css";
 
 interface Props {
 	dateRangeSelected: (startDate: Date | null, endDate: Date | null) => void;
 }
 
-export default function BookVenue({ dateRangeSelected }: Props) {
+export default function PickDate({ dateRangeSelected }: Props) {
 	const [startDate, setStartDate] = useState<Date | null>(null);
 	const [endDate, setEndDate] = useState<Date | null>(null);
 	const onChange = (dates: [Date | null, Date | null]) => {
@@ -21,13 +21,15 @@ export default function BookVenue({ dateRangeSelected }: Props) {
 		{ onClick?: () => void }
 	>(({ onClick }, ref) => {
 		return (
-			<button
-				className="rounded-xl bg-yellow-300 p-2 hover:bg-yellow-400"
-				onClick={onClick}
-				ref={ref}
-			>
-				Check availability
-			</button>
+			<>
+				<button
+					className="rounded-xl bg-yellow-300 px-4 py-2 hover:bg-yellow-400"
+					onClick={onClick}
+					ref={ref}
+				>
+					Pick a date range
+				</button>
+			</>
 		);
 	});
 	ExampleCustomInput.displayName = "ExampleCustomInput";
