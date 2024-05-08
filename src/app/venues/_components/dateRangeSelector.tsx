@@ -2,11 +2,21 @@
 
 import DatePicker from "react-datepicker";
 import "@/css/date-picker.css";
-import { useState } from "react";
+import { useState, useEffect, use } from "react";
 
-export default function DateRangeSelector() {
+export default function DateRangeSelector({
+	datesSelected,
+}: {
+	datesSelected: (dates: (Date | null)[]) => void;
+}) {
 	const [dateRange, setDateRange] = useState<Array<Date | null>>([null, null]);
 	const [startDate, endDate] = dateRange;
+
+	useEffect(() => {
+		if (dateRange) {
+			datesSelected(dateRange);
+		}
+	}, [dateRange, datesSelected]);
 	return (
 		<DatePicker
 			selectsRange={true}

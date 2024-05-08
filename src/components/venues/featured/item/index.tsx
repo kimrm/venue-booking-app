@@ -31,18 +31,7 @@ export default function Item({ venue }: Props) {
 				>
 					{venue.name}
 				</motion.h2>
-				<motion.p
-					initial={{ x: 100, opacity: 0 }}
-					animate={{
-						x: 0,
-						opacity: 1,
-						transition: { duration: 0.2, delay: 0.1 },
-					}}
-					className=" flex  w-fit max-w-prose flex-wrap text-wrap rounded-l-lg rounded-r-xl border-b-8 border-r-8 border-b-yellow-500 border-r-yellow-500 bg-gray-100 p-2 text-gray-900 outline-4  outline-black"
-				>
-					{venue.description.slice(0, 300)}
-					{venue.description.length > 300 ? " ..." : ""}
-				</motion.p>
+
 				<motion.div
 					initial={{ x: -100, opacity: 0 }}
 					animate={{
