@@ -13,6 +13,5 @@ This is a booking app made for a student project exam. It is still work in progr
 ## Packages and libraries
 
 - SWR
-- React Hook Form
-- Yup
+- Zod
 - Framer Motion
