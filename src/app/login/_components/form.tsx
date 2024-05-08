@@ -38,7 +38,7 @@ export default function LoginForm() {
 	}
 
 	return (
-		<form action={handleSubmit}>
+		<form action={handleSubmit} role="form">
 			<div className="mb-3">
 				<label htmlFor="email" className="mb-2 block">
 					Your e-mail
