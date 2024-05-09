@@ -11,15 +11,7 @@ import { motion } from "framer-motion";
 
 function getDayName(date: Date | null) {
 	if (!date) return "";
-	const days = [
-		"Sunday",
-		"Monday",
-		"Tuesday",
-		"Wednesday",
-		"Thursday",
-		"Friday",
-		"Saturday",
-	];
+	const days = ["Sun.", "Mon.", "Tue.", "Wed.", "Thu.", "Fri.", "Sat."];
 	return days[date.getDay()];
 }
 
@@ -276,7 +268,7 @@ function Summary({
 			<div className="my-5">
 				<p className="flex items-center gap-2">
 					<span className="mr-3 text-xs uppercase">Duration:</span>
-					<strong>
+					<strong className="text-sm md:text-base">
 						{getDayName(startDate)} {startDate?.toLocaleDateString()}
 					</strong>{" "}
 					<svg
@@ -285,7 +277,7 @@ function Summary({
 						viewBox="0 0 24 24"
 						strokeWidth={1.5}
 						stroke="currentColor"
-						className="mx-2 h-6 w-6"
+						className="h-2 w-2"
 					>
 						<path
 							strokeLinecap="round"
@@ -293,7 +285,7 @@ function Summary({
 							d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
 						/>
 					</svg>
-					<strong>
+					<strong className="text-sm md:text-base">
 						{getDayName(endDate)} {endDate?.toLocaleDateString()}
 					</strong>
 				</p>
@@ -386,9 +378,9 @@ function Confirmation({
 					Booking Summary
 				</h3>
 				<div className="my-2">
-					<p className="mb-1 flex items-center">
+					<p className="flex items-center gap-2">
 						<span className="mr-3 text-xs uppercase">Duration:</span>
-						<strong>
+						<strong className="text-sm md:text-base">
 							{getDayName(startDate)} {startDate?.toLocaleDateString()}
 						</strong>{" "}
 						<svg
@@ -397,7 +389,7 @@ function Confirmation({
 							viewBox="0 0 24 24"
 							strokeWidth={1.5}
 							stroke="currentColor"
-							className="mx-2 h-6 w-6"
+							className="h-2 w-2"
 						>
 							<path
 								strokeLinecap="round"
@@ -405,7 +397,7 @@ function Confirmation({
 								d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
 							/>
 						</svg>
-						<strong>
+						<strong className="text-sm md:text-base">
 							{getDayName(endDate)} {endDate?.toLocaleDateString()}
 						</strong>
 					</p>
