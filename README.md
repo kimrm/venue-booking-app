@@ -6,7 +6,7 @@ This is a booking app made for a student project exam. It is still work in progr
 
 ## Stack
 
-- React and Next.js
+- Next.js
 - TypeScript
 - Tailwind
 
@@ -15,3 +15,6 @@ This is a booking app made for a student project exam. It is still work in progr
 - SWR
 - Zod
 - Framer Motion
+- Playwright
+- Jest
+- react-datepicker
