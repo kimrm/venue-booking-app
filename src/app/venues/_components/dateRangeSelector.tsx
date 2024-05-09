@@ -2,11 +2,13 @@
 
 import DatePicker from "react-datepicker";
 import "@/css/date-picker.css";
-import { useState, useEffect, use } from "react";
+import { useState, useEffect } from "react";
 
 export default function DateRangeSelector({
+	excludeDateIntervals = [],
 	datesSelected,
 }: {
+	excludeDateIntervals?: Array<{ start: Date; end: Date }>;
 	datesSelected: (dates: (Date | null)[]) => void;
 }) {
 	const [dateRange, setDateRange] = useState<Array<Date | null>>([null, null]);
@@ -19,6 +21,7 @@ export default function DateRangeSelector({
 	}, [dateRange, datesSelected]);
 	return (
 		<DatePicker
+			excludeDateIntervals={excludeDateIntervals}
 			selectsRange={true}
 			startDate={startDate}
 			endDate={endDate}
@@ -27,10 +30,15 @@ export default function DateRangeSelector({
 			}}
 			withPortal
 			customInput={
-				<input
-					type="text"
-					className="w-56 rounded-xl border border-gray-200 bg-offwhite px-4 py-2 hover:bg-gray-200 focus:outline-yellow-500"
-				/>
+				<div>
+					<button
+						content="Select Dates"
+						title="Select Dates"
+						className="w-56 rounded-xl bg-yellow-400 px-4 py-2 hover:bg-gray-200 focus:outline-yellow-500"
+					>
+						Select Dates
+					</button>
+				</div>
 			}
 		/>
 	);
