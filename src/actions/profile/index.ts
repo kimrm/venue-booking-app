@@ -15,7 +15,7 @@ export async function getProfile() {
 			},
 		};
 		const response = await fetch(
-			`${API_URL}/profiles/${userName.value}`,
+			`${API_URL}/profiles/${userName.value}?_bookings=true`,
 			options
 		);
 		const data = await response.json();
