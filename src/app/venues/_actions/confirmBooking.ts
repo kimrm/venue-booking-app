@@ -2,6 +2,7 @@
 import { API_URL } from "@/vars/api";
 import { cookies } from "next/headers";
 import { NoroffAPIRequest } from "@/types/Request";
+import { revalidatePath } from "next/cache";
 
 export default async function confirmBooking(
 	prevState: any,
@@ -38,12 +39,14 @@ export default async function confirmBooking(
 	const responseData = await response.json();
 
 	if (response.ok) {
+		revalidatePath("/profile");
 		return {
 			success: true,
 			message: "Booking confirmed",
 			data: responseData.data,
 		};
 	}
+
 	return {
 		success: false,
 		message: "Booking failed",
