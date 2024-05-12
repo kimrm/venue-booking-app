@@ -7,6 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import Menu from "./menu";
 import router from "next/router";
 
 export default function Header() {
@@ -15,6 +16,7 @@ export default function Header() {
 	const searchParams = useSearchParams();
 	const [toastVisible, setToastVisible] = useState(false);
 	const [toastMessage, setToastMessage] = useState<string | null>("");
+	const [menuOpen, setMenuOpen] = useState(false);
 
 	useEffect(() => {
 		if (searchParams?.get("toast")) {
@@ -53,6 +55,9 @@ export default function Header() {
 
 	return (
 		<header className="py-6">
+			<AnimatePresence>
+				{menuOpen && <Menu closeMenu={() => setMenuOpen(false)} />}
+			</AnimatePresence>
 			<AnimatePresence>
 				{toastVisible && (
 					<motion.div
@@ -99,7 +104,7 @@ export default function Header() {
 						</span>
 					</button>
 				</div>
-				<button className="block lg:hidden">
+				<button className="block lg:hidden" onClick={() => setMenuOpen(true)}>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						fill="none"
