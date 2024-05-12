@@ -12,6 +12,20 @@ interface UserProfile {
 	};
 	venueManager: boolean;
 	logins: number;
+	bookings?: [
+		{
+			id: string;
+			dateFrom: string;
+			dateTo: string;
+			guests: number;
+			created: string;
+			venue: {
+				id: string;
+				name: string;
+				price: number;
+			};
+		},
+	];
 }
 
 export default UserProfile;
