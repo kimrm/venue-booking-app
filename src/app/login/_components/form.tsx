@@ -8,25 +8,24 @@ import { useLogin } from "@/hooks/api/useLogin";
 export default function LoginForm() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const [loginData, setLoginData] = useState({ email: "", password: "" });
 
 	const { profile, setProfile } =
 		useContext<UserContextType | undefined>(UserContext) || {};
-	const { loading, error, data } = useLogin(loginData);
+	const { loading, error, data, login } = useLogin();
 
 	useEffect(() => {
 		if (data) {
 			if ("error" in data) {
 				return;
 			}
-
 			setProfile && setProfile(data);
 			window.location.href = "/?toast=login-successful";
 		}
 	}, [data, setProfile]);
 
-	async function handleSubmit() {
-		setLoginData({ email: email, password: password });
+	function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+		e.preventDefault();
+		login(email, password);
 	}
 
 	function handleEmailChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -38,7 +37,7 @@ export default function LoginForm() {
 	}
 
 	return (
-		<form action={handleSubmit} role="form">
+		<form onSubmit={handleSubmit} role="form">
 			<div className="mb-3">
 				<label htmlFor="email" className="mb-2 block">
 					Your e-mail
@@ -85,6 +84,7 @@ export default function LoginForm() {
 			<button
 				className={`rounded-xl bg-yellow-300 px-4 py-2 transition-all duration-300 hover:scale-105 hover:bg-yellow-400 ${loading && "bg-gray-300 hover:bg-gray-300"}`}
 				type="submit"
+				role="button"
 				disabled={loading}
 			>
 				{loading ? "Please wait..." : "Log in"}
