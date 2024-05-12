@@ -2,9 +2,19 @@ import React from "react";
 import { getById } from "@/actions/venues";
 import Edit from "@/components/profile/venues/edit";
 import VenueUrlPreview from "@/components/profile/venues/venueUrlPreview";
+import { cookies } from "next/headers";
+
+async function getVenue(id: string) {
+	const venue = await getById(id);
+	const loggedInUserName = cookies().get("username")?.value;
+	if (loggedInUserName !== venue?.owner.name) {
+		throw new Error("Venue not found.");
+	}
+	return venue;
+}
 
 export default async function page({ params }: { params: { id: string } }) {
-	const venue = await getById(params.id);
+	const venue = await getVenue(params.id);
 
 	return (
 		<div>
