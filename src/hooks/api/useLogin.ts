@@ -1,22 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
-interface LoginData {
-	email: string;
-	password: string;
-}
-
-export function useLogin(loginData: LoginData | null) {
+export function useLogin() {
 	const [error, setError] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [data, setData] = useState(null);
-
-	useEffect(() => {
-		if (loginData?.email && loginData?.password) {
-			login(loginData.email, loginData.password).then((data) => {
-				setData(data);
-			});
-		}
-	}, [loginData]);
 
 	async function login(email: string, password: string) {
 		setLoading(true);
@@ -35,11 +22,11 @@ export function useLogin(loginData: LoginData | null) {
 				return { error: "Login failed" };
 			}
 			const data = await response.json();
-			return data;
+			setData(data);
 		} catch (err) {
 			console.error(err);
 		}
 	}
 
-	return { error, loading, data };
+	return { error, loading, data, login };
 }
