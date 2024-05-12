@@ -12,7 +12,6 @@ export default function Menu({ closeMenu }: { closeMenu: () => void }) {
 		<motion.div
 			initial={{ x: -100 }}
 			animate={{ x: 0 }}
-			exit={{ x: -100 }}
 			role="navigation"
 			className="fixed left-0 top-0 z-50 h-screen w-full bg-white px-7 py-7 shadow-md"
 		>
