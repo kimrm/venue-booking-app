@@ -10,7 +10,7 @@ export default function Bio({
 	bioText?: string;
 	bioChanged?: (bio?: string) => void;
 }) {
-	const [bio, setBio] = useState(bioText);
+	const [bio, setBio] = useState(bioText ?? "");
 	const { setProfile } = useContext(UserContext) || {};
 
 	function handleChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
