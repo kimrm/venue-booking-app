@@ -1,10 +1,9 @@
 "use client";
 import { useContext } from "react";
-import Venue from "@/types/Venue";
 import { UserContext } from "@/context/UserContext";
+import Venue from "@/types/Venue";
 import Link from "next/link";
 import BookingForm from "./bookingForm";
-import Image from "next/image";
 
 export default function Booking({ venue }: { venue: Venue }) {
 	const { profile } = useContext(UserContext) || {};
