@@ -27,14 +27,16 @@ export default async function RootLayout({
 	return (
 		<html lang="en">
 			<body className="min-h-screen">
-				<div className="container mx-auto px-4">
+				<div>
 					<div className="flex h-screen flex-col">
 						<UserProvider initialData={profile}>
 							<UiContextProvider>
 								<DataContextProvider>
 									<Header />
 									<Suspense fallback={<InitialLoading />}>
-										<main className="flex-grow">{children}</main>
+										<main className="container mx-auto flex-grow px-4">
+											{children}
+										</main>
 									</Suspense>
 									<Footer />
 								</DataContextProvider>
