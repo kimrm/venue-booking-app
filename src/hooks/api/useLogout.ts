@@ -1,21 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
-interface LogoutData {
-	logout: boolean;
-}
-
-export function useLogout(logoutData: LogoutData | null) {
+export function useLogout() {
 	const [error, setError] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [data, setData] = useState(null);
-
-	useEffect(() => {
-		if (logoutData?.logout) {
-			logout().then((data) => {
-				setData(data);
-			});
-		}
-	}, [logoutData]);
 
 	async function logout() {
 		setLoading(true);
@@ -30,11 +18,11 @@ export function useLogout(logoutData: LogoutData | null) {
 				return { error: "Logout failed" };
 			}
 			const data = await response.json();
-			return data;
+			setData(data);
 		} catch (err) {
 			console.error(err);
 		}
 	}
 
-	return { error, loading, data };
+	return { error, loading, data, logout };
 }
