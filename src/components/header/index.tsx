@@ -106,6 +106,7 @@ export default function Header() {
 				</div>
 				<button
 					className="block p-2 lg:hidden"
+					title="Open menu"
 					onClick={() => setMenuOpen(true)}
 				>
 					<svg
