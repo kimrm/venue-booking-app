@@ -70,8 +70,8 @@ export default function Header() {
 					</motion.div>
 				)}
 			</AnimatePresence>
-			<nav className="flex items-center justify-between gap-10">
-				<div className=" flex w-full items-center gap-10">
+			<nav className="flex items-center justify-between gap-2 md:gap-10">
+				<div className="flex w-full items-center gap-2 sm:gap-10">
 					<Link
 						className="font-serif text-2xl font-bold tracking-wide"
 						href="/"
@@ -98,7 +98,7 @@ export default function Header() {
 							/>
 						</svg>
 
-						<span className="text-xs md:hidden">Search</span>
+						<span className=" text-xs md:hidden">Search</span>
 						<span className="hidden text-xs md:block">
 							Find your next holiday
 						</span>

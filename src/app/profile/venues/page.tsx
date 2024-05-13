@@ -1,5 +1,5 @@
 import React from "react";
-import Create from "@/components/profile/venues/create";
+import RegisterVenue from "./_components/registerVenue";
 import { getVenuesForProfile } from "@/actions/venues";
 import Venue from "@/types/Venue";
 import Link from "next/link";
@@ -11,7 +11,7 @@ export default async function page() {
 			<div>
 				<h2 className="text-xl font-bold uppercase">Venues</h2>
 				<p className="mt-3">Manage your home or venues for rent.</p>
-				<Create />
+				<RegisterVenue />
 			</div>
 			<table className="w-full table-auto">
 				<thead className="border-b-2 border-dashed">
