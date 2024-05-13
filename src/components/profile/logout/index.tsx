@@ -7,7 +7,8 @@ export default function LogOut() {
 	const [logoutData, setLogoutData] = useState({ logout: false });
 	const { data, error, loading } = useLogout(logoutData);
 
-	function handleLogoutFormSubmit() {
+	function handleLogoutFormSubmit(e: React.FormEvent<HTMLFormElement>) {
+		e.preventDefault();
 		setLogoutData({ logout: true });
 	}
 
