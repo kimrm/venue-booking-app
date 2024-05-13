@@ -13,7 +13,7 @@ export default function Menu({ closeMenu }: { closeMenu: () => void }) {
 			initial={{ x: -100 }}
 			animate={{ x: 0 }}
 			role="navigation"
-			className="fixed left-0 top-0 z-50 h-screen w-full bg-white px-7 py-7 shadow-md"
+			className="fixed left-0 top-0 z-50 h-screen w-full bg-gray-900 px-7 py-7 text-gray-100 shadow-md"
 		>
 			<button onClick={closeMenu} className="absolute right-7 top-7">
 				<svg
@@ -64,22 +64,29 @@ export default function Menu({ closeMenu }: { closeMenu: () => void }) {
 							</li>
 						)}
 						{profile && (
-							<li>
+							<li className="my-10">
 								<LogOut />
 							</li>
 						)}
 						{!profile && (
 							<li>
-								<Link href="/login" onClick={closeMenu}>
+								<Link
+									href="/login"
+									className="my-10 block w-full whitespace-nowrap rounded bg-yellow-400 px-4 py-2 text-center font-bold text-yellow-950"
+									onClick={closeMenu}
+								>
 									Login
 								</Link>
-							</li>
-						)}
-						{!profile && (
-							<li>
-								<Link href="/signup" onClick={closeMenu}>
-									Register
-								</Link>
+								<p>
+									Don&apos;t have an account?{" "}
+									<Link
+										className="font-bold"
+										href="/signup"
+										onClick={closeMenu}
+									>
+										Sign up now
+									</Link>
+								</p>
 							</li>
 						)}
 					</ul>
