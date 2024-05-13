@@ -13,17 +13,10 @@ export default function Menu({ closeMenu }: { closeMenu: () => void }) {
 	useEffect(() => {
 		document.body.classList.add("noscroll");
 
-		const handleRouteChange = () => {
-			closeMenu();
-		};
-
-		router.events.on("routeChangeStart", handleRouteChange);
-
 		return () => {
-			router.events.off("routeChangeStart", handleRouteChange);
 			document.body.classList.remove("noscroll");
 		};
-	}, [closeMenu]);
+	}, []);
 
 	return (
 		<motion.div
@@ -49,27 +42,39 @@ export default function Menu({ closeMenu }: { closeMenu: () => void }) {
 				</svg>
 			</button>
 			<div className="container mx-auto h-full items-center justify-between">
-				<Link className="font-serif text-2xl font-bold tracking-wide" href="/">
+				<Link
+					className="font-serif text-2xl font-bold tracking-wide"
+					href="/"
+					onClick={closeMenu}
+				>
 					Holidation
 				</Link>
 				<div className=" my-24 text-2xl">
 					<ul className="flex flex-col gap-4">
 						<li className="font-bold">
-							<Link href="/">Home</Link>
+							<Link href="/" onClick={closeMenu}>
+								Home
+							</Link>
 						</li>
 						{profile && (
 							<li>
-								<Link href="/profile/bookings">Bookings</Link>
+								<Link href="/profile/bookings" onClick={closeMenu}>
+									Bookings
+								</Link>
 							</li>
 						)}
 						{profile && profile.venueManager && (
 							<li>
-								<Link href="/profile/venues">Venues</Link>
+								<Link href="/profile/venues" onClick={closeMenu}>
+									Venues
+								</Link>
 							</li>
 						)}
 						{profile && (
 							<li>
-								<Link href="/profile">Profile</Link>
+								<Link href="/profile" onClick={closeMenu}>
+									Profile
+								</Link>
 							</li>
 						)}
 						{profile && (
@@ -82,12 +87,17 @@ export default function Menu({ closeMenu }: { closeMenu: () => void }) {
 								<Link
 									href="/login"
 									className="my-10 block w-full whitespace-nowrap rounded bg-yellow-400 px-4 py-2 text-center font-bold text-yellow-950"
+									onClick={closeMenu}
 								>
 									Login
 								</Link>
 								<p>
 									Don&apos;t have an account?{" "}
-									<Link className="font-bold" href="/signup">
+									<Link
+										className="font-bold"
+										href="/signup"
+										onClick={closeMenu}
+									>
 										Sign up now
 									</Link>
 								</p>
