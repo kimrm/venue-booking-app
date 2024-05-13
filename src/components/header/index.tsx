@@ -54,7 +54,7 @@ export default function Header() {
 	}
 
 	return (
-		<header className="py-6">
+		<header className="container mx-auto px-4 py-6 md:px-0">
 			<AnimatePresence>
 				{menuOpen && <Menu closeMenu={() => setMenuOpen(false)} />}
 			</AnimatePresence>
@@ -188,7 +188,7 @@ export default function Header() {
 							>
 								<div className="mx-auto max-w-7xl">
 									<div className="group relative cursor-pointer">
-										<div className="absolute -inset-1 rounded-lg bg-gradient-to-r from-red-600 to-violet-600 opacity-25 blur transition duration-1000 group-hover:opacity-100 group-hover:duration-200"></div>
+										<div className="absolute -inset-1 rounded-lg bg-gradient-to-r from-yellow-50 to-yellow-600 opacity-25 blur transition duration-1000 hover:shadow-sm group-hover:opacity-100 group-hover:duration-200"></div>
 										<div className="items-top relative flex h-10 w-10 justify-start space-x-6 overflow-hidden rounded-full bg-white leading-none ring-1 ring-gray-900/5">
 											<Image
 												src={profile?.avatar?.url ?? "/placeholder.jpg"}
