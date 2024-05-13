@@ -4,12 +4,11 @@ import { useEffect, useState } from "react";
 import { useLogout } from "@/hooks/api/useLogout";
 
 export default function LogOut() {
-	const [logoutData, setLogoutData] = useState({ logout: false });
-	const { data, error, loading } = useLogout(logoutData);
+	const { data, error, loading, logout } = useLogout();
 
 	function handleLogoutFormSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
-		setLogoutData({ logout: true });
+		logout();
 	}
 
 	useEffect(() => {
