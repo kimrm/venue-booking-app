@@ -1,13 +1,30 @@
 "use client";
 
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { UserContext } from "@/context/UserContext";
 import LogOut from "@/components/profile/logout";
+import router from "next/router";
 
 export default function Menu({ closeMenu }: { closeMenu: () => void }) {
 	const { profile } = useContext(UserContext) || {};
+
+	useEffect(() => {
+		document.body.classList.add("noscroll");
+
+		const handleRouteChange = () => {
+			closeMenu();
+		};
+
+		router.events.on("routeChangeStart", handleRouteChange);
+
+		return () => {
+			router.events.off("routeChangeStart", handleRouteChange);
+			document.body.classList.remove("noscroll");
+		};
+	}, [closeMenu]);
+
 	return (
 		<motion.div
 			initial={{ x: -100 }}
@@ -38,29 +55,21 @@ export default function Menu({ closeMenu }: { closeMenu: () => void }) {
 				<div className=" my-24 text-2xl">
 					<ul className="flex flex-col gap-4">
 						<li className="font-bold">
-							<Link href="/" onClick={closeMenu}>
-								Home
-							</Link>
+							<Link href="/">Home</Link>
 						</li>
 						{profile && (
 							<li>
-								<Link href="/profile/bookings" onClick={closeMenu}>
-									Bookings
-								</Link>
+								<Link href="/profile/bookings">Bookings</Link>
 							</li>
 						)}
 						{profile && profile.venueManager && (
 							<li>
-								<Link href="/profile/venues" onClick={closeMenu}>
-									Venues
-								</Link>
+								<Link href="/profile/venues">Venues</Link>
 							</li>
 						)}
 						{profile && (
 							<li>
-								<Link href="/profile" onClick={closeMenu}>
-									Profile
-								</Link>
+								<Link href="/profile">Profile</Link>
 							</li>
 						)}
 						{profile && (
@@ -73,17 +82,12 @@ export default function Menu({ closeMenu }: { closeMenu: () => void }) {
 								<Link
 									href="/login"
 									className="my-10 block w-full whitespace-nowrap rounded bg-yellow-400 px-4 py-2 text-center font-bold text-yellow-950"
-									onClick={closeMenu}
 								>
 									Login
 								</Link>
 								<p>
 									Don&apos;t have an account?{" "}
-									<Link
-										className="font-bold"
-										href="/signup"
-										onClick={closeMenu}
-									>
+									<Link className="font-bold" href="/signup">
 										Sign up now
 									</Link>
 								</p>
