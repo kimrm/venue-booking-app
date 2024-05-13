@@ -64,7 +64,7 @@ export default function Header() {
 						initial={{ opacity: 0, y: -10 }}
 						animate={{ opacity: 1, y: 0 }}
 						exit={{ opacity: 0, y: -10 }}
-						className="fixed right-2 top-2 z-50 border-l-4 border-l-green-500 bg-gray-300 p-2 font-bold text-gray-950"
+						className="fixed right-2 top-2 z-50 rounded border-l-4 border-l-green-500 bg-gray-300 p-2 font-bold text-gray-950"
 					>
 						{toastMessage}
 					</motion.div>
