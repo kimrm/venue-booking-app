@@ -15,6 +15,22 @@ export default function Menu({ closeMenu }: { closeMenu: () => void }) {
 			role="navigation"
 			className="fixed left-0 top-0 z-50 h-screen w-full bg-white px-7 py-7 shadow-md"
 		>
+			<button onClick={closeMenu} className="absolute right-7 top-7">
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					strokeWidth={1.5}
+					stroke="currentColor"
+					className="h-6 w-6"
+				>
+					<path
+						strokeLinecap="round"
+						strokeLinejoin="round"
+						d="M6 18 18 6M6 6l12 12"
+					/>
+				</svg>
+			</button>
 			<div className="container mx-auto h-full items-center justify-between">
 				<Link className="font-serif text-2xl font-bold tracking-wide" href="/">
 					Holidation
@@ -49,7 +65,7 @@ export default function Menu({ closeMenu }: { closeMenu: () => void }) {
 						)}
 						{profile && (
 							<li>
-								<LogOut onLogout={closeMenu} />
+								<LogOut />
 							</li>
 						)}
 						{!profile && (
