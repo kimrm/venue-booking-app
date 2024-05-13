@@ -3,12 +3,11 @@
 import { useEffect, useState } from "react";
 import { useLogout } from "@/hooks/api/useLogout";
 
-export default function LogOut({ onLogout }: { onLogout?: () => void }) {
+export default function LogOut() {
 	const [logoutData, setLogoutData] = useState({ logout: false });
 	const { data, error, loading } = useLogout(logoutData);
 
 	function handleLogoutFormSubmit() {
-		onLogout && onLogout();
 		setLogoutData({ logout: true });
 	}
 
