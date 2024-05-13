@@ -81,7 +81,7 @@ export default function Header() {
 					<button
 						onClick={searchClickHandler}
 						title="Search for your next holiday"
-						className="flex w-full items-center gap-3 rounded-lg border border-offwhite2 bg-gradient-to-r from-white to-offwhite px-3 py-2 text-gray-500 transition-all duration-500 hover:border-orange-400"
+						className="flex w-full items-center gap-3 rounded-lg border border-white bg-gradient-to-r from-yellow-50 to-offwhite px-3 py-2 text-gray-500 transition-all duration-500 hover:border-orange-400"
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
