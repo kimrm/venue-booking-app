@@ -22,9 +22,10 @@ export default function LogOut() {
 			<input type="hidden" name="logout" value="true" />
 			<button
 				type="submit"
-				className="block w-full  whitespace-nowrap rounded bg-red-300 px-4 py-2 text-gray-600 hover:bg-red-400 hover:text-black"
+				disabled={loading}
+				className="block w-full whitespace-nowrap rounded bg-red-100 px-4 py-2 font-bold text-red-900 hover:bg-red-200 hover:text-red-800"
 			>
-				{loading ? "Logging out..." : "Log out"}
+				{loading ? "Signing out" : "Log out"}
 			</button>
 		</form>
 	);
