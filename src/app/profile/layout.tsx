@@ -18,7 +18,7 @@ export default async function Layout({ children }: Props) {
 	}
 	return (
 		<div className="flex">
-			<div className="invisible sticky left-0 top-0 my-2 h-fit w-0 rounded-xl bg-gray-50 md:visible md:mr-24 md:w-fit">
+			<div className="invisible sticky left-0 top-0 my-2 h-fit w-0 rounded-xl bg-gray-50 md:visible md:mr-24 md:w-52">
 				<Navigation />
 
 				<div className="my-5 w-full border-t border-gray-100 p-2">
