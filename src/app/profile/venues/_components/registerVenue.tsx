@@ -5,6 +5,12 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useFormStatus, useFormState } from "react-dom";
 import { Input, TextArea, CheckBox } from "@/components/form";
+import MapboxMap from "./mapboxMap";
+
+interface Location {
+	latitude: number;
+	longitude: number;
+}
 
 const initialState = {
 	status: "",
@@ -205,8 +211,21 @@ function Location({
 	registerData?: RegisterData;
 	setRegisterData: Function;
 }) {
+	const [location, setLocation] = useState<Location>({
+		latitude: 0,
+		longitude: 0,
+	});
+
+	useEffect(() => {
+		setRegisterData((prev: RegisterData) => ({
+			...prev,
+			lat: location.latitude,
+			lng: location.longitude,
+		}));
+	}, [location, setRegisterData]);
 	return (
 		<>
+			<MapboxMap setLocation={setLocation} />
 			<Input
 				title="Address"
 				type="text"
