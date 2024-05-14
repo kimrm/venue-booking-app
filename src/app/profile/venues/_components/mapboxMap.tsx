@@ -48,9 +48,6 @@ const MapboxMap: React.FC<MapboxMapProps> = ({ setLocation }) => {
 
 	return (
 		<div className="relative h-96 w-full">
-			<button className="absolute left-10 top-10 z-10 rounded-xl bg-yellow-500 p-2">
-				Set location
-			</button>
 			<MapGL
 				{...viewport}
 				mapStyle="mapbox://styles/mapbox/streets-v11"
@@ -58,7 +55,6 @@ const MapboxMap: React.FC<MapboxMapProps> = ({ setLocation }) => {
 				mapboxAccessToken={MAPBOX_TOKEN}
 				onClick={onMapClick}
 				ref={mapRef}
-				interactive={false}
 				zoom={5}
 			>
 				<Marker longitude={marker.longitude} latitude={marker.latitude}>
