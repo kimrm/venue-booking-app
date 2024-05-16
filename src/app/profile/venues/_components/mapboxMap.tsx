@@ -1,4 +1,5 @@
 "use client";
+import { getContinentByCountry } from "@/utils/locale";
 import React, { useState, useRef, useCallback } from "react";
 import MapGL, { Marker, ViewStateChangeEvent } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -12,31 +13,27 @@ interface Location {
 }
 
 interface MapboxMapProps {
+	location: Location;
 	setLocation: (location: Location) => void;
 }
 
-const MapboxMap: React.FC<MapboxMapProps> = ({ setLocation }) => {
+const MapboxMap: React.FC<MapboxMapProps> = ({ location, setLocation }) => {
 	const [viewport, setViewport] = useState({
-		latitude: 60.472,
-		longitude: 8.4689,
-		zoom: 4,
+		latitude: location.latitude || 60.472,
+		longitude: location.longitude || 8.4689,
+		zoom: 12,
 	});
 
 	const [marker, setMarker] = useState<Location>({
-		latitude: 60.472,
-		longitude: 8.4689,
+		latitude: location.latitude || 60.472,
+		longitude: location.longitude || 8.4689,
 	});
 
-	const mapRef = useRef(null);
-
-	const onMapClick = useCallback(
-		(event: mapboxgl.MapMouseEvent & mapboxgl.EventData) => {
-			const { lng, lat } = event.lngLat;
-			setMarker({ longitude: lng, latitude: lat });
-			setLocation({ longitude: lng, latitude: lat });
-		},
-		[setLocation]
+	const [mapStyle, setMapStyle] = useState(
+		"mapbox://styles/mapbox/satellite-streets-v11"
 	);
+
+	const mapRef = useRef(null);
 
 	const handleViewportChange = (event: ViewStateChangeEvent) => {
 		setViewport({
@@ -46,21 +43,48 @@ const MapboxMap: React.FC<MapboxMapProps> = ({ setLocation }) => {
 		});
 	};
 
+	const toggleMapStyle = () => {
+		setMapStyle((prevStyle) =>
+			prevStyle === "mapbox://styles/mapbox/streets-v11"
+				? "mapbox://styles/mapbox/satellite-streets-v11"
+				: "mapbox://styles/mapbox/streets-v11"
+		);
+	};
+
+	const onMapClick = useCallback(
+		(event: mapboxgl.MapMouseEvent & mapboxgl.EventData) => {
+			console.log("Map clicked", event.lngLat);
+			const { lng, lat } = event.lngLat;
+			setMarker({ longitude: lng, latitude: lat });
+			setLocation({ longitude: lng, latitude: lat });
+		},
+		[setLocation]
+	);
+
 	return (
-		<div className="relative h-96 w-full">
+		<div className="relative h-full w-full">
 			<MapGL
 				{...viewport}
-				mapStyle="mapbox://styles/mapbox/streets-v11"
+				mapStyle={mapStyle}
 				onMove={handleViewportChange}
 				mapboxAccessToken={MAPBOX_TOKEN}
 				onClick={onMapClick}
 				ref={mapRef}
-				zoom={5}
 			>
 				<Marker longitude={marker.longitude} latitude={marker.latitude}>
 					<div style={{ color: "red" }}>📍</div>
 				</Marker>
 			</MapGL>
+			<button
+				className="absolute right-2 top-2 rounded-xl bg-white bg-opacity-50 px-4 py-2 shadow-md"
+				onClick={toggleMapStyle}
+			>
+				Toggle{" "}
+				{mapStyle === "mapbox://styles/mapbox/streets-v11"
+					? "Satellite"
+					: "Street"}{" "}
+				View
+			</button>
 		</div>
 	);
 };
