@@ -15,6 +15,15 @@ export default function Create() {
 	const { pending } = useFormStatus();
 	const [state, formAction] = useFormState(create, initialState);
 
+	useEffect(() => {
+		function updateVH() {
+			let vh = window.innerHeight * 0.01;
+			document.documentElement.style.setProperty("--vh", `${vh}px`);
+		}
+		window.addEventListener("resize", updateVH);
+		return () => window.removeEventListener("resize", updateVH);
+	}, []);
+
 	function handleClose() {
 		setFormOpen(false);
 	}
@@ -54,7 +63,7 @@ export default function Create() {
 			</button>
 			{state?.status && <p>{state.status}</p>}
 			{formOpen && (
-				<div className="absolute left-0 top-0 z-50 flex h-svh w-screen items-center bg-black bg-opacity-80 p-2">
+				<div className="h-screen-vh absolute left-0 top-0 z-50 flex w-screen items-center bg-black bg-opacity-80 p-2">
 					<motion.div
 						initial={{ opacity: 0, scale: 0.5 }}
 						animate={{ opacity: 1, scale: 1 }}
