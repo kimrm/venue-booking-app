@@ -20,6 +20,7 @@ export default function Create() {
 			let vh = window.innerHeight * 0.01;
 			document.documentElement.style.setProperty("--vh", `${vh}px`);
 		}
+		updateVH();
 		window.addEventListener("resize", updateVH);
 		return () => window.removeEventListener("resize", updateVH);
 	}, []);
