@@ -54,7 +54,7 @@ export default function Create() {
 			</button>
 			{state?.status && <p>{state.status}</p>}
 			{formOpen && (
-				<div className="absolute left-0 top-0 z-50 flex h-screen w-screen items-center bg-black bg-opacity-80 p-2">
+				<div className="absolute left-0 top-0 z-50 flex h-svh w-screen items-center bg-black bg-opacity-80 p-2">
 					<motion.div
 						initial={{ opacity: 0, scale: 0.5 }}
 						animate={{ opacity: 1, scale: 1 }}
