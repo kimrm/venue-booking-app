@@ -3,6 +3,7 @@ import { getProfile, updateProfile } from "@/actions/profile";
 import Bio from "@/components/profile/bio";
 import Avatar from "@/components/profile/avatar";
 import Link from "next/link";
+import { LinkButton } from "@/components/UI/buttons";
 
 export default async function ProfilePage() {
 	const profile: UserProfile = await getProfile();
@@ -38,12 +39,7 @@ export default async function ProfilePage() {
 							</p>
 							<p className="mb-3 text-gray-700">No venues listed.</p>
 							<div className="flex">
-								<Link
-									href="/profile/venues"
-									className="block w-full whitespace-nowrap  rounded bg-yellow-500 px-4 py-2 text-gray-800 transition-colors duration-500 hover:bg-yellow-400 hover:text-black md:w-fit"
-								>
-									Manage venues
-								</Link>
+								<LinkButton href="/profile/venues">Manage venues</LinkButton>
 							</div>
 						</div>
 					</>

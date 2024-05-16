@@ -1,47 +1,36 @@
 "use client";
 
 import { create } from "@/actions/venues";
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useFormStatus, useFormState } from "react-dom";
-import { Input, TextArea, CheckBox } from "@/components/form";
-import MapboxMap from "./mapboxMap";
-
-interface Location {
-	latitude: number;
-	longitude: number;
-}
+import VenueRegisterData from "@/types/VenueRegisterData";
+import Information from "./information";
+import AddImages from "./addImages";
+import Location from "./location";
+import {
+	CancelButton,
+	ConfirmButton,
+	SubmitButton,
+	ActionButton,
+	ButtonSvg,
+} from "@/components/UI/buttons";
 
 const initialState = {
 	status: "",
 	data: {},
 };
 
-interface RegisterData {
-	name?: string;
-	description?: string;
-	price?: number;
-	maxGuests?: number;
-	media?: string;
-	wifi?: boolean;
-	parking?: boolean;
-	pets?: boolean;
-	breakfast?: boolean;
-	address?: string;
-	city?: string;
-	zip?: string;
-	country?: string;
-	continent?: string;
-	lat?: number;
-	lng?: number;
-}
-
 export default function RegisterVenue() {
 	const [formOpen, setFormOpen] = useState(false);
 	const { pending } = useFormStatus();
 	const [state, formAction] = useFormState(create, initialState);
-	const [registerData, setRegisterData] = useState<RegisterData | undefined>();
+	const [registerData, setRegisterData] = useState<
+		VenueRegisterData | undefined
+	>();
 	const [tab, setTab] = useState(0);
+	const [errors, setErrors] = useState({});
+	const [isSuccess, setIsSuccess] = useState(false);
 
 	useEffect(() => {
 		if (registerData) {
@@ -49,52 +38,43 @@ export default function RegisterVenue() {
 		}
 	}, [registerData]);
 
-	function handleClose() {
-		document.body.classList.remove("noscroll");
-		setFormOpen(false);
-	}
-
-	function handleOpen() {
-		document.body.classList.add("noscroll");
-		setFormOpen(true);
-	}
+	useEffect(() => {
+		if (formOpen) {
+			document.body.classList.add("noscroll");
+		}
+		return () => {
+			document.body.classList.remove("noscroll");
+		};
+	}, [formOpen]);
 
 	useEffect(() => {
+		console.log(state);
 		if (state?.status === "ok") {
-			setFormOpen(false);
-			console.log(state.data);
+			setIsSuccess(true);
+			setRegisterData({});
 		}
+		state?.errors && setErrors(state.errors);
 	}, [state]);
 
 	return (
 		<div className="my-5">
-			<button
-				onClick={handleOpen}
-				className="flex items-center gap-1 rounded-lg bg-yellow-400 p-2 transition-colors duration-300 hover:bg-yellow-500"
-			>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					fill="none"
-					viewBox="0 0 24 24"
-					strokeWidth={1.5}
-					stroke="currentColor"
-					className="inline h-4 w-4"
-				>
+			<ActionButton onClick={() => setFormOpen(true)}>
+				<ButtonSvg>
 					<path
 						strokeLinecap="round"
 						strokeLinejoin="round"
 						d="M12 4.5v15m7.5-7.5h-15"
 					/>
-				</svg>
+				</ButtonSvg>
 				Add venue
-			</button>
-			{state?.status && <p>{state.status}</p>}
+			</ActionButton>
+
 			{formOpen && (
-				<div className="absolute left-0 top-0 z-20 flex h-screen w-screen items-center bg-black bg-opacity-80 p-2">
+				<div className="fixed left-0 top-0 z-20 flex h-screen w-screen items-center bg-black bg-opacity-80 px-2 py-5">
 					<motion.div
 						initial={{ opacity: 0, scale: 0.5 }}
 						animate={{ opacity: 1, scale: 1 }}
-						className="relative mx-auto h-full w-full max-w-screen-md overflow-y-scroll rounded-3xl bg-offwhite px-6 py-4"
+						className="relative mx-auto my-5 h-full w-full max-w-screen-md overflow-y-scroll rounded-3xl bg-offwhite px-6 py-8 shadow-lg"
 					>
 						<button
 							onClick={() => setFormOpen(false)}
@@ -123,6 +103,19 @@ export default function RegisterVenue() {
 							Renting out your venue on Holidation is easy. Just register and
 							people from around the world can book it.
 						</p>
+						{isSuccess && (
+							<div className="my-3 border-l-8 border-green-700 bg-green-100 p-4">
+								<h1 className="text-xs font-bold uppercase tracking-wider">
+									Venue Registered
+								</h1>
+								<p className="my-2">
+									Your venue has been successfully registered!
+								</p>
+								<ConfirmButton onClick={() => setFormOpen(false)}>
+									Close
+								</ConfirmButton>
+							</div>
+						)}
 						<div className="rounded bg-gray-200">
 							<div className="flex text-sm md:text-base">
 								<button
@@ -149,6 +142,7 @@ export default function RegisterVenue() {
 									<Information
 										registerData={registerData}
 										setRegisterData={setRegisterData}
+										errors={errors}
 									/>
 								)}
 								{tab === 1 && (
@@ -157,299 +151,147 @@ export default function RegisterVenue() {
 										setRegisterData={setRegisterData}
 									/>
 								)}
+								{tab === 2 && (
+									<AddImages
+										registerData={registerData}
+										setRegisterData={setRegisterData}
+									/>
+								)}
+
 								<div className="flex justify-end p-4">
-									<button className="rounded-xl bg-yellow-400 px-4 py-2">
-										next
-									</button>
+									{tab === 1 && (
+										<button className="rounded-xl bg-yellow-400 px-4 py-2">
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												fill="none"
+												viewBox="0 0 24 24"
+												strokeWidth={1.5}
+												stroke="currentColor"
+												className="h-6 w-6"
+											>
+												<path
+													strokeLinecap="round"
+													strokeLinejoin="round"
+													d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+												/>
+											</svg>
+										</button>
+									)}
 								</div>
 							</div>
 						</div>
 						<form action={formAction}>
-							<input type="hidden" id="name" name="name" />
-							<input type="hidden" id="description" name="description" />
-							<input type="hidden" id="price" name="price" />
-							<input type="hidden" id="maxGuests" name="maxGuests" />
-							<input type="hidden" id="media1" name="media" />
-							<input type="hidden" id="wifi" name="wifi" />
-							<input type="hidden" id="parking" name="parking" />
-							<input type="hidden" id="pets" name="pets" />
-							<input type="hidden" id="breakfast" name="breakfast" />
-							<input type="hidden" id="address" name="address" />
-							<input type="hidden" id="city" name="city" />
-							<input type="hidden" id="zip" name="zip" />
-							<input type="hidden" id="country" name="country" />
-							<input type="hidden" id="continent" name="continent" />
-							<input type="hidden" id="lat" name="lat" />
-							<input type="hidden" id="lng" name="lng" />
+							<input
+								type="hidden"
+								id="name"
+								name="name"
+								value={registerData?.name ?? ""}
+							/>
+							<input
+								type="hidden"
+								id="description"
+								name="description"
+								value={registerData?.description ?? ""}
+							/>
+							<input
+								type="hidden"
+								id="price"
+								name="price"
+								value={registerData?.price ?? ""}
+							/>
+							<input
+								type="hidden"
+								id="maxGuests"
+								name="maxGuests"
+								value={registerData?.maxGuests ?? ""}
+							/>
+							{registerData?.media &&
+								registerData.media.map((image, index) => (
+									<input
+										key={index}
+										type="hidden"
+										id={`media${index + 1}`}
+										name="media"
+										value={JSON.stringify(image)}
+									/>
+								))}
+							<input
+								type="hidden"
+								id="wifi"
+								name="wifi"
+								value={registerData?.wifi ? "1" : "0"}
+							/>
+							<input
+								type="hidden"
+								id="parking"
+								name="parking"
+								value={registerData?.parking ? "1" : "0"}
+							/>
+							<input
+								type="hidden"
+								id="pets"
+								name="pets"
+								value={registerData?.pets ? "1" : "0"}
+							/>
+							<input
+								type="hidden"
+								id="breakfast"
+								name="breakfast"
+								value={registerData?.breakfast ? "1" : "0"}
+							/>
+							<input
+								type="hidden"
+								id="address"
+								name="address"
+								value={registerData?.address ?? ""}
+							/>
+							<input
+								type="hidden"
+								id="city"
+								name="city"
+								value={registerData?.city ?? ""}
+							/>
+							<input
+								type="hidden"
+								id="zip"
+								name="zip"
+								value={registerData?.zip ?? ""}
+							/>
+							<input
+								type="hidden"
+								id="country"
+								name="country"
+								value={registerData?.country ?? ""}
+							/>
+							<input
+								type="hidden"
+								id="continent"
+								name="continent"
+								value={registerData?.continent ?? ""}
+							/>
+							<input
+								type="hidden"
+								id="lat"
+								name="lat"
+								value={registerData?.lat ?? ""}
+							/>
+							<input
+								type="hidden"
+								id="lng"
+								name="lng"
+								value={registerData?.lng ?? ""}
+							/>
 
 							<div className="mt-5 flex gap-5">
-								<button
-									type="submit"
-									className="rounded-lg bg-yellow-500 px-4 py-2 transition-colors duration-300 hover:bg-yellow-300"
-								>
-									{pending ? "waiting..." : "Save venue"}
-								</button>
-								<button
-									className="rounded-lg bg-gray-200 px-4 py-2 transition-colors duration-300 hover:bg-gray-300"
-									onClick={handleClose}
-								>
+								<SubmitButton>Save Venue</SubmitButton>
+								<CancelButton onClick={() => setFormOpen(false)}>
 									Cancel
-								</button>
+								</CancelButton>
 							</div>
 						</form>
 					</motion.div>
 				</div>
 			)}
 		</div>
-	);
-}
-
-function Location({
-	registerData,
-	setRegisterData,
-}: {
-	registerData?: RegisterData;
-	setRegisterData: Function;
-}) {
-	const [location, setLocation] = useState<Location>({
-		latitude: 0,
-		longitude: 0,
-	});
-
-	useEffect(() => {
-		setRegisterData((prev: RegisterData) => ({
-			...prev,
-			lat: location.latitude,
-			lng: location.longitude,
-		}));
-	}, [location, setRegisterData]);
-	return (
-		<>
-			<MapboxMap setLocation={setLocation} />
-			<Input
-				title="Address"
-				type="text"
-				id="address"
-				name="address"
-				onChange={(e: ChangeEvent<HTMLInputElement>) =>
-					setRegisterData((prev: RegisterData) => ({
-						...prev,
-						address: e.target.value,
-					}))
-				}
-				value={registerData?.address}
-			/>
-			<div className="flex gap-5">
-				<Input
-					title="Zip"
-					type="number"
-					id="zip"
-					name="zip"
-					onChange={(e: ChangeEvent<HTMLInputElement>) =>
-						setRegisterData((prev: RegisterData) => ({
-							...prev,
-							zip: e.target.value,
-						}))
-					}
-					value={registerData?.zip}
-				/>
-				<Input
-					title="City"
-					type="text"
-					id="city"
-					name="city"
-					onChange={(e: ChangeEvent<HTMLInputElement>) =>
-						setRegisterData((prev: RegisterData) => ({
-							...prev,
-							city: e.target.value,
-						}))
-					}
-					value={registerData?.city}
-				/>
-			</div>
-
-			<Input
-				title="Country"
-				type="text"
-				id="country"
-				name="country"
-				onChange={(e: ChangeEvent<HTMLInputElement>) =>
-					setRegisterData((prev: RegisterData) => ({
-						...prev,
-						country: e.target.value,
-					}))
-				}
-				value={registerData?.country}
-			/>
-			<Input
-				title="Continent"
-				type="text"
-				id="continent"
-				name="continent"
-				onChange={(e: ChangeEvent<HTMLInputElement>) =>
-					setRegisterData((prev: RegisterData) => ({
-						...prev,
-						continent: e.target.value,
-					}))
-				}
-				value={registerData?.continent}
-			/>
-			<Input
-				title="Latitude"
-				type="number"
-				id="lat"
-				name="lat"
-				min="-90"
-				max="90"
-				onChange={(e: ChangeEvent<HTMLInputElement>) =>
-					setRegisterData((prev: RegisterData) => ({
-						...prev,
-						lat: parseInt(e.target.value),
-					}))
-				}
-				value={registerData?.lat}
-			/>
-			<Input
-				title="Longitude"
-				type="number"
-				id="lng"
-				name="lng"
-				min="-180"
-				max="180"
-				onChange={(e: ChangeEvent<HTMLInputElement>) =>
-					setRegisterData((prev: RegisterData) => ({
-						...prev,
-						lng: parseInt(e.target.value),
-					}))
-				}
-				value={registerData?.lng}
-			/>
-		</>
-	);
-}
-
-function Information({
-	registerData,
-	setRegisterData,
-}: {
-	registerData?: RegisterData;
-	setRegisterData: Function;
-}) {
-	return (
-		<>
-			<Input
-				title="Name"
-				type="text"
-				id="name"
-				name="name"
-				onChange={(e: ChangeEvent<HTMLInputElement>) =>
-					setRegisterData((prev: RegisterData) => ({
-						...prev,
-						name: e.target.value,
-					}))
-				}
-				value={registerData?.name}
-			/>
-			<TextArea
-				title="Description"
-				id="description"
-				name="description"
-				rows={3}
-				onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
-					setRegisterData((prev: RegisterData) => ({
-						...prev,
-						description: e.target.value,
-					}))
-				}
-				value={registerData?.description}
-			/>
-			<Input
-				title="Price per night"
-				type="number"
-				id="price"
-				name="price"
-				placeholder="100"
-				max="10000"
-				min="0"
-				onChange={(e: ChangeEvent<HTMLInputElement>) =>
-					setRegisterData((prev: RegisterData) => ({
-						...prev,
-						price: parseInt(e.target.value),
-					}))
-				}
-				value={registerData?.price}
-			/>
-			<Input
-				title="Max guests"
-				type="number"
-				id="maxGuests"
-				name="maxGuests"
-				placeholder="2"
-				min="1"
-				max="100"
-				onChange={(e: ChangeEvent<HTMLInputElement>) =>
-					setRegisterData((prev: RegisterData) => ({
-						...prev,
-						maxGuests: parseInt(e.target.value),
-					}))
-				}
-				value={registerData?.maxGuests}
-			/>
-			<div>
-				<h2 className="my-3 text-sm font-bold uppercase text-gray-800">
-					Accommodations
-				</h2>
-				<div className="flex gap-5">
-					<CheckBox
-						title="Wifi"
-						id="wifi"
-						name="wifi"
-						onChange={(e: ChangeEvent<HTMLInputElement>) =>
-							setRegisterData((prev: RegisterData) => ({
-								...prev,
-								wifi: e.target.checked,
-							}))
-						}
-						checked={registerData?.wifi}
-					/>
-					<CheckBox
-						title="Parking"
-						id="parking"
-						name="parking"
-						onChange={(e: ChangeEvent<HTMLInputElement>) =>
-							setRegisterData((prev: RegisterData) => ({
-								...prev,
-								parking: e.target.checked,
-							}))
-						}
-						checked={registerData?.parking}
-					/>
-					<CheckBox
-						title="Pets"
-						id="pets"
-						name="pets"
-						onChange={(e: ChangeEvent<HTMLInputElement>) =>
-							setRegisterData((prev: RegisterData) => ({
-								...prev,
-								pets: e.target.checked,
-							}))
-						}
-						checked={registerData?.pets}
-					/>
-					<CheckBox
-						title="Breakfast"
-						id="breakfast"
-						name="breakfast"
-						onChange={(e: ChangeEvent<HTMLInputElement>) =>
-							setRegisterData((prev: RegisterData) => ({
-								...prev,
-								breakfast: e.target.checked,
-							}))
-						}
-						checked={registerData?.breakfast}
-					/>
-				</div>
-			</div>
-		</>
 	);
 }
