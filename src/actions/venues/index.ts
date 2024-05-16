@@ -67,6 +67,24 @@ export async function getById(id: string) {
 export async function create(prevState: any, formData: FormData) {
 	const accessToken = cookies().get("accesstoken")?.value;
 
+	let errors = {};
+	if (formData.get("name") === "") {
+		errors = { ...errors, name: "Name is required" };
+	}
+	if (!formData.get("description")) {
+		errors = { ...errors, description: "Description is required" };
+	}
+	if (!formData.get("maxGuests")) {
+		errors = { ...errors, maxGuests: "Max guests is required" };
+	}
+	if (!formData.get("price")) {
+		errors = { ...errors, price: "Price is required" };
+	}
+
+	if (Object.keys(errors).length > 0) {
+		return { status: "error", errors };
+	}
+
 	const imageArray = formData.getAll("media").map((item) => {
 		return { url: item.toString(), alt: item.toString() };
 	});
@@ -77,10 +95,10 @@ export async function create(prevState: any, formData: FormData) {
 		price: parseInt(formData.get("price") as string),
 		rating: 0,
 		meta: {
-			wifi: formData.get("wifi") === "on",
-			parking: formData.get("parking") === "on",
-			breakfast: formData.get("breakfast") === "on",
-			pets: formData.get("pets") === "on",
+			wifi: formData.get("wifi") === "1",
+			parking: formData.get("parking") === "1",
+			breakfast: formData.get("breakfast") === "1",
+			pets: formData.get("pets") === "1",
 		},
 		location: {
 			address: formData.get("address") as string,
@@ -93,12 +111,9 @@ export async function create(prevState: any, formData: FormData) {
 		},
 		media:
 			formData.getAll("media") &&
-			formData
-				.getAll("media")
-				.map((item) => {
-					return { url: item as string, alt: formData.get("name") as string };
-				})
-				.filter((item) => item.url !== ""),
+			formData.getAll("media").map((item) => {
+				return JSON.parse(item.toString());
+			}),
 	};
 
 	const options: NoroffAPIRequest = {
@@ -112,6 +127,9 @@ export async function create(prevState: any, formData: FormData) {
 	};
 
 	const response = await fetch(`${API_URL}/venues`, options);
+	if (!response.ok) {
+		return { status: "error", data: await response.json() };
+	}
 	const data = await response.json();
 
 	return { data: data, status: "ok" };
