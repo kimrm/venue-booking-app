@@ -1,9 +1,8 @@
 import Venue from "@/types/Venue";
 import { getById } from "@/actions/venues";
-import VenueDetails from "@/app/venues/_components/venueDetails";
-import VenueImageLibrary from "@/app/venues/_components/venueImageLibrary";
-import VenueImage from "@/app/venues/_components/venueImage";
 import Booking from "../_components/booking";
+import Map from "@/app/venues/_components/map";
+import Header from "@/app/venues/_components/header";
 
 interface Props {
 	params: { id: string };
@@ -12,26 +11,43 @@ interface Props {
 export default async function VenuePage({ params }: Props) {
 	const venue: Venue | any = await getById(params.id);
 
-	async function datesSelected(startDate: Date | null, endDate: Date | null) {
-		"use server";
-		console.log(startDate, endDate);
-	}
-
 	return (
 		<div>
-			<VenueImage venue={venue} />
-			<div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-				<div className="xl:col-span-2">
-					<VenueDetails venue={venue} />
+			<Header venue={venue} />
+
+			<h3 className="mt-10 font-serif text-3xl font-bold">Location</h3>
+			{venue.location?.lat && venue.location?.lng && (
+				<section id="location" className="mt-5 h-72">
+					<Map
+						location={{
+							latitude: venue.location?.lat,
+							longitude: venue.location?.lng,
+						}}
+					/>
+				</section>
+			)}
+			<section id="address" className="mt-5">
+				<div>
+					<span className="inline-block min-w-24 text-xs uppercase tracking-wide">
+						Address
+					</span>{" "}
+					{venue.location?.address}
 				</div>
-				<div className="mt-10 p-8">
-					<VenueImageLibrary venue={venue} />
+				<div>
+					<span className="inline-block min-w-24 text-xs uppercase tracking-wide">
+						City
+					</span>{" "}
+					{venue.location?.city}
 				</div>
-			</div>
+				<div>
+					<span className="inline-block min-w-24 text-xs uppercase tracking-wide">
+						Country
+					</span>{" "}
+					{venue.location?.country}
+				</div>
+			</section>
 			<section id="booking" className="mt-10">
-				<h2 className="mb-3 font-serif text-3xl font-bold">
-					Booking for -{venue.name}-
-				</h2>
+				<h2 className="mb-5 font-serif text-3xl font-bold">Book your stay</h2>
 
 				<Booking venue={venue} />
 			</section>
