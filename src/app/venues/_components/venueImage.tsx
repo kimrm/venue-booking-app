@@ -1,56 +1,18 @@
 "use client";
-import { useState } from "react";
 import ImageLoader from "@/components/ImageLoader";
-import Image from "next/image";
 import Venue from "@/types/Venue";
-import { motion, AnimatePresence } from "framer-motion";
 
-export default function VenueImage({ venue }: { venue: Venue }) {
-	const [expanded, setExpanded] = useState(false);
+interface Props {
+	venue: Venue;
+	expandedClicked: (index: number) => void;
+}
+
+export default function VenueImage({ venue, expandedClicked }: Props) {
 	return venue?.media && venue.media.length > 0 ? (
 		<div>
-			<AnimatePresence>
-				{expanded && (
-					<motion.div
-						initial={{ opacity: 0, scale: 0.5 }}
-						animate={{ opacity: 1, scale: 1 }}
-						exit={{ opacity: 0, scale: 0.5 }}
-						className="fixed left-0 top-0 z-50 flex h-full max-h-screen w-screen justify-center bg-black bg-opacity-70"
-						onClick={() => setExpanded(false)}
-					>
-						<button
-							onClick={() => setExpanded(false)}
-							className="absolute left-0 right-0 top-2 mx-auto flex w-fit items-center gap-2 rounded border bg-white bg-opacity-80 px-4 py-2 font-bold"
-						>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								fill="none"
-								viewBox="0 0 24 24"
-								strokeWidth={1.5}
-								stroke="currentColor"
-								className="h-6 w-6"
-							>
-								<path
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									d="M6 18 18 6M6 6l12 12"
-								/>
-							</svg>
-							Close
-						</button>
-						<Image
-							src={venue.media[0].url}
-							alt={venue.media[0].alt}
-							width={800}
-							height={800}
-							className="m-auto h-fit max-h-screen object-cover object-center"
-						/>
-					</motion.div>
-				)}
-			</AnimatePresence>
 			<div className="relative">
 				<button
-					onClick={() => setExpanded(true)}
+					onClick={() => expandedClicked(0)}
 					className="absolute right-2 top-2 z-20 rounded border bg-white bg-opacity-50 "
 				>
 					<svg
