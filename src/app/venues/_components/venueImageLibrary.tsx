@@ -18,16 +18,21 @@ export default function VenueImageLibrary({ venue, expandedClicked }: Props) {
 						venue.media.length > 0 &&
 						venue.media?.map((media, index) => {
 							return (
-								<Image
+								<button
+									className="rounded-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:outline hover:outline-yellow-500 focus:scale-105"
 									key={media.id}
-									src={media.url}
-									alt={media.alt}
-									width={200}
-									height={200}
-									title={media.alt}
 									onClick={() => expandedClicked(index)}
-									className="h-40 w-full cursor-pointer rounded-lg object-cover sm:w-40"
-								/>
+									title="Click to view full size image"
+								>
+									<Image
+										src={media.url}
+										alt={media.alt}
+										width={200}
+										height={200}
+										title={media.alt}
+										className="h-40 w-full cursor-pointer rounded-lg object-cover sm:w-40"
+									/>
+								</button>
 							);
 						})}
 				</div>
