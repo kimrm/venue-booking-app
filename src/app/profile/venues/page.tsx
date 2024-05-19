@@ -11,7 +11,7 @@ export default async function page() {
 			<div>
 				<h2 className="text-xl font-bold uppercase">Venues</h2>
 				<p className="mt-3">Manage your home or venues for rent.</p>
-				<RegisterVenue />
+				<Link href="/profile/venues/register">Register</Link>
 			</div>
 			<table className="w-full table-auto">
 				<thead className="border-b-2 border-dashed">
