@@ -22,11 +22,9 @@ const config: Config = {
 				offwhite: "#f8f8f8",
 				offwhite2: "#f9f9f9",
 			},
-			// Define animation class
 			animation: {
 				"ltr-linear-infinite": "move-bg 3s linear infinite",
 			},
-			// Define keyframes
 			keyframes: {
 				"move-bg": {
 					"0%": { "background-position": "0 0" },
