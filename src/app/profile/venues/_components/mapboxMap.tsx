@@ -4,8 +4,7 @@ import React, { useState, useRef, useCallback } from "react";
 import MapGL, { Marker, ViewStateChangeEvent } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
-const MAPBOX_TOKEN =
-	"pk.eyJ1Ijoia2ltcm1vIiwiYSI6ImNsdzY4eWZzaDI2a2MybHFzb2k2Ym1sb3IifQ.OrBXHf0mXYOFDIWjguTikQ";
+const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAP_KEY;
 
 interface Location {
 	latitude: number;
