@@ -8,21 +8,19 @@ export default function VenueDetails({ venue }: { venue: Venue }) {
 			<h1 className="my-4 font-serif text-5xl font-bold">{venue.name}</h1>
 			<div className="flex items-center justify-between">
 				<div>
-					<div className="my-10 flex items-center gap-5">
-						<div className=" flex h-12 w-12 rounded-full">
-							{venue.owner?.avatar && (
-								<ImageLoader
-									src={venue.owner.avatar.url ?? ""}
-									alt={venue.owner.avatar.alt ?? ""}
-									imageClassName="h-auto w-auto cursor-pointer rounded-full object-cover object-center"
-									width={50}
-									height={50}
-									errorIcon={false}
-								/>
-							)}
-						</div>
-						<div>
-							<strong>{venue.owner?.name}</strong> is your host
+					<div className="my-10 flex items-center gap-3">
+						{venue.owner?.avatar && (
+							<ImageLoader
+								src={venue.owner.avatar.url ?? ""}
+								alt={venue.owner.avatar.alt ?? ""}
+								imageClassName="h-12 w-12 cursor-pointer rounded-full object-cover object-center"
+								width={50}
+								height={50}
+								errorIcon={false}
+							/>
+						)}
+						<div className="text-sm uppercase tracking-wide">
+							{venue.owner?.name}
 						</div>
 					</div>
 				</div>
