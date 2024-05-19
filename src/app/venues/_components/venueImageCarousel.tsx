@@ -40,12 +40,13 @@ export default function VenueImageCarousel({
 		window.addEventListener("keydown", (e) => {
 			if (e.key === "ArrowRight") imageNext(e);
 			if (e.key === "ArrowLeft") imagePrev(e);
+			if (e.key === "Escape") close();
 		});
 		return () => {
 			document.body.style.overflow = "auto";
 			window.removeEventListener("keydown", () => {});
 		};
-	}, [imageNext, imagePrev]);
+	}, [imageNext, imagePrev, close]);
 
 	return (
 		<motion.div
