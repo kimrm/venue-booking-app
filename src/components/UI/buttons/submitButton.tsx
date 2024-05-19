@@ -12,7 +12,7 @@ export default function SubmitButton({
 		<button
 			type="submit"
 			disabled={pending}
-			className={`rounded-lg ${pending && " animate-pulse"} bg-yellow-500 px-4 py-2 hover:bg-yellow-300 ${transition}`}
+			className={`rounded-xl ${pending && " animate-pulse"} bg-yellow-400 px-4 py-2 hover:bg-yellow-300 ${transition}`}
 		>
 			{pending ? "submitting..." : children}
 		</button>
