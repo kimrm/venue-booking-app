@@ -91,7 +91,7 @@ export default function Information({
 				<h2 className="my-3 text-sm font-bold uppercase text-gray-800">
 					Accommodations
 				</h2>
-				<div className="flex gap-5">
+				<div className="flex flex-wrap gap-5">
 					<CheckBox
 						title="Wifi"
 						id="wifi"
@@ -102,7 +102,7 @@ export default function Information({
 								wifi: e.target.checked,
 							}))
 						}
-						checked={registerData?.wifi}
+						checked={registerData?.wifi ?? false}
 					/>
 					<CheckBox
 						title="Parking"
@@ -114,7 +114,7 @@ export default function Information({
 								parking: e.target.checked,
 							}))
 						}
-						checked={registerData?.parking}
+						checked={registerData?.parking ?? false}
 					/>
 					<CheckBox
 						title="Pets"
@@ -126,7 +126,7 @@ export default function Information({
 								pets: e.target.checked,
 							}))
 						}
-						checked={registerData?.pets}
+						checked={registerData?.pets ?? false}
 					/>
 					<CheckBox
 						title="Breakfast"
@@ -138,7 +138,7 @@ export default function Information({
 								breakfast: e.target.checked,
 							}))
 						}
-						checked={registerData?.breakfast}
+						checked={registerData?.breakfast ?? false}
 					/>
 				</div>
 			</div>
