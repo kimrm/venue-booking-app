@@ -18,3 +18,7 @@ This is a booking app made for a student project exam. It is still work in progr
 - Playwright
 - Jest
 - react-datepicker
+
+## Preview
+
+Although this project <strong><em>is not entirely finished</em></strong>, a demo preview can be viewed here: [https://venue-booking-app.vercel.app](https://venue-booking-app.vercel.app)
