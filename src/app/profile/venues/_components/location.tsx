@@ -4,8 +4,7 @@ import Input from "@/components/form/input";
 import MapboxMap from "./mapboxMap";
 import { getContinentByCountry } from "@/utils/locale";
 
-const MAPBOX_TOKEN =
-	"pk.eyJ1Ijoia2ltcm1vIiwiYSI6ImNsdzY4eWZzaDI2a2MybHFzb2k2Ym1sb3IifQ.OrBXHf0mXYOFDIWjguTikQ";
+const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
 interface LatLng {
 	latitude: number;
