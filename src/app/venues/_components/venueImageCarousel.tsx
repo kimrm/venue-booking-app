@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -23,7 +25,7 @@ export default function VenueImageCarousel({
 			const length = venue.media?.length ?? 0;
 			setCurrentImageIndex((prev) => (prev + 1) % length);
 		},
-		[venue]
+		[venue, setCurrentImageIndex]
 	);
 
 	const imagePrev = useCallback(
@@ -32,21 +34,27 @@ export default function VenueImageCarousel({
 			const length = venue.media?.length ?? 0;
 			setCurrentImageIndex((prev) => (prev - 1 + length) % length);
 		},
-		[venue.media]
+		[venue.media, setCurrentImageIndex]
+	);
+
+	const handleKeyDown = useCallback(
+		(e: KeyboardEvent) => {
+			e.preventDefault();
+			if (e.key === "ArrowRight") imageNext(e);
+			if (e.key === "ArrowLeft") imagePrev(e);
+			if (e.key === "Escape") close();
+		},
+		[imageNext, imagePrev, close]
 	);
 
 	useEffect(() => {
 		document.body.style.overflow = "hidden";
-		window.addEventListener("keydown", (e) => {
-			if (e.key === "ArrowRight") imageNext(e);
-			if (e.key === "ArrowLeft") imagePrev(e);
-			if (e.key === "Escape") close();
-		});
+		window.addEventListener("keydown", handleKeyDown);
 		return () => {
 			document.body.style.overflow = "auto";
-			window.removeEventListener("keydown", () => {});
+			window.removeEventListener("keydown", handleKeyDown);
 		};
-	}, [imageNext, imagePrev, close]);
+	}, [handleKeyDown]);
 
 	return (
 		<motion.div
@@ -56,9 +64,19 @@ export default function VenueImageCarousel({
 			className="fixed left-0 top-0 z-50 flex h-full max-h-screen w-screen justify-center bg-black bg-opacity-90"
 			onClick={close}
 		>
+			<div className="absolute left-0 right-0 top-2 z-50 mx-auto flex w-fit gap-2">
+				{venue.media &&
+					venue.media.length > 1 &&
+					venue.media.map((media, index) => (
+						<div
+							key={index}
+							className={`h-4 w-4 rounded-full border border-black ${index === currentImageIndex ? "bg-yellow-500" : "bg-yellow-100"}`}
+						></div>
+					))}
+			</div>
 			<button
 				onClick={close}
-				className="absolute left-0 right-0 top-2 z-30 mx-auto flex w-fit items-center gap-2 rounded border bg-white bg-opacity-80 px-4 py-2 font-bold"
+				className="absolute right-2 top-2 z-30 mx-auto flex w-fit items-center gap-2 rounded border bg-white bg-opacity-80 px-4 py-2 font-bold"
 			>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"

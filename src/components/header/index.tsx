@@ -8,7 +8,7 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import Menu from "./menu";
-import router from "next/router";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
 	const { setSearchModalOpen } = useContext(UiContext) || {};
@@ -17,6 +17,12 @@ export default function Header() {
 	const [toastVisible, setToastVisible] = useState(false);
 	const [toastMessage, setToastMessage] = useState<string | null>("");
 	const [menuOpen, setMenuOpen] = useState(false);
+	const router = useRouter();
+
+	function handleSearchClick() {
+		setSearchModalOpen?.(true);
+		router.push("/search");
+	}
 
 	useEffect(() => {
 		if (searchParams?.get("toast")) {
@@ -47,12 +53,6 @@ export default function Header() {
 		return () => clearTimeout(timeout);
 	}, [toastMessage, toastVisible]);
 
-	function searchClickHandler() {
-		if (setSearchModalOpen) {
-			setSearchModalOpen(true);
-		}
-	}
-
 	return (
 		<header className="container mx-auto px-4 py-6 md:px-0">
 			<AnimatePresence>
@@ -79,7 +79,7 @@ export default function Header() {
 						Holidation
 					</Link>
 					<button
-						onClick={searchClickHandler}
+						onClick={handleSearchClick}
 						title="Search for your next holiday"
 						className="flex w-full items-center gap-3 rounded-lg border border-white bg-gradient-to-r from-yellow-50 to-offwhite px-3 py-2 text-gray-500 transition-all duration-500 hover:border-orange-400"
 					>
