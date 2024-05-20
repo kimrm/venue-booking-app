@@ -10,7 +10,6 @@ import fetcher from "@/utils/fetcher";
 import Link from "next/link";
 import VenueItemSkeleton from "@/components/loaders/VenueItemSkeleton";
 import VenuesGridSkeleton from "@/components/loaders/VenuesGridSkeleton";
-import FeaturedVenues from "@/components/venues/featured";
 
 interface VenueData {
 	data: Venue[];
@@ -26,9 +25,18 @@ interface VenueData {
 }
 
 interface Filters {
+	lat: number;
+	lng: number;
+	search: string;
+	city: string;
+	country: string;
 	continent: string;
-	guests: string;
-	maxPrice: string;
+	minGuests: number;
+	maxPrice: number;
+	wifi: string | null;
+	parking: string | null;
+	breakfast: string | null;
+	pets: number | null;
 }
 
 const getKey = (
@@ -39,33 +47,26 @@ const getKey = (
 	if (previousPageData && previousPageData.meta.isLastPage) return null;
 
 	const query = new URLSearchParams(
-		`page=${pageIndex + 1}&continent=${filters.continent}&guests=${
-			filters.guests
-		}&max_price=${filters.maxPrice}`
+		`page=${pageIndex + 1}&search=${filters.search}&continent=${filters.continent}&guests=${
+			filters.minGuests
+		}&max_price=${filters.maxPrice}&city=${filters.city}&country=${filters.country}&continent=${filters.continent}&wifi=${filters.wifi}&parking=${filters.parking}&breakfast=${filters.breakfast}&pets=${filters.pets}`
 	).toString();
 
 	return `/api/venues?${query}`;
 };
 
-export default function List() {
+export default function List({ filters }: { filters: Filters }) {
 	const { profile } =
 		useContext<UserContextType | undefined>(UserContext) || {};
 
 	const [isFetching, setIsFetching] = useState(false);
 	const [infiniteScrollEnabled, setInfiniteScrollEnabled] = useState(false);
-	const [continent, setContinent] = useState<string>("");
-	const [guests, setGuests] = useState<string>("");
-	const [maxPrice, setMaxPrice] = useState<string>("");
 	const [routeLoading, setRouteLoading] = useState<boolean>(false);
 
 	const { data, size, setSize, error, isValidating, isLoading } =
 		useSWRInfinite<VenueData>(
 			(pageIndex, previousPageData) =>
-				getKey(pageIndex, previousPageData, {
-					continent,
-					guests,
-					maxPrice,
-				}),
+				getKey(pageIndex, previousPageData, filters),
 			fetcher
 		);
 
