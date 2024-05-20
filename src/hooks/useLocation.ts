@@ -1,17 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 export default function useLocation() {
-	const [userLocation, setUserLocation] = useState<string | null>(null);
+	const [userLocation, setUserLocation] = useState<any>({
+		lat: 0,
+		lng: 0,
+	});
 
-	useEffect(() => {
+	function getLocation() {
 		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition((position) => {
-				setUserLocation(
-					`${position.coords.latitude},${position.coords.longitude}`
-				);
+				setUserLocation({
+					lat: position.coords.latitude,
+					lng: position.coords.longitude,
+				});
 			});
 		}
-	}, []);
+	}
 
-	return { userLocation };
+	return { userLocation, getLocation };
 }
