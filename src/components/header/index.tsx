@@ -146,7 +146,7 @@ export default function Header() {
 						) : (
 							<li>
 								<Link
-									href="/profile/venue/register"
+									href="/profile/become-venue-manager"
 									className="block whitespace-nowrap transition-colors duration-300 hover:text-orange-400"
 								>
 									Add your venue
