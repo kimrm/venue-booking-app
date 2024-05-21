@@ -32,8 +32,28 @@ export default function SearchModal({
 	const router = useRouter();
 	const [userLocation, setUserLocation] = useState<any | null>(null);
 	const [locationLoading, setLocationLoading] = useState(false);
-	const [userLocationFilter, setUserLocationFilter] = useState(true);
+	const [userLocationFilter, setUserLocationFilter] = useState(false);
 	const [nearLocation, setNearLocation] = useState("");
+
+	useEffect(() => {
+		if (userLocationFilter) {
+			setLocalFilters((prev) => {
+				return {
+					...prev,
+					lat: userLocation.latitude,
+					lng: userLocation.longitude,
+				};
+			});
+		} else {
+			setLocalFilters((prev) => {
+				return {
+					...prev,
+					lat: 0,
+					lng: 0,
+				};
+			});
+		}
+	}, [userLocationFilter, userLocation]);
 
 	function updateFilters() {
 		setFilters((prev: any) => {
@@ -90,6 +110,7 @@ export default function SearchModal({
 			};
 			fetchLocationInfo(userLocation.latitude, userLocation.longitude);
 			setLocationLoading(false);
+			setUserLocationFilter(true);
 		}
 		console.log("User location updated:", userLocation);
 	}, [userLocation]);
@@ -154,6 +175,7 @@ export default function SearchModal({
 										value="1"
 										checked={userLocationFilter}
 										onChange={() => setUserLocationFilter(!userLocationFilter)}
+										onBlur={updateFilters}
 									/>
 								</div>
 							)}
