@@ -2,7 +2,7 @@
 
 import { NoroffAPIRequest } from "@/types/Request";
 import { API_URL } from "@/vars/api";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 
 function createUniqueKeysToMediaArray(data: any) {
@@ -132,6 +132,8 @@ export async function create(prevState: any, formData: FormData) {
 	}
 	const data = await response.json();
 
+	revalidateTag("venues");
+
 	return { data: data, status: "ok" };
 }
 
@@ -158,8 +160,8 @@ export async function update(prevState: any, formData: FormData) {
 			zip: formData.get("zip") as string,
 			country: formData.get("country") as string,
 			continent: formData.get("continent") as string,
-			lat: parseInt((formData.get("lat") as string) || "0"),
-			long: parseInt((formData.get("long") as string) || "0"),
+			lat: parseFloat((formData.get("lat") as string) || "0"),
+			lng: parseFloat((formData.get("lng") as string) || "0"),
 		},
 		media: JSON.parse(formData.get("media") as string),
 	};
