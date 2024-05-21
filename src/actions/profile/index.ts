@@ -1,3 +1,4 @@
+"use server";
 import { cookies } from "next/headers";
 import { NoroffAPIRequest, ProfileRequestBody } from "@/types/Request";
 import { API_URL } from "@/vars/api";
