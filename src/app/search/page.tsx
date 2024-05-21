@@ -23,7 +23,7 @@ export default function SearchPage() {
 	});
 
 	useEffect(() => {
-		console.log(filters);
+		console.log("Filters search: ", filters);
 	}, [filters]);
 
 	function handleModalClose() {
