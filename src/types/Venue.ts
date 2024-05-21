@@ -25,7 +25,7 @@ interface Venue {
 		country?: string;
 		continent?: string;
 		lat?: number;
-		long?: number;
+		lng?: number;
 	};
 	owner?: {
 		name: string;
