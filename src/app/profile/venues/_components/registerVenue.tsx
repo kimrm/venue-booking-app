@@ -2,17 +2,12 @@
 
 import { create } from "@/actions/venues";
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { useFormStatus, useFormState } from "react-dom";
+import { useFormState } from "react-dom";
 import VenueRegisterData from "@/types/VenueRegisterData";
 import Information from "./information";
 import AddImages from "./addImages";
 import Location from "./location";
-import {
-	CancelButton,
-	ConfirmButton,
-	SubmitButton,
-} from "@/components/UI/buttons";
+import { SubmitButton } from "@/components/UI/buttons";
 
 const initialState = {
 	status: "",
