@@ -5,6 +5,17 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { update } from "@/actions/venues";
 import { useFormStatus, useFormState } from "react-dom";
+import { Input, TextArea } from "@/components/form";
+import { SubmitButton } from "@/components/UI/buttons";
+import MapboxMap from "@/app/profile/venues/_components/mapboxMap";
+import { getContinentByCountry } from "@/utils/locale";
+
+const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAP_KEY;
+
+interface LatLng {
+	latitude: number;
+	longitude: number;
+}
 
 interface Props {
 	venue: Venue;
@@ -25,6 +36,45 @@ export default function Edit({ venue }: Props) {
 	const [state, formAction] = useFormState(update, initialState);
 	const { pending } = useFormStatus();
 	const [toastVisible, setToastVisible] = useState(false);
+	const [location, setLocation] = useState<LatLng>({
+		latitude: venue.location?.lat ?? 0,
+		longitude: venue.location?.lng ?? 0,
+	});
+	const [countryFromLocation, setCountryFromLocation] = useState("");
+	const [addressFromLocation, setAddressFromLocation] = useState("");
+	const [cityFromLocation, setCityFromLocation] = useState("");
+	const [continentFromLocation, setContinentFromLocation] = useState("");
+
+	useEffect(() => {
+		if (location.latitude !== 0 && location.longitude !== 0) {
+			const fetchLocationInfo = async (latitude: number, longitude: number) => {
+				const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=${MAPBOX_TOKEN}`;
+				try {
+					const response = await fetch(url);
+					const data = await response.json();
+					const features = data.features;
+					const country = features.find((feature: any) =>
+						feature.place_type.includes("country")
+					);
+					const address = features.find((feature: any) =>
+						feature.place_type.includes("address")
+					);
+					const city = features.find((feature: any) =>
+						feature.place_type.includes("place")
+					);
+
+					setCountryFromLocation(country?.text ?? "");
+					setAddressFromLocation(address?.text ?? "");
+					setCityFromLocation(city?.text ?? "");
+					const continent = getContinentByCountry(country?.text ?? "");
+					setContinentFromLocation(continent ?? "");
+				} catch (error) {
+					return undefined;
+				}
+			};
+			fetchLocationInfo(location.latitude, location.longitude);
+		}
+	}, [location]);
 
 	function handleNewImageChange(e: React.ChangeEvent<HTMLInputElement>) {
 		setNewImageUrl(e.target.value);
@@ -80,8 +130,9 @@ export default function Edit({ venue }: Props) {
 							className="mx-auto rounded-3xl bg-offwhite px-6 py-4"
 						>
 							<h2 className="text-xl font-bold">Add Image</h2>
-							<input
+							<Input
 								type="url"
+								title="Image URL"
 								placeholder="Image URL"
 								value={newImageUrl}
 								onChange={handleNewImageChange}
@@ -105,61 +156,38 @@ export default function Edit({ venue }: Props) {
 
 				<h2 className="mb-5 text-xl font-bold">Edit venue</h2>
 				<div className="mb-5">
-					<label
-						htmlFor="name"
-						className="block text-sm uppercase tracking-wide"
-					>
-						Name
-					</label>
-					<input
+					<Input
 						type="text"
 						id="name"
 						name="name"
-						className="w-full rounded border border-gray-300 p-2"
+						title="Name"
 						defaultValue={venue?.name}
 					/>
 				</div>
 				<div className="mb-5">
-					<label
-						htmlFor="description"
-						className="block text-sm uppercase tracking-wide"
-					>
-						Description
-					</label>
-					<textarea
+					<TextArea
 						id="description"
 						name="description"
-						className="w-full rounded border border-gray-300 p-2"
+						title="Description"
 						defaultValue={venue?.description}
 					/>
 				</div>
 				<div className="mb-5">
-					<label
-						htmlFor="price"
-						className="block text-sm uppercase tracking-wide"
-					>
-						Price per Day
-					</label>
-					<input
-						type="text"
+					<Input
+						type="number"
 						id="price"
 						name="price"
+						title="Price per day"
 						className="w-full rounded border border-gray-300 p-2"
 						defaultValue={venue?.price}
 					/>
 				</div>
 				<div className="mb-5">
-					<label
-						htmlFor="maxGuests"
-						className="block text-sm uppercase tracking-wide"
-					>
-						Max guests
-					</label>
-					<input
-						type="text"
+					<Input
+						type="number"
 						id="maxGuests"
 						name="maxGuests"
-						className="w-full rounded border border-gray-300 p-2"
+						title="Max guests"
 						defaultValue={venue?.maxGuests}
 					/>
 				</div>
@@ -214,6 +242,52 @@ export default function Edit({ venue }: Props) {
 						</div>
 					</div>
 				</div>
+				<h2 className="mt-5 text-xl font-bold">Location</h2>
+
+				<div className="my-3 h-96">
+					<MapboxMap location={location} setLocation={setLocation} />
+				</div>
+				<Input
+					type="text"
+					id="address"
+					name="address"
+					title="Address"
+					defaultValue={
+						addressFromLocation ? addressFromLocation : venue?.location?.address
+					}
+				/>
+				<Input
+					type="text"
+					id="city"
+					name="city"
+					title="City"
+					defaultValue={
+						cityFromLocation ? cityFromLocation : venue?.location?.city
+					}
+				/>
+				<Input
+					type="text"
+					id="country"
+					name="country"
+					title="Country"
+					defaultValue={
+						countryFromLocation ? countryFromLocation : venue?.location?.country
+					}
+				/>
+				<Input
+					type="text"
+					id="continent"
+					name="continent"
+					title="Continent"
+					defaultValue={
+						continentFromLocation
+							? continentFromLocation
+							: venue?.location?.continent
+					}
+				/>
+				<input type="hidden" name="lat" defaultValue={location.latitude} />
+				<input type="hidden" name="lng" defaultValue={location.longitude} />
+
 				<div className="mb-5">
 					<span className="block text-sm uppercase tracking-wide">Images</span>
 					<div className="flex flex-wrap gap-5">
@@ -252,7 +326,7 @@ export default function Edit({ venue }: Props) {
 					</div>
 				</div>
 				<div>
-					<SaveButton />
+					<SubmitButton>Save</SubmitButton>
 				</div>
 				<input
 					type="hidden"
@@ -262,18 +336,5 @@ export default function Edit({ venue }: Props) {
 				<input type="hidden" name="id" value={venue?.id} />
 			</form>
 		</>
-	);
-}
-
-function SaveButton() {
-	const { pending } = useFormStatus();
-	return (
-		<button
-			type="submit"
-			className={`rounded ${pending ? "bg-gray-600 text-gray-100" : "bg-blue-500 text-white"} px-4 py-2`}
-			disabled={pending}
-		>
-			{pending ? "Saving..." : "Save"}
-		</button>
 	);
 }
