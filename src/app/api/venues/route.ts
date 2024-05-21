@@ -14,6 +14,7 @@ async function getPage(limit: number, page: number, search: string = "") {
 	const response = await fetch(
 		`${url}sort=updated&sortOrder=desc&limit=${limit}&page=${page}`,
 		<NoroffAPIRequest>{
+			next: { tags: ["venues"] },
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
