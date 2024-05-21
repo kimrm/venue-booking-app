@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useLogout } from "@/hooks/api/useLogout";
 
 export default function LogOut() {
