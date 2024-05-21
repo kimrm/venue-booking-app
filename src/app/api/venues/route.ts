@@ -9,6 +9,8 @@ async function getPage(limit: number, page: number, search: string = "") {
 			? `${API_URL}/venues/search?q=${search}&`
 			: `${API_URL}/venues?`;
 
+	console.log(url);
+
 	const response = await fetch(
 		`${url}sort=updated&sortOrder=desc&limit=${limit}&page=${page}`,
 		<NoroffAPIRequest>{
@@ -24,6 +26,7 @@ async function getPage(limit: number, page: number, search: string = "") {
 }
 
 export async function GET(request: NextRequest) {
+	const nearByRadius = 100;
 	const limit = 50;
 	const searchParams = request.nextUrl.searchParams;
 	let requestedPage: string = searchParams.get("page") ?? "1";
@@ -37,6 +40,8 @@ export async function GET(request: NextRequest) {
 	const parking: string = searchParams.get("parking") as string;
 	const breakfast: string = searchParams.get("breakfast") as string;
 	const pets: string = searchParams.get("pets") as string;
+	const lat: string = searchParams.get("lat") as string;
+	const lng: string = searchParams.get("lng") as string;
 
 	const hasFilter =
 		guests ||
@@ -47,7 +52,9 @@ export async function GET(request: NextRequest) {
 		wifi ||
 		parking ||
 		breakfast ||
-		pets
+		pets ||
+		lat !== "0" ||
+		lng !== "0"
 			? true
 			: false;
 
@@ -105,6 +112,25 @@ export async function GET(request: NextRequest) {
 			if (pets === "1") {
 				filtered = filtered.filter((venue: Venue) => venue.meta.pets === true);
 			}
+			if (lat !== "0" && lng !== "0") {
+				console.log("Filtering by location");
+				filtered = filtered.filter((venue: Venue) => {
+					const distance = haversineDistance(
+						parseFloat(lat),
+						parseFloat(lng),
+						venue.location.lat ?? 0,
+						venue.location.lng ?? 0
+					);
+					if (venue.id === "50323db2-a1be-48d8-9c8c-cd2dcc615452") {
+						console.log("Distance: ", distance);
+						console.log("Venue lat: ", venue.location.lat);
+						console.log("Venue long: ", venue.location.lng);
+						console.log("User lat: ", lat);
+						console.log("User long: ", lng);
+					}
+					return distance <= nearByRadius;
+				});
+			}
 			repository.push(filtered);
 			totalCount += filtered.length;
 		} else {
@@ -152,4 +178,27 @@ export async function GET(request: NextRequest) {
 	};
 
 	return Response.json(responseObject, { status: 200 });
+}
+
+function toRadians(degrees: number): number {
+	return degrees * (Math.PI / 180);
+}
+
+function haversineDistance(
+	lat1: number,
+	lon1: number,
+	lat2: number,
+	lon2: number
+): number {
+	const R = 6371; // Radius of the Earth in kilometers
+	const dLat = toRadians(lat2 - lat1);
+	const dLon = toRadians(lon2 - lon1);
+	const a =
+		Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+		Math.cos(toRadians(lat1)) *
+			Math.cos(toRadians(lat2)) *
+			Math.sin(dLon / 2) *
+			Math.sin(dLon / 2);
+	const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+	return R * c; // Distance in kilometers
 }
