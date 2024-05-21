@@ -1,11 +1,21 @@
 import React from "react";
-import RegisterVenue from "./_components/registerVenue";
 import { getVenuesForProfile } from "@/actions/venues";
+import { getProfile } from "@/actions/profile";
+import UserProfile from "@/types/UserProfile";
 import Venue from "@/types/Venue";
 import Link from "next/link";
 
 export default async function page() {
+	const profile: UserProfile = await getProfile();
 	const venues: Venue[] = await getVenuesForProfile();
+
+	if (!profile.venueManager) {
+		return (
+			<span className="text-red-500">
+				You are not registered as a venue mananger!
+			</span>
+		);
+	}
 	return (
 		<>
 			<div>
