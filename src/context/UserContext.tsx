@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useEffect, useMemo, useState } from "react";
+import { createContext, useMemo, useState } from "react";
 import UserProfile from "@/types/UserProfile";
 
 export interface UserContextType {
