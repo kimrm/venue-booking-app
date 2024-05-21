@@ -1,4 +1,7 @@
 export type NoroffAPIRequest = {
+	next?: {
+		tags?: string[];
+	};
 	method: string;
 	headers?: {
 		"Content-Type"?: string;
