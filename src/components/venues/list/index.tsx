@@ -49,7 +49,7 @@ const getKey = (
 	const query = new URLSearchParams(
 		`page=${pageIndex + 1}&search=${filters.search}&continent=${filters.continent}&guests=${
 			filters.minGuests
-		}&max_price=${filters.maxPrice}&city=${filters.city}&country=${filters.country}&continent=${filters.continent}&wifi=${filters.wifi}&parking=${filters.parking}&breakfast=${filters.breakfast}&pets=${filters.pets}`
+		}&max_price=${filters.maxPrice}&city=${filters.city}&country=${filters.country}&continent=${filters.continent}&wifi=${filters.wifi}&parking=${filters.parking}&breakfast=${filters.breakfast}&pets=${filters.pets}&lat=${filters.lat}&lng=${filters.lng}`
 	).toString();
 
 	return `/api/venues?${query}`;
