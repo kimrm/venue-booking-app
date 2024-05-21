@@ -13,7 +13,7 @@ export default function SubmitButton({
 	return (
 		<button
 			disabled={disabled}
-			className="mt-4 rounded-lg bg-yellow-300 px-4 py-2 font-bold text-yellow-950 hover:bg-yellow-400 disabled:text-gray-500"
+			className="mt-4 rounded-lg bg-yellow-300 px-4 py-2 font-bold text-yellow-950 hover:bg-yellow-400 disabled:bg-gray-200 disabled:text-gray-500"
 		>
 			{pending ? pendingText : defaultText}
 		</button>
