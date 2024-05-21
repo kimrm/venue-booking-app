@@ -137,7 +137,7 @@ export default function Header() {
 						profile?.venueManager ? (
 							<li>
 								<Link
-									href="/admin"
+									href="/profile/venues"
 									className="block whitespace-nowrap  transition-colors duration-300 hover:text-orange-400"
 								>
 									Manage Venues
