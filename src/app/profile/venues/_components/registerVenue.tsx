@@ -20,20 +20,14 @@ export default function RegisterVenue() {
 		VenueRegisterData | undefined
 	>();
 	const [tab, setTab] = useState(0);
-	const [errors, setErrors] = useState({});
-	const [isSuccess, setIsSuccess] = useState(false);
+	const [errors, setErrors] = useState<any | undefined>(undefined);
 
 	useEffect(() => {
-		if (registerData) {
-			console.log(registerData);
-		}
-	}, [registerData]);
-
-	useEffect(() => {
-		console.log(state);
 		if (state?.status === "ok") {
-			setIsSuccess(true);
-			setRegisterData({});
+			const id = state.data.id;
+			if (window) {
+				window.location.href = `/profile/venues/${id}`;
+			}
 		}
 		state?.errors && setErrors(state.errors);
 	}, [state]);
@@ -48,12 +42,9 @@ export default function RegisterVenue() {
 					Renting out your venue on Holidation is easy. Just register and people
 					from around the world can book it.
 				</p>
-				{isSuccess && (
-					<div className="my-3 border-l-8 border-green-700 bg-green-100 p-4">
-						<h1 className="text-xs font-bold uppercase tracking-wider">
-							Venue Registered
-						</h1>
-						<p className="my-2">Your venue has been successfully registered!</p>
+				{errors && (
+					<div className="my-3 border-l-8 border-red-600 bg-red-100 p-4 text-red-500">
+						You have errors in your form. Please check all fields for errors.
 					</div>
 				)}
 				<div className="rounded bg-gray-50">
