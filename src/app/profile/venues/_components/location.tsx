@@ -159,7 +159,7 @@ export default function Location({
 			/>
 			<Input
 				title="Latitude"
-				type="number"
+				type="string"
 				id="lat"
 				name="lat"
 				min="-90"
@@ -174,7 +174,7 @@ export default function Location({
 			/>
 			<Input
 				title="Longitude"
-				type="number"
+				type="string"
 				id="lng"
 				name="lng"
 				min="-180"
