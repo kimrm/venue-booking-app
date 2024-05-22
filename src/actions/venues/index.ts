@@ -4,6 +4,7 @@ import { NoroffAPIRequest } from "@/types/Request";
 import { API_URL } from "@/vars/api";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 function createUniqueKeysToMediaArray(data: any) {
 	return {
@@ -24,6 +25,7 @@ export async function getVenuesForProfile() {
 	const userName = cookies().get("username")?.value;
 
 	const options: NoroffAPIRequest = {
+		next: { tags: ["profile-venues"] },
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json",
@@ -85,9 +87,6 @@ export async function create(prevState: any, formData: FormData) {
 		return { status: "error", errors };
 	}
 
-	const imageArray = formData.getAll("media").map((item) => {
-		return { url: item.toString(), alt: item.toString() };
-	});
 	const requestData = {
 		name: formData.get("name") as string,
 		description: formData.get("description") as string,
@@ -106,8 +105,8 @@ export async function create(prevState: any, formData: FormData) {
 			zip: formData.get("zip") as string,
 			country: formData.get("country") as string,
 			continent: formData.get("continent") as string,
-			lat: parseInt((formData.get("lat") as string) || "0"),
-			long: parseInt((formData.get("long") as string) || "0"),
+			lat: parseFloat((formData.get("lat") as string) || "0"),
+			lng: parseFloat((formData.get("lng") as string) || "0"),
 		},
 		media:
 			formData.getAll("media") &&
@@ -132,9 +131,7 @@ export async function create(prevState: any, formData: FormData) {
 	}
 	const data = await response.json();
 
-	revalidateTag("venues");
-
-	return { data: data, status: "ok" };
+	return { ...prevState, ...data, status: "ok" };
 }
 
 export async function update(prevState: any, formData: FormData) {
@@ -183,4 +180,21 @@ export async function update(prevState: any, formData: FormData) {
 	revalidatePath(`/venues/${id}`);
 
 	return { data: data, status: "ok" };
+}
+
+export async function destroy(id: string) {
+	const accessToken = cookies().get("accesstoken")?.value;
+	const response = await fetch(`${API_URL}/venues/${id}`, {
+		method: "DELETE",
+		headers: {
+			Authorization: `Bearer ${accessToken}`,
+			"X-Noroff-Api-Key": process.env.API_KEY,
+		},
+	} as NoroffAPIRequest);
+	if (!response.ok) {
+		return { status: "error", data: await response.json() };
+	}
+	revalidatePath("/profile/venues");
+	revalidateTag("venues");
+	return { status: "ok" };
 }
