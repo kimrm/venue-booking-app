@@ -21,7 +21,7 @@ export default async function page({ params }: { params: { id: string } }) {
 			<h1 className="mb-2 text-3xl font-bold">{venue?.name}</h1>
 			<div>
 				<span className="text-sm uppercase tracking-wide text-gray-700">
-					ID: {venue?.id}
+					ID: <span className="lowercase">{venue?.id}</span>
 				</span>
 			</div>
 			<VenueUrlPreview venue={venue} />
