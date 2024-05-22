@@ -4,6 +4,7 @@ import { getProfile } from "@/actions/profile";
 import UserProfile from "@/types/UserProfile";
 import Venue from "@/types/Venue";
 import Link from "next/link";
+import { LinkButton } from "@/components/UI/buttons";
 
 export default async function page() {
 	const profile: UserProfile = await getProfile();
@@ -20,8 +21,12 @@ export default async function page() {
 		<>
 			<div>
 				<h2 className="text-xl font-bold uppercase">Venues</h2>
-				<p className="mt-3">Manage your home or venues for rent.</p>
-				<Link href="/profile/venues/register">Register</Link>
+				<p className="my-3">Manage your home or venues for rent.</p>
+				<div className="mb-3">
+					<LinkButton href="/profile/venues/register">
+						Register a venue
+					</LinkButton>
+				</div>
 			</div>
 			<table className="w-full table-auto">
 				<thead className="border-b-2 border-dashed">
