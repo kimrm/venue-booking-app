@@ -1,6 +1,6 @@
 import VenueRegisterData from "@/types/VenueRegisterData";
 import { Input, TextArea, CheckBox } from "@/components/form";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent } from "react";
 
 export default function Information({
 	registerData,
@@ -26,9 +26,7 @@ export default function Information({
 				}
 				value={registerData?.name ?? ""}
 			>
-				{errors.name && (
-					<p className="mb-5 text-sm text-red-500">{errors.name}</p>
-				)}
+				{errors && <p className="mb-3 text-sm text-red-500">{errors.name}</p>}
 			</Input>
 			<TextArea
 				title="Description"
@@ -43,8 +41,8 @@ export default function Information({
 				}
 				value={registerData?.description ?? ""}
 			>
-				{errors.description && (
-					<p className="mb-5 text-sm text-red-500">{errors.description}</p>
+				{errors && (
+					<p className="mb-3 text-sm text-red-500">{errors.description}</p>
 				)}
 			</TextArea>
 			<Input
@@ -63,9 +61,7 @@ export default function Information({
 				}
 				value={registerData?.price ?? ""}
 			>
-				{errors.price && (
-					<p className="mb-5 text-sm text-red-500">{errors.price}</p>
-				)}
+				{errors && <p className="mb-3 text-sm text-red-500">{errors.price}</p>}
 			</Input>
 			<Input
 				title="Max guests"
@@ -83,8 +79,8 @@ export default function Information({
 				}
 				value={registerData?.maxGuests ?? ""}
 			>
-				{errors.maxGuests && (
-					<p className="mb-5 text-sm text-red-500">{errors.maxGuests}</p>
+				{errors && (
+					<p className="mb-3 text-sm text-red-500">{errors.maxGuests}</p>
 				)}
 			</Input>
 			<div>
