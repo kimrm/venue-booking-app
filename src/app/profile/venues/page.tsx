@@ -22,24 +22,24 @@ export default async function page() {
 			<h2 className="text-xl font-bold uppercase">Venues</h2>
 			<p className="my-3">Manage your home or venues for rent.</p>
 
-			<table className="w-full table-auto">
+			<table className="w-full table-auto rounded bg-gray-100">
 				<thead className="border-b-2 border-dashed">
 					<tr>
-						<th className="py-2 text-left">Name</th>
+						<th className="p-2 text-left">Name</th>
 						<th className="text-right">Rating</th>
-						<th className="text-right">Bookings</th>
+						<th className="p-2 text-right">Bookings</th>
 					</tr>
 				</thead>
 				<tbody>
 					{venues.map((venue) => (
 						<tr key={venue.id}>
-							<td className="py-2 text-left">
+							<td className="p-2 text-left">
 								<Link href={`/profile/venues/${venue.id}`}>{venue.name}</Link>
 							</td>
 							<td className="text-right">
 								{venue.rating === 0 ?? venue.rating}
 							</td>
-							<td className="text-right">{venue._count?.bookings}</td>
+							<td className="p-2 text-right">{venue._count?.bookings}</td>
 						</tr>
 					))}
 				</tbody>

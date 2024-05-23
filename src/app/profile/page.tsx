@@ -54,12 +54,12 @@ export default async function ProfilePage() {
 						Upcoming bookings
 					</h3>
 
-					<table className="w-full table-auto">
+					<table className="w-full table-auto rounded bg-gray-100">
 						<thead className="border-b-2 border-dashed">
 							<tr>
-								<th className="py-2 text-left">Venue</th>
+								<th className="p-2 text-left">Venue</th>
 								<th className="text-left">Check in</th>
-								<th className="text-left">Guests</th>
+								<th className="p-2 text-right">Guests</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -72,7 +72,7 @@ export default async function ProfilePage() {
 								)
 								.map((booking) => (
 									<tr key={booking.id}>
-										<td className="py-2 text-left">
+										<td className="p-2 text-left">
 											<Link href={`/venues/${booking.venue.id}`}>
 												{booking.venue.name}
 											</Link>
@@ -84,7 +84,7 @@ export default async function ProfilePage() {
 												day: "numeric",
 											})}
 										</td>
-										<td>{booking.guests}</td>
+										<td className="p-2 text-right">{booking.guests}</td>
 									</tr>
 								))}
 						</tbody>
@@ -93,13 +93,13 @@ export default async function ProfilePage() {
 				<div className="mt-10">
 					<h3 className="mb-1 mt-5 uppercase">Previous bookings</h3>
 
-					<table className="w-full table-auto">
+					<table className="w-full table-auto rounded bg-gray-100">
 						<thead className="border-b-2 border-dashed">
 							<tr>
-								<th className="py-2 text-left">Venue</th>
+								<th className="p-2 text-left">Venue</th>
 								<th className="text-left">Check in</th>
 								<th className="text-left">Guests</th>
-								<th className="text-center">Rate</th>
+								<th className="p-2 text-center">Rate</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -112,7 +112,7 @@ export default async function ProfilePage() {
 								)
 								.map((booking) => (
 									<tr key={booking.id}>
-										<td className="py-2 text-left">
+										<td className="p-2 text-left">
 											<Link href={`/venues/${booking.venue.id}`}>
 												{booking.venue.name}
 											</Link>
@@ -125,7 +125,7 @@ export default async function ProfilePage() {
 											})}
 										</td>
 										<td>{booking.guests}</td>
-										<td>
+										<td className="p-2">
 											<button className="w-full transition-transform hover:scale-110">
 												<svg
 													xmlns="http://www.w3.org/2000/svg"
