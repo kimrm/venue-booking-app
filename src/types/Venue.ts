@@ -3,7 +3,7 @@ interface Venue {
 	name: string;
 	description: string;
 	media?: {
-		id?: number;
+		id?: string;
 		url: string;
 		alt: string;
 	}[];
@@ -43,6 +43,9 @@ interface Venue {
 			guests: number;
 		},
 	];
+	_count?: {
+		bookings?: number;
+	};
 }
 
 export default Venue;
