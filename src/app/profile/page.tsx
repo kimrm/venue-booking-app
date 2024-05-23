@@ -24,33 +24,33 @@ export default async function ProfilePage() {
 
 	return (
 		<div className="w-full">
-			<section id="venues" className="mt-10">
+			<section id="venues" className="my-10">
 				{profile.venueManager && (
 					<>
-						<h2 className="mb-3 border-spacing-2 border-spacing-y-24 border-b border-dashed  border-b-gray-200 pb-2 font-bold uppercase text-gray-700">
+						<h2 className="mb-3 border-spacing-2 border-spacing-y-24 border-b border-dashed border-b-gray-200  pb-2 text-xs font-bold uppercase text-gray-700">
 							My venues
 						</h2>
 						<div className="my-5">
-							<h3 className="mb-3 mt-5 uppercase tracking-widest">
+							<h3 className="mb-1 mt-5 uppercase tracking-widest">
 								Manage your venues
 							</h3>
 							<p className="mb-3">
 								Here you&apos;ll see the venues you manage.
 							</p>
 							<p className="mb-3 text-gray-700">No venues listed.</p>
-							<div className="flex">
+							<div className="flex justify-end">
 								<LinkButton href="/profile/venues">Manage venues</LinkButton>
 							</div>
 						</div>
 					</>
 				)}
 			</section>
-			<section id="bookings" className="mt-10">
-				<h2 className="mb-3 border-spacing-2 border-spacing-y-24 border-b border-dashed  border-b-gray-200 pb-2 font-bold uppercase text-gray-700">
+			<section id="bookings" className="my-10">
+				<h2 className="mb-3 border-spacing-2 border-spacing-y-24 border-b border-dashed border-b-gray-200  pb-2 text-xs font-bold uppercase text-gray-700">
 					Bookings
 				</h2>
 				<div className="my-5">
-					<h3 className="mb-3 mt-5 uppercase tracking-widest">
+					<h3 className="mb-1 mt-5 uppercase tracking-widest">
 						Upcoming bookings
 					</h3>
 
@@ -90,10 +90,8 @@ export default async function ProfilePage() {
 						</tbody>
 					</table>
 				</div>
-				<div className="my-5">
-					<h3 className="mb-3 mt-5 uppercase tracking-widest">
-						Previous bookings
-					</h3>
+				<div className="mt-10">
+					<h3 className="mb-1 mt-5 uppercase">Previous bookings</h3>
 
 					<table className="w-full table-auto">
 						<thead className="border-b-2 border-dashed">
@@ -152,12 +150,12 @@ export default async function ProfilePage() {
 				</div>
 			</section>
 
-			<section id="profile" className="my-20">
-				<h2 className="mb-3 border-spacing-2 border-spacing-y-24 border-b border-dashed  border-b-gray-200 pb-2 font-bold uppercase text-gray-700">
+			<section id="profile" className="my-10">
+				<h2 className="mb-3 border-spacing-2 border-spacing-y-24 border-b border-dashed border-b-gray-200  pb-2 text-xs font-bold uppercase text-gray-700">
 					Edit your profile
 				</h2>
 				<div id="bio" className="my-5">
-					<h3 className="mb-3 mt-5 uppercase tracking-widest">Bio</h3>
+					<h3 className="mb-3 mt-5 uppercase">Bio</h3>
 					<p className="mb-3">Tell people a little bit about yourself.</p>
 					<Bio bioText={profile?.bio} bioChanged={handleBioChange} />
 				</div>
