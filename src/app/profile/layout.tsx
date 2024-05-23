@@ -1,6 +1,6 @@
 import { getProfile } from "@/actions/profile";
 import UserProfile from "@/types/UserProfile";
-import Navigation from "@/components/profile/navigation";
+import Navigation from "./_components/navigation";
 import LogOut from "@/components/profile/logout";
 
 interface Props {
@@ -18,7 +18,7 @@ export default async function Layout({ children }: Props) {
 	}
 	return (
 		<div className="flex">
-			<div className="invisible sticky left-0 top-0 my-2 h-fit w-0 rounded-xl bg-gray-50 md:visible md:mr-24 md:w-52">
+			<div className="invisible sticky left-0 top-0 my-2 h-fit w-0 rounded-xl bg-gray-50 md:visible md:mr-24 md:min-w-52">
 				<Navigation />
 
 				<div className="my-5 w-full border-t border-gray-100 p-2">
