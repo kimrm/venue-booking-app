@@ -1,6 +1,7 @@
 import React from "react";
 import { getById } from "@/actions/venues";
 import Edit from "@/components/profile/venues/edit";
+import EditVenue from "../_components/editVenue";
 import VenueUrlPreview from "@/components/profile/venues/venueUrlPreview";
 import { cookies } from "next/headers";
 
@@ -40,7 +41,7 @@ export default async function page({ params }: { params: { id: string } }) {
 				</div>
 			</div>
 
-			<Edit venue={venue} />
+			<EditVenue venue={venue} />
 		</div>
 	);
 }
