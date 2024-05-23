@@ -22,42 +22,34 @@ export default function Location({
 		latitude: registerData?.lat || 0,
 		longitude: registerData?.lng || 0,
 	});
-	const [locationInfo, setLocationInfo] = useState<{
-		country: string;
-		continent?: string | undefined;
-	}>({
-		country: "",
-		continent: "",
-	});
 
 	useEffect(() => {
-		console.log("is this running?", location.latitude, location.longitude);
-
 		const fetchLocationInfo = async (latitude: number, longitude: number) => {
 			const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=${MAPBOX_TOKEN}`;
 			try {
 				const response = await fetch(url);
 				const data = await response.json();
 				const features = data.features;
-				const countryFeature = features.find((feature: any) =>
+				const country = features.find((feature: any) =>
 					feature.place_type.includes("country")
 				);
-				const addressFeature = features.find((feature: any) =>
+				const address = features.find((feature: any) =>
 					feature.place_type.includes("address")
 				);
-				// console.log("Address feature:", addressFeature);
-				// console.log("Country feature:", countryFeature);
-
-				// setLocationInfo({
-				// 	country: countryFeature ? countryFeature.text : "Unknown",
-				// 	continent: getContinentByCountry(countryFeature.text || "Unknown"),
-				// });
+				const city = features.find((feature: any) =>
+					feature.place_type.includes("place")
+				);
+				const zip = features.find((feature: any) =>
+					feature.place_type.includes("postcode")
+				);
 
 				setRegisterData((prev: VenueRegisterData) => ({
 					...prev,
-					address: addressFeature ? addressFeature.text : "",
-					country: countryFeature ? countryFeature.text : "",
-					continent: getContinentByCountry(countryFeature?.text ?? "") ?? "",
+					address: address ? address.text : "",
+					country: country ? country.text : "",
+					continent: getContinentByCountry(country?.text ?? "") ?? "",
+					city: city ? city.text : "",
+					zip: zip ? zip.text : "",
 				}));
 			} catch (error) {
 				console.error("Error fetching location info:", error);
@@ -73,22 +65,33 @@ export default function Location({
 		}));
 	}, [location, setRegisterData]);
 
-	// useEffect(() => {
-	// 	if (locationInfo) {
-	// 		setRegisterData((prev: VenueRegisterData) => ({
-	// 			...prev,
-	// 			country: locationInfo.country,
-	// 			continent: locationInfo.continent,
-	// 		}));
-	// 		console.log("Location info:", locationInfo);
-	// 	}
-	// }, [locationInfo, setRegisterData]);
-
 	return (
 		<>
-			<div className="mb-5 h-60 text-sm font-bold uppercase text-gray-800">
+			<h2 className="my-3 text-sm font-bold uppercase text-gray-800">
+				Location
+			</h2>
+			<p className="mb-3 flex items-start gap-2 text-green-800">
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					strokeWidth={1.5}
+					stroke="currentColor"
+					className="h-6 w-6"
+				>
+					<path
+						strokeLinecap="round"
+						strokeLinejoin="round"
+						d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"
+					/>
+				</svg>
+				You can set the location from pinning the map.
+			</p>
+
+			<div className="mb-3 h-96 w-full overflow-hidden rounded">
 				<MapboxMap location={location} setLocation={setLocation} />
 			</div>
+
 			<Input
 				title="Address"
 				type="text"
@@ -105,7 +108,7 @@ export default function Location({
 			<div className="flex gap-5">
 				<Input
 					title="Zip"
-					type="number"
+					type="text"
 					id="zip"
 					name="zip"
 					onChange={(e: ChangeEvent<HTMLInputElement>) =>
@@ -157,36 +160,9 @@ export default function Location({
 				}
 				value={registerData?.continent || ""}
 			/>
-			<Input
-				title="Latitude"
-				type="string"
-				id="lat"
-				name="lat"
-				min="-90"
-				max="90"
-				onChange={(e: ChangeEvent<HTMLInputElement>) =>
-					setRegisterData((prev: VenueRegisterData) => ({
-						...prev,
-						lat: parseInt(e.target.value),
-					}))
-				}
-				value={registerData?.lat || 0}
-			/>
-			<Input
-				title="Longitude"
-				type="string"
-				id="lng"
-				name="lng"
-				min="-180"
-				max="180"
-				onChange={(e: ChangeEvent<HTMLInputElement>) =>
-					setRegisterData((prev: VenueRegisterData) => ({
-						...prev,
-						lng: parseInt(e.target.value),
-					}))
-				}
-				value={registerData?.lng || 0}
-			/>
+
+			<input type="hidden" name="lat" value={registerData?.lat || 0} />
+			<input type="hidden" name="lng" value={registerData?.lng || 0} />
 		</>
 	);
 }

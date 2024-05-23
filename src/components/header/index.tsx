@@ -34,6 +34,18 @@ export default function Header() {
 				case "login-successful":
 					setToastMessage("You have been logged in");
 					break;
+				case "register-venue-successful":
+					setToastMessage("Venue registered successfully");
+					if (window) {
+						window.scrollTo({ top: 0, behavior: "instant" });
+					}
+					break;
+				case "delete-venue-successful":
+					setToastMessage("Venue deleted successfully");
+					if (window) {
+						window.scrollTo({ top: 0, behavior: "instant" });
+					}
+					break;
 				default:
 					break;
 			}

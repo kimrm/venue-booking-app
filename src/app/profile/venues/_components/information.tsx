@@ -13,6 +13,9 @@ export default function Information({
 }) {
 	return (
 		<>
+			<h2 className="my-3 text-sm font-bold uppercase text-gray-800">
+				Details
+			</h2>
 			<Input
 				title="Name"
 				type="text"
@@ -45,6 +48,9 @@ export default function Information({
 					<p className="mb-3 text-sm text-red-500">{errors.description}</p>
 				)}
 			</TextArea>
+			<h2 className="my-3 text-sm font-bold uppercase text-gray-800">
+				Conditions
+			</h2>
 			<Input
 				title="Price per night"
 				type="number"
@@ -92,6 +98,7 @@ export default function Information({
 						title="Wifi"
 						id="wifi"
 						name="wifi"
+						value="1"
 						onChange={(e: ChangeEvent<HTMLInputElement>) =>
 							setRegisterData((prev: VenueRegisterData) => ({
 								...prev,
@@ -104,6 +111,7 @@ export default function Information({
 						title="Parking"
 						id="parking"
 						name="parking"
+						value="1"
 						onChange={(e: ChangeEvent<HTMLInputElement>) =>
 							setRegisterData((prev: VenueRegisterData) => ({
 								...prev,
@@ -116,6 +124,7 @@ export default function Information({
 						title="Pets"
 						id="pets"
 						name="pets"
+						value="1"
 						onChange={(e: ChangeEvent<HTMLInputElement>) =>
 							setRegisterData((prev: VenueRegisterData) => ({
 								...prev,
@@ -128,6 +137,7 @@ export default function Information({
 						title="Breakfast"
 						id="breakfast"
 						name="breakfast"
+						value="1"
 						onChange={(e: ChangeEvent<HTMLInputElement>) =>
 							setRegisterData((prev: VenueRegisterData) => ({
 								...prev,

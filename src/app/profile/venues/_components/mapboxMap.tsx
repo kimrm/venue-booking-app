@@ -52,7 +52,6 @@ const MapboxMap: React.FC<MapboxMapProps> = ({ location, setLocation }) => {
 
 	const onMapClick = useCallback(
 		(event: mapboxgl.MapMouseEvent & mapboxgl.EventData) => {
-			console.log("Map clicked", event.lngLat);
 			const { lng, lat } = event.lngLat;
 			setMarker({ longitude: lng, latitude: lat });
 			setLocation({ longitude: lng, latitude: lat });
@@ -75,6 +74,7 @@ const MapboxMap: React.FC<MapboxMapProps> = ({ location, setLocation }) => {
 				</Marker>
 			</MapGL>
 			<button
+				type="button"
 				className="absolute right-2 top-2 rounded-xl bg-white bg-opacity-50 px-4 py-2 shadow-md"
 				onClick={toggleMapStyle}
 			>

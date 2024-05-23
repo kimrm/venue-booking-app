@@ -30,7 +30,6 @@ const schema = z
 
 export async function registerAction(prevState: any, formData: FormData) {
 	const toggleValue = formData.get("toggle") === "on" ? true : false;
-	console.log(toggleValue);
 
 	const validatedFields = schema.safeParse({
 		name: formData.get("name"),
