@@ -16,6 +16,8 @@ export default function Breadcrumbs() {
 				return "bookings";
 			case "venues":
 				return "venues";
+			case "register":
+				return "register";
 			default:
 				return "...";
 		}
@@ -50,10 +52,6 @@ export default function Breadcrumbs() {
 									</svg>
 									{pathname}
 								</span>
-							) : isFirst ? (
-								<Link href={href} className=" hover:text-gray-700">
-									<span className="whitespace-nowrap">{pathname}</span>
-								</Link>
 							) : (
 								<Link href={href} className=" hover:text-gray-700">
 									<span className="whitespace-nowrap">

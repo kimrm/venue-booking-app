@@ -28,11 +28,9 @@ export default async function Layout({ children }: Props) {
 			</div>
 
 			<div className="my-5 w-full md:ml-10">
-				<div className="mb-3">
-					<Breadcrumbs />
-				</div>
-				<h1 className="mb-10 text-sm uppercase tracking-widest md:mb-5">
+				<h1 className="mb-10 flex text-sm uppercase tracking-widest md:mb-5">
 					{profile?.name}
+					<Breadcrumbs />
 				</h1>
 				<div>{children}</div>
 			</div>

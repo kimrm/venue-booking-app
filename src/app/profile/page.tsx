@@ -147,6 +147,9 @@ export default async function ProfilePage() {
 								))}
 						</tbody>
 					</table>
+					<div className="mt-3 flex justify-end">
+						<LinkButton href="/profile/bookings">Manage bookings</LinkButton>
+					</div>
 				</div>
 			</section>
 
