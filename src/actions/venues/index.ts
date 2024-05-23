@@ -4,7 +4,23 @@ import { NoroffAPIRequest } from "@/types/Request";
 import { API_URL } from "@/vars/api";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import { permanentRedirect, redirect } from "next/navigation";
+import { z } from "zod";
+
+const schema = z.object({
+	name: z.string().min(1, "Name is required."),
+	description: z.string().min(1, "Description is required."),
+	price: z
+		.number({ message: "Price must be a number." })
+		.int("Price must be a integer.")
+		.min(0, "Price is required.")
+		.max(10000, "Price can not be more than 10000."),
+	maxGuests: z
+		.number({ message: "Max guests must be a number." })
+		.int("Max guests must be a integer.")
+		.min(1, "Max guests is required.")
+		.max(100, "Max guests can not be more than 100."),
+});
 
 function createUniqueKeysToMediaArray(data: any) {
 	return {
@@ -69,22 +85,22 @@ export async function getById(id: string) {
 export async function create(prevState: any, formData: FormData) {
 	const accessToken = cookies().get("accesstoken")?.value;
 
-	let errors = {};
-	if (formData.get("name") === "") {
-		errors = { ...errors, name: "Name is required" };
-	}
-	if (!formData.get("description")) {
-		errors = { ...errors, description: "Description is required" };
-	}
-	if (!formData.get("maxGuests")) {
-		errors = { ...errors, maxGuests: "Max guests is required" };
-	}
-	if (!formData.get("price")) {
-		errors = { ...errors, price: "Price is required" };
+	if (!accessToken) {
+		redirect("/login");
 	}
 
-	if (Object.keys(errors).length > 0) {
-		return { status: "error", errors };
+	const validatedFields = schema.safeParse({
+		name: formData.get("name"),
+		description: formData.get("description"),
+		price: parseInt(formData.get("price") as string),
+		maxGuests: parseInt(formData.get("maxGuests") as string),
+	});
+
+	if (!validatedFields.success) {
+		return {
+			status: "error",
+			errors: validatedFields.error.flatten().fieldErrors,
+		};
 	}
 
 	const requestData = {
@@ -131,11 +147,32 @@ export async function create(prevState: any, formData: FormData) {
 	}
 	const data = await response.json();
 
-	return { ...prevState, ...data, status: "ok" };
+	revalidateTag("venues");
+	permanentRedirect(
+		`/profile/venues/${data.data.id}?toast=register-venue-successful`
+	);
 }
 
 export async function update(prevState: any, formData: FormData) {
 	const accessToken = cookies().get("accesstoken")?.value;
+
+	if (!accessToken) {
+		redirect("/login");
+	}
+
+	const validatedFields = schema.safeParse({
+		name: formData.get("name"),
+		description: formData.get("description"),
+		price: parseInt(formData.get("price") as string),
+		maxGuests: parseInt(formData.get("maxGuests") as string),
+	});
+
+	if (!validatedFields.success) {
+		return {
+			status: "error",
+			errors: validatedFields.error.flatten().fieldErrors,
+		};
+	}
 
 	const id = formData.get("id") as string;
 
@@ -146,10 +183,10 @@ export async function update(prevState: any, formData: FormData) {
 		price: parseInt(formData.get("price") as string),
 		rating: 0,
 		meta: {
-			wifi: formData.get("wifi") === "on",
-			parking: formData.get("parking") === "on",
-			breakfast: formData.get("breakfast") === "on",
-			pets: formData.get("pets") === "on",
+			wifi: formData.get("wifi") === "1",
+			parking: formData.get("parking") == "1",
+			breakfast: formData.get("breakfast") === "1",
+			pets: formData.get("pets") === "1",
 		},
 		location: {
 			address: formData.get("address") as string,
@@ -160,7 +197,11 @@ export async function update(prevState: any, formData: FormData) {
 			lat: parseFloat((formData.get("lat") as string) || "0"),
 			lng: parseFloat((formData.get("lng") as string) || "0"),
 		},
-		media: JSON.parse(formData.get("media") as string),
+		media:
+			formData.getAll("media") &&
+			formData.getAll("media").map((item) => {
+				return JSON.parse(item.toString());
+			}),
 	};
 
 	const options: NoroffAPIRequest = {
@@ -177,8 +218,6 @@ export async function update(prevState: any, formData: FormData) {
 	const response = await fetch(`${API_URL}/venues/${id}`, options);
 	const data = await response.json();
 
-	revalidatePath(`/venues/${id}`);
-
 	return { data: data, status: "ok" };
 }
 
@@ -191,10 +230,14 @@ export async function destroy(id: string) {
 			"X-Noroff-Api-Key": process.env.API_KEY,
 		},
 	} as NoroffAPIRequest);
-	if (!response.ok) {
-		return { status: "error", data: await response.json() };
+
+	console.log("Response ----------------", response);
+
+	if (response.status === 204) {
+		revalidateTag("venues");
+		revalidatePath("/profile/venues");
+		return { status: "ok", data: {} };
 	}
-	revalidatePath("/profile/venues");
-	revalidateTag("venues");
-	return { status: "ok" };
+
+	return { status: "error", data: {} };
 }
