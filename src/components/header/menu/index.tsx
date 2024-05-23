@@ -5,10 +5,11 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { UserContext } from "@/context/UserContext";
 import LogOut from "@/components/profile/logout";
-import router from "next/router";
+import { usePathname } from "next/navigation";
 
 export default function Menu({ closeMenu }: { closeMenu: () => void }) {
 	const { profile } = useContext(UserContext) || {};
+	const pathname = usePathname();
 
 	useEffect(() => {
 		document.body.classList.add("noscroll");
@@ -51,29 +52,45 @@ export default function Menu({ closeMenu }: { closeMenu: () => void }) {
 				</Link>
 				<div className=" my-24 text-2xl">
 					<ul className="flex flex-col gap-4">
-						<li className="font-bold">
-							<Link href="/" onClick={closeMenu}>
+						<li>
+							<Link
+								className={`block ${pathname === "/" ? "-mx-2 rounded bg-slate-800 p-2 text-slate-50" : "text-slate-300"}`}
+								href="/"
+								onClick={closeMenu}
+							>
 								Home
 							</Link>
 						</li>
 						{profile && (
 							<li>
-								<Link href="/profile/bookings" onClick={closeMenu}>
+								<Link
+									className={`block ${pathname === "/profile" ? "-mx-2 rounded bg-slate-800 p-2 text-slate-50" : "text-slate-300"}`}
+									href="/profile"
+									onClick={closeMenu}
+								>
+									Profile
+								</Link>
+							</li>
+						)}
+						{profile && (
+							<li>
+								<Link
+									className={`block ${pathname === "/profile/bookings" ? "-mx-2 rounded bg-slate-800 p-2 text-slate-50" : "text-slate-300"}`}
+									href="/profile/bookings"
+									onClick={closeMenu}
+								>
 									Bookings
 								</Link>
 							</li>
 						)}
 						{profile && profile.venueManager && (
 							<li>
-								<Link href="/profile/venues" onClick={closeMenu}>
+								<Link
+									className={`block ${pathname === "/profile/venues" ? "-mx-2 rounded bg-slate-800 p-2 text-slate-50" : "text-slate-300"}`}
+									href="/profile/venues"
+									onClick={closeMenu}
+								>
 									Venues
-								</Link>
-							</li>
-						)}
-						{profile && (
-							<li>
-								<Link href="/profile" onClick={closeMenu}>
-									Profile
 								</Link>
 							</li>
 						)}
