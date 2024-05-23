@@ -3,6 +3,7 @@ import { getById } from "@/actions/venues";
 import EditVenue from "../_components/editVenue";
 import VenueUrlPreview from "@/components/profile/venues/venueUrlPreview";
 import { cookies } from "next/headers";
+import { LinkButton } from "@/components/UI/buttons";
 
 async function getVenue(id: string) {
 	const venue = await getById(id);
@@ -39,6 +40,9 @@ export default async function page({ params }: { params: { id: string } }) {
 					{venue?.rating}
 				</div>
 			</div>
+			<LinkButton href={`/profile/venues/${venue.id}/bookings`}>
+				Manage bookings
+			</LinkButton>
 
 			<EditVenue venue={venue} />
 		</div>
