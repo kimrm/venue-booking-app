@@ -5,8 +5,8 @@ interface Booking {
 	dateFrom: string;
 	dateTo: string;
 	guests: number;
-	created?: string;
-	updated?: string;
+	created: string;
+	updated: string;
 	venue?: Venue;
 	customer?: {
 		name: string;
