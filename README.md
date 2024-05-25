@@ -9,6 +9,7 @@ This is a booking app made for a student project exam. It is still work in progr
 - Next.js
 - TypeScript
 - Tailwind
+- Postgres
 
 ## Packages and libraries
 
@@ -18,6 +19,8 @@ This is a booking app made for a student project exam. It is still work in progr
 - Playwright
 - Jest
 - react-datepicker
+- vercel/postgres
+- mapbox
 
 ## Preview
 
