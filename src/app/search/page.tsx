@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useContext, useEffect, use } from "react";
+import { useState, useContext } from "react";
 import SearchModal from "./_components/searchModal";
 import List from "@/components/venues/list";
 import { UiContext } from "@/context/UiContext";
@@ -16,15 +16,11 @@ export default function SearchPage() {
 		continent: "",
 		minGuests: 1,
 		maxPrice: 9999,
-		wifi: null,
-		parking: null,
-		breakfast: null,
-		pets: null,
+		wifi: "",
+		parking: "",
+		breakfast: "",
+		pets: "",
 	});
-
-	useEffect(() => {
-		console.log("Filters search: ", filters);
-	}, [filters]);
 
 	function handleModalClose() {
 		if (setSearchModalOpen) setSearchModalOpen(false);
@@ -32,7 +28,11 @@ export default function SearchPage() {
 	return (
 		<div>
 			{searchModalOpen && (
-				<SearchModal setFilters={setFilters} close={handleModalClose} />
+				<SearchModal
+					filters={filters}
+					setFilters={setFilters}
+					close={handleModalClose}
+				/>
 			)}
 			<h1 className="my-5 font-serif text-2xl">Browse all venues</h1>
 			<List filters={filters} />
