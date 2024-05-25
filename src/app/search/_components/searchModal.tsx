@@ -3,14 +3,20 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Input, CheckBox } from "@/components/form";
 import { useRouter } from "next/navigation";
-import { ActionButton, CancelButton } from "@/components/UI/buttons";
+import {
+	ActionButton,
+	CancelButton,
+	SubmitButton,
+} from "@/components/UI/buttons";
 
 const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAP_KEY;
 
 export default function SearchModal({
+	filters,
 	setFilters,
 	close,
 }: {
+	filters: any;
 	setFilters: Function;
 	close: () => void;
 }) {
@@ -18,16 +24,16 @@ export default function SearchModal({
 	const [localFilters, setLocalFilters] = useState({
 		lat: 0,
 		lng: 0,
-		search: "",
-		city: "",
-		country: "",
-		continent: "",
-		minGuests: 1,
-		maxPrice: 9999,
-		wifi: "",
-		parking: "",
-		breakfast: "",
-		pets: "",
+		search: filters.search ?? "",
+		city: filters.city ?? "",
+		country: filters.country ?? "",
+		continent: filters.continent ?? "",
+		minGuests: filters.minGuests ?? 1,
+		maxPrice: filters.maxPrice ?? 9999,
+		wifi: filters.wifi ?? "",
+		parking: filters.parking ?? "",
+		breakfast: filters.breakfast ?? "",
+		pets: filters.pets ?? "",
 	});
 	const router = useRouter();
 	const [userLocation, setUserLocation] = useState<any | null>(null);
@@ -63,6 +69,13 @@ export default function SearchModal({
 
 	function handleChange(e: ChangeEvent<HTMLInputElement>) {
 		const { name, value } = e.target;
+		if (e.target.type === "checkbox") {
+			setLocalFilters((prev) => {
+				return { ...prev, [name]: e.target.checked };
+			});
+			return;
+		}
+
 		setLocalFilters((prev) => {
 			return { ...prev, [name]: value };
 		});
@@ -112,19 +125,20 @@ export default function SearchModal({
 			setLocationLoading(false);
 			setUserLocationFilter(true);
 		}
-		console.log("User location updated:", userLocation);
 	}, [userLocation]);
-
-	useEffect(() => {
-		console.log("Local filters updated:", localFilters);
-	}, [localFilters]);
 
 	useEffect(() => {
 		searchInput.current?.focus();
 	}, []);
 
+	function handleSubmit(e: any) {
+		e.preventDefault();
+		updateFilters();
+		close();
+	}
+
 	return (
-		<div className="fixed left-0 top-0 z-50 flex h-full max-h-screen w-screen justify-center overflow-scroll bg-black bg-opacity-20 pb-20">
+		<div className="fixed left-0 top-0 z-50 flex h-full max-h-screen w-screen justify-center overflow-scroll bg-black bg-opacity-20 px-5 pb-20">
 			<motion.div
 				initial={{ opacity: 0, scale: 0.5, y: -200 }}
 				animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -134,11 +148,12 @@ export default function SearchModal({
 					Find your next holiday
 				</h2>
 				<section id="searchForm" className="mt-4">
-					<form>
+					<form onSubmit={handleSubmit}>
 						<Input
 							ref={searchInput}
 							onChange={handleChange}
 							onBlur={updateFilters}
+							value={localFilters.search}
 							name="search"
 							id="search"
 							type="text"
@@ -182,21 +197,48 @@ export default function SearchModal({
 						</div>
 
 						<div className="flex flex-wrap gap-2">
-							<Input name="city" type="text" id="city" title="City" />
+							<Input
+								name="city"
+								type="text"
+								id="city"
+								title="City"
+								value={localFilters.city ?? ""}
+								onChange={handleChange}
+								onBlur={updateFilters}
+							/>
 							<Input name="country" type="text" id="country" title="Country" />
 							<Input
 								name="continent"
 								type="text"
 								id="continent"
 								title="Continent"
+								value={localFilters.continent ?? ""}
+								onChange={handleChange}
+								onBlur={updateFilters}
 							/>
 						</div>
 						<h3 className="mb-2 mt-4 text-xs font-bold uppercase tracking-wide">
 							Properties
 						</h3>
 						<div className="flex gap-2">
-							<Input type="number" id="minGuests" title="Min. guests"></Input>
-							<Input type="number" id="maxPrice" title="Max. price"></Input>
+							<Input
+								type="number"
+								id="minGuests"
+								name="minGuests"
+								title="Min. guests"
+								value={localFilters.minGuests}
+								onChange={handleChange}
+								onBlur={updateFilters}
+							></Input>
+							<Input
+								type="number"
+								id="maxPrice"
+								name="maxPrice"
+								title="Max. price"
+								value={localFilters.maxPrice}
+								onChange={handleChange}
+								onBlur={updateFilters}
+							></Input>
 						</div>
 						<h3 className="mb-2 mt-4 text-xs font-bold uppercase tracking-wide">
 							Accommodations
@@ -207,6 +249,7 @@ export default function SearchModal({
 								id="wifi"
 								title="Wifi"
 								value="1"
+								defaultChecked={localFilters.wifi}
 								onChange={handleChange}
 								onBlur={updateFilters}
 							/>
@@ -215,6 +258,7 @@ export default function SearchModal({
 								id="parking"
 								title="Parking"
 								value="1"
+								defaultChecked={localFilters.parking}
 								onChange={handleChange}
 								onBlur={updateFilters}
 							/>
@@ -223,6 +267,7 @@ export default function SearchModal({
 								id="pets"
 								title="Pets"
 								value="1"
+								defaultChecked={localFilters.pets}
 								onChange={handleChange}
 								onBlur={updateFilters}
 							/>
@@ -231,15 +276,16 @@ export default function SearchModal({
 								id="breakfast"
 								title="Breakfast"
 								value="1"
+								defaultChecked={localFilters.breakfast}
 								onChange={handleChange}
 								onBlur={updateFilters}
 							/>
 						</div>
+						<div className="mt-10 flex gap-2">
+							<SubmitButton>Show results</SubmitButton>
+							<CancelButton onClick={() => router.back()}>Cancel</CancelButton>
+						</div>
 					</form>
-					<div className="mt-10 flex gap-2">
-						<ActionButton onClick={close}>Show results</ActionButton>
-						<CancelButton onClick={() => router.back()}>Cancel</CancelButton>
-					</div>
 				</section>
 			</motion.div>
 		</div>
