@@ -11,6 +11,15 @@ interface Props {
 export default async function VenuePage({ params }: Props) {
 	const venue: Venue | any = await getById(params.id);
 
+	if (venue.code === 404) {
+		return (
+			<div className="border-l-4 border-red-500 bg-red-100 p-6 text-red-900">
+				We can&apos;t find this venue right now. It may have been unpublished by
+				its owner.
+			</div>
+		);
+	}
+
 	return (
 		<div>
 			<Header venue={venue} />
