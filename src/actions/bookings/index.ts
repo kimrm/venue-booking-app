@@ -2,6 +2,7 @@
 
 import { NoroffAPIRequest } from "@/types/Request";
 import Booking from "@/types/Booking";
+import Venue from "@/types/Venue";
 import { API_URL } from "@/vars/api";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -10,6 +11,48 @@ import { sql } from "@vercel/postgres";
 interface BookingResponse {
 	data: Booking;
 	meta: any;
+}
+
+interface VenuesResponse {
+	data: Venue[];
+	meta: any;
+}
+
+export async function getAllBookings(): Promise<Booking[]> {
+	const accessToken = cookies().get("accesstoken")?.value;
+	const username = cookies().get("username")?.value;
+
+	if (!accessToken) {
+		redirect("/login");
+	}
+
+	const options: NoroffAPIRequest = {
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+			"X-Noroff-API-Key": process.env.API_KEY,
+			Authorization: `Bearer ${accessToken}`,
+		},
+	};
+
+	const response: Response = await fetch(
+		`${API_URL}/profiles/${username}/venues?_bookings=true&_venues=true`,
+		options
+	);
+	const data: VenuesResponse = await response.json();
+
+	const bookings: Booking[] = data.data
+		.map((venue: Venue) => {
+			return (
+				venue.bookings?.map((booking: Booking) => {
+					booking.venue = venue;
+					return booking;
+				}) ?? []
+			);
+		})
+		.flat();
+
+	return bookings;
 }
 
 export async function getBookingById(id: string): Promise<Booking> {
