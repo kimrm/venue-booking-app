@@ -45,9 +45,9 @@ export default function Navigation() {
 						<li className={`px-4`}>
 							<Link
 								className={`mx-1 block whitespace-nowrap rounded outline-offset-4 outline-yellow-400 ${pathname === "/profile/venues/bookings" ? "text-gray-950" : "text-gray-600"} hover:text-black`}
-								href="/profile/venues/bookings"
+								href="/profile/venues/guests"
 							>
-								Venue bookings
+								Guests
 							</Link>
 						</li>
 					</ul>
