@@ -41,6 +41,16 @@ interface Venue {
 			dateFrom: string;
 			dateTo: string;
 			guests: number;
+			created?: string;
+			updated?: string;
+			customer?: {
+				name: string;
+				email: string;
+				avatar?: {
+					url: string;
+					alt: string;
+				};
+			};
 		},
 	];
 	_count?: {
