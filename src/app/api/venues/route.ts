@@ -12,7 +12,7 @@ async function getPage(limit: number, page: number, search: string = "") {
 	const response = await fetch(
 		`${url}sort=updated&sortOrder=desc&limit=${limit}&page=${page}&_owner=true`,
 		<NoroffAPIRequest>{
-			next: { tags: ["venues"] },
+			next: { tags: ["backend-search"] },
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
@@ -81,6 +81,7 @@ export async function GET(request: NextRequest) {
 					(venue: Venue) =>
 						venue.location.city?.toLowerCase() === city.toLowerCase()
 				);
+				console.log(filtered);
 			}
 			if (continent) {
 				filtered = filtered.filter(
