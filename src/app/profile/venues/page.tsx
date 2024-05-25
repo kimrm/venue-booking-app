@@ -31,14 +31,12 @@ export default async function page() {
 					</tr>
 				</thead>
 				<tbody>
-					{venues.map((venue) => (
-						<tr key={venue.id}>
+					{venues.map((venue, index) => (
+						<tr key={venue.id} className={`${index % 2 === 0 && "bg-white"}`}>
 							<td className="p-2 text-left">
 								<Link href={`/profile/venues/${venue.id}`}>{venue.name}</Link>
 							</td>
-							<td className="text-right">
-								{venue.rating === 0 ?? venue.rating}
-							</td>
+							<td className="text-right">{venue.rating}</td>
 							<td className="p-2 text-right">{venue._count?.bookings}</td>
 						</tr>
 					))}
