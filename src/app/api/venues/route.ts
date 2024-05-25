@@ -9,10 +9,8 @@ async function getPage(limit: number, page: number, search: string = "") {
 			? `${API_URL}/venues/search?q=${search}&`
 			: `${API_URL}/venues?`;
 
-	console.log(url);
-
 	const response = await fetch(
-		`${url}sort=updated&sortOrder=desc&limit=${limit}&page=${page}`,
+		`${url}sort=updated&sortOrder=desc&limit=${limit}&page=${page}&_owner=true`,
 		<NoroffAPIRequest>{
 			next: { tags: ["venues"] },
 			method: "GET",
@@ -31,7 +29,7 @@ export async function GET(request: NextRequest) {
 	const limit = 50;
 	const searchParams = request.nextUrl.searchParams;
 	let requestedPage: string = searchParams.get("page") ?? "1";
-	const search: string = searchParams.get("search") as string;
+	const search: string = (searchParams.get("search") as string) ?? "";
 	const guests: string = searchParams.get("guests") as string;
 	const maxPrice: string = searchParams.get("max_price") as string;
 	const city: string = searchParams.get("city") as string;
@@ -41,8 +39,8 @@ export async function GET(request: NextRequest) {
 	const parking: string = searchParams.get("parking") as string;
 	const breakfast: string = searchParams.get("breakfast") as string;
 	const pets: string = searchParams.get("pets") as string;
-	const lat: string = searchParams.get("lat") as string;
-	const lng: string = searchParams.get("lng") as string;
+	const lat: string = (searchParams.get("lat") as string) ?? "0";
+	const lng: string = (searchParams.get("lng") as string) ?? "0";
 
 	const hasFilter =
 		guests ||
