@@ -26,7 +26,7 @@ function createUniqueKeysToMediaArray(data: any) {
 	return {
 		data: {
 			...data.data,
-			media: data.data.media.map((item: any, index: number) => {
+			media: data.data.media?.map((item: any, index: number) => {
 				return {
 					...item,
 					id: index + 1,
@@ -75,6 +75,15 @@ export async function getById(id: string) {
 		`${API_URL}/venues/${id}?_owner=true&_bookings=true`,
 		options
 	);
+
+	if (!response.ok) {
+		return {
+			status: "error",
+			code: response.status,
+			data: await response.json(),
+		};
+	}
+
 	const data = await response.json();
 
 	const processedData = createUniqueKeysToMediaArray(data);
