@@ -1,9 +1,8 @@
 import fetcher from "@/utils/fetcher";
 import Venue from "@/types/Venue";
 import { API_URL } from "@/vars/api";
-import Image from "next/image";
-import Link from "next/link";
 import Item from "./item";
+import ListingCard from "../listingCard";
 
 async function getData() {
 	const featuredVenueIds = [
@@ -13,7 +12,7 @@ async function getData() {
 	const featuredVenues: Venue[] = [];
 	for (const id of featuredVenueIds) {
 		const venue = await fetcher(
-			`${API_URL}/venues/${id}`,
+			`${API_URL}/venues/${id}?_owner=true`,
 			"GET",
 			null,
 			process.env.API_KEY
@@ -24,7 +23,7 @@ async function getData() {
 		featuredVenues[Math.floor(Math.random() * featuredVenues.length)];
 
 	const otherVenues = await fetcher(
-		`${API_URL}/venues?_bookings=true&limit=40`,
+		`${API_URL}/venues?_bookings=true&limit=40&_owner=true`,
 		"GET",
 		null,
 		process.env.API_KEY
@@ -57,32 +56,7 @@ export default async function FeaturedVenues() {
 				</h1>
 				<div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
 					{popularVenues.map((venue) => (
-						<Link
-							key={venue.id}
-							href={`/venues/${venue.id}`}
-							className="rounded-2xl bg-white p-2 outline-gray-200 transition-all duration-300 hover:shadow-lg hover:outline"
-						>
-							{venue.media && venue.media.length > 0 && (
-								<Image
-									src={venue?.media[0].url}
-									alt={venue.media[0].alt}
-									width={1200}
-									height={800}
-									className="h-96 w-full rounded-xl object-cover"
-								/>
-							)}
-							<div className="p-2">
-								<h2 className="text-lg font-bold uppercase text-gray-900">
-									{venue.name}
-								</h2>
-								<p className=" text-gray-900">
-									{venue.description.slice(0, 150)}
-									{venue.description.length > 150 ? " ..." : ""}
-								</p>
-								<p>Rating: {venue.rating}</p>
-								<p>Bookings: {venue.bookings?.length}</p>
-							</div>
-						</Link>
+						<ListingCard key={venue.id} venue={venue} />
 					))}
 				</div>
 			</article>

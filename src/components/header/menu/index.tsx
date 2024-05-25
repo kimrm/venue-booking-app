@@ -84,15 +84,26 @@ export default function Menu({ closeMenu }: { closeMenu: () => void }) {
 							</li>
 						)}
 						{profile && profile.venueManager && (
-							<li>
-								<Link
-									className={`block ${pathname === "/profile/venues" ? "-mx-2 rounded bg-slate-800 p-2 text-slate-50" : "text-slate-300"}`}
-									href="/profile/venues"
-									onClick={closeMenu}
-								>
-									Venues
-								</Link>
-							</li>
+							<>
+								<li>
+									<Link
+										className={`block ${pathname === "/profile/venues" ? "-mx-2 rounded bg-slate-800 p-2 text-slate-50" : "text-slate-300"}`}
+										href="/profile/venues"
+										onClick={closeMenu}
+									>
+										Venues
+									</Link>
+								</li>
+								<li>
+									<Link
+										className={`block ${pathname === "/profile/venues/guests" ? "-mx-2 rounded bg-slate-800 p-2 text-slate-50" : "text-slate-300"}`}
+										href="/profile/venues/guests"
+										onClick={closeMenu}
+									>
+										Guests
+									</Link>
+								</li>
+							</>
 						)}
 						{profile && (
 							<li className="my-10">
