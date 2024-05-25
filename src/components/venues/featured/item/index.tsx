@@ -34,7 +34,7 @@ export default function Item({ venue }: Props) {
 				<motion.div
 					initial={{ opacity: 0, x: 100 }}
 					animate={{ opacity: 1, x: 0, transition: { duration: 0.2 } }}
-					className="flex w-fit flex-col gap-2 rounded bg-yellow-500 p-4 text-sm text-gray-900"
+					className="flex w-fit flex-col gap-2 rounded bg-yellow-300 p-4 text-sm text-gray-900"
 				>
 					{venue.location.city && (
 						<div>
