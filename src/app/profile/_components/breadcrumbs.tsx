@@ -18,6 +18,8 @@ export default function Breadcrumbs() {
 				return "venues";
 			case "register":
 				return "register";
+			case "guests":
+				return "guests";
 			default:
 				return "...";
 		}
