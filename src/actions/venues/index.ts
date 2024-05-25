@@ -222,10 +222,11 @@ export async function update(prevState: any, formData: FormData) {
 		},
 		body: JSON.stringify(requestData),
 	};
-	console.log(options);
 
 	const response = await fetch(`${API_URL}/venues/${id}`, options);
 	const data = await response.json();
+
+	revalidateTag("backend-search");
 
 	return { data: data, status: "ok" };
 }
