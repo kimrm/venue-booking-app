@@ -3,13 +3,11 @@ import Venue from "@/types/Venue";
 import { API_URL } from "@/vars/api";
 import Item from "./item";
 import ListingCard from "../listingCard";
+import { sql } from "@vercel/postgres";
 
 async function getData() {
-	const featuredVenueIds = [
-		"cc3982d5-0b77-4c7b-b6c3-f26fd16502b6",
-		"1dd7b520-a058-438f-a374-f8d85cca95d5",
-		"f8d6b329-49cc-4746-a1da-6caaa02fc89b",
-	];
+	const { rows } = await sql`select venue_id from venue_booking_app_featured`;
+	const featuredVenueIds = rows.map((row: any) => row.venue_id);
 	const featuredVenues: Venue[] = [];
 	for (const id of featuredVenueIds) {
 		const venue = await fetcher(
