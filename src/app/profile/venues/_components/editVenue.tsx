@@ -146,6 +146,11 @@ export default function EditVenue({ venue }: EditVenueProps) {
 								errors.
 							</div>
 						)}
+						{state.status === "ok" && (
+							<div className="my-3 border-l-8 border-green-600 bg-green-100 p-4 text-green-500">
+								Venue updated successfully
+							</div>
+						)}
 					</form>
 				</div>
 			</div>
