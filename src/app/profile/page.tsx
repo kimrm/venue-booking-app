@@ -1,5 +1,7 @@
 import UserProfile from "@/types/UserProfile";
+import Venue from "@/types/Venue";
 import { getProfile, updateProfile } from "@/actions/profile";
+import { getVenuesForProfile } from "@/actions/venues";
 import Bio from "@/components/profile/bio";
 import Avatar from "@/components/profile/avatar";
 import Link from "next/link";
@@ -7,6 +9,7 @@ import { LinkButton } from "@/components/UI/buttons";
 
 export default async function ProfilePage() {
 	const profile: UserProfile = await getProfile();
+	const venues: Venue[] = await getVenuesForProfile();
 
 	async function handleBioChange(bio?: string) {
 		"use server";
@@ -28,17 +31,49 @@ export default async function ProfilePage() {
 				{profile.venueManager && (
 					<>
 						<h2 className="mb-3 border-spacing-2 border-spacing-y-24 border-b border-dashed border-b-gray-200  pb-2 text-xs font-bold uppercase text-gray-700">
-							My venues
+							Your venues
 						</h2>
 						<div className="my-5">
 							<h3 className="mb-1 mt-5 uppercase tracking-widest">
 								Manage your venues
 							</h3>
-							<p className="mb-3">
-								Here you&apos;ll see the venues you manage.
-							</p>
-							<p className="mb-3 text-gray-700">No venues listed.</p>
-							<div className="flex justify-end">
+
+							{venues.length < 0 && (
+								<>
+									<p className="mb-3">
+										Here you&apos;ll see the venues you manage.
+									</p>
+									<p className="mb-3 text-gray-700">No venues listed.</p>
+								</>
+							)}
+							<table className="w-full table-auto rounded bg-gray-100">
+								<thead className="border-b-2 border-dashed">
+									<tr>
+										<th className="p-2 text-left">Name</th>
+										<th className="text-right">Rating</th>
+										<th className="p-2 text-right">Bookings</th>
+									</tr>
+								</thead>
+								<tbody>
+									{venues.map((venue, index) => (
+										<tr
+											key={venue.id}
+											className={`${index % 2 === 0 && "bg-white"}`}
+										>
+											<td className="p-2 text-left">
+												<Link href={`/profile/venues/${venue.id}`}>
+													{venue.name}
+												</Link>
+											</td>
+											<td className="text-right">{venue.rating}</td>
+											<td className="p-2 text-right">
+												{venue._count?.bookings}
+											</td>
+										</tr>
+									))}
+								</tbody>
+							</table>
+							<div className="mt-3 flex justify-end">
 								<LinkButton href="/profile/venues">Manage venues</LinkButton>
 							</div>
 						</div>
@@ -70,8 +105,11 @@ export default async function ProfilePage() {
 										new Date(a.dateFrom).getTime() -
 										new Date(b.dateFrom).getTime()
 								)
-								.map((booking) => (
-									<tr key={booking.id}>
+								.map((booking, index) => (
+									<tr
+										key={booking.id}
+										className={`${index % 2 === 0 && "bg-white"}`}
+									>
 										<td className="p-2 text-left">
 											<Link href={`/venues/${booking.venue.id}`}>
 												{booking.venue.name}
@@ -97,9 +135,8 @@ export default async function ProfilePage() {
 						<thead className="border-b-2 border-dashed">
 							<tr>
 								<th className="p-2 text-left">Venue</th>
-								<th className="text-left">Check in</th>
-								<th className="text-left">Guests</th>
-								<th className="p-2 text-center">Rate</th>
+								<th className="p-2 text-left">Check in</th>
+								<th className="p-2 text-right">Guests</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -110,39 +147,24 @@ export default async function ProfilePage() {
 										new Date(a.dateFrom).getTime() -
 										new Date(b.dateFrom).getTime()
 								)
-								.map((booking) => (
-									<tr key={booking.id}>
+								.map((booking, index) => (
+									<tr
+										key={booking.id}
+										className={`${index % 2 === 0 && "bg-white"}`}
+									>
 										<td className="p-2 text-left">
 											<Link href={`/venues/${booking.venue.id}`}>
 												{booking.venue.name}
 											</Link>
 										</td>
-										<td>
+										<td className="p-2">
 											{new Date(booking.dateFrom).toLocaleDateString("en-US", {
 												year: "numeric",
 												month: "long",
 												day: "numeric",
 											})}
 										</td>
-										<td>{booking.guests}</td>
-										<td className="p-2">
-											<button className="w-full transition-transform hover:scale-110">
-												<svg
-													xmlns="http://www.w3.org/2000/svg"
-													fill="none"
-													viewBox="0 0 24 24"
-													strokeWidth={1.5}
-													stroke="currentColor"
-													className="mx-auto h-6 w-6"
-												>
-													<path
-														strokeLinecap="round"
-														strokeLinejoin="round"
-														d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"
-													/>
-												</svg>
-											</button>
-										</td>
+										<td className="p-2 text-right">{booking.guests}</td>
 									</tr>
 								))}
 						</tbody>
