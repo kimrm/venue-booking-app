@@ -8,6 +8,7 @@ const fetcher = async (
 	token?: string
 ) =>
 	fetch(url, <NoroffAPIRequest>{
+		next: { tags: ["frontend-search"] },
 		method: method || "GET",
 		headers: {
 			"Content-Type": "application/json",
