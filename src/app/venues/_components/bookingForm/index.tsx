@@ -42,6 +42,7 @@ export default function BookingForm({ venue }: { venue: Venue }) {
 	}, [state]);
 
 	useEffect(() => {
+		console.log(bookingState);
 		if (bookingState.success) {
 			setBookingSuccess(true);
 		}
@@ -73,7 +74,6 @@ export default function BookingForm({ venue }: { venue: Venue }) {
 
 	return (
 		<div>
-			<h3 className="mb-3 text-sm font-bold uppercase">Quick booking</h3>
 			<div className="-mx-2 rounded bg-gray-50 p-2">
 				<p className="font-bold">{venue.name}</p>
 				<p>{venue.location?.country ?? ""}</p>
