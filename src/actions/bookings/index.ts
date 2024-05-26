@@ -18,6 +18,11 @@ interface VenuesResponse {
 	meta: any;
 }
 
+interface VenueResponse {
+	data: Venue;
+	meta: any;
+}
+
 export async function getAllBookings(): Promise<Booking[]> {
 	const accessToken = cookies().get("accesstoken")?.value;
 	const username = cookies().get("username")?.value;
@@ -53,6 +58,31 @@ export async function getAllBookings(): Promise<Booking[]> {
 		.flat();
 
 	return bookings;
+}
+
+export async function getBookingsForVenue(id: string): Promise<Booking[]> {
+	const accessToken = cookies().get("accesstoken")?.value;
+
+	if (!accessToken) {
+		redirect("/login");
+	}
+
+	const options: NoroffAPIRequest = {
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+			"X-Noroff-API-Key": process.env.API_KEY,
+			Authorization: `Bearer ${accessToken}`,
+		},
+	};
+
+	const response: Response = await fetch(
+		`${API_URL}/venues/${id}?_customer=true&_owner=true&_bookings=true`,
+		options
+	);
+	const data: VenueResponse = await response.json();
+
+	return <Booking[]>data.data?.bookings;
 }
 
 export async function getBookingById(id: string): Promise<Booking> {
