@@ -48,7 +48,6 @@ export default function Map({ location }: MapProps) {
 	}
 
 	function onMapClick() {
-		console.log("Map clicked");
 		setIsInteractive(!isInteractive); // Toggle interactivity
 	}
 
@@ -77,7 +76,7 @@ export default function Map({ location }: MapProps) {
 	}, [isInteractive]);
 
 	return (
-		<div className="relative h-full w-full">
+		<div className="relative h-full w-full" aria-hidden="true">
 			<MapGL
 				{...viewport}
 				mapStyle={mapStyle}
@@ -92,6 +91,7 @@ export default function Map({ location }: MapProps) {
 				</Marker>
 			</MapGL>
 			<button
+				title="Toggle map style"
 				className="absolute right-2 top-2 rounded-xl bg-white bg-opacity-50 px-4 py-2 shadow-md"
 				onClick={toggleMapStyle}
 			>

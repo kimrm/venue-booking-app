@@ -12,6 +12,8 @@ export default function VenueImage({ venue, expandedClicked }: Props) {
 		<div>
 			<div className="relative">
 				<button
+					aria-hidden="true"
+					title="Expand image gallery"
 					onClick={() => expandedClicked(0)}
 					className="absolute right-2 top-2 z-20 rounded border bg-white bg-opacity-50 "
 				>
@@ -22,6 +24,7 @@ export default function VenueImage({ venue, expandedClicked }: Props) {
 						strokeWidth={1.5}
 						stroke="currentColor"
 						className="h-6 w-6"
+						aria-hidden="true"
 					>
 						<path
 							strokeLinecap="round"

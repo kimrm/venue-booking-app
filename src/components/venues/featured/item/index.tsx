@@ -38,7 +38,11 @@ export default function Item({ venue }: Props) {
 				>
 					{venue.location.city && (
 						<div>
-							<span className="flex items-center gap-2">
+							<span
+								className="flex items-center gap-2"
+								aria-label="City of the venue"
+								title="City of the venue"
+							>
 								<svg
 									className="size-4 "
 									aria-hidden="true"
@@ -59,7 +63,11 @@ export default function Item({ venue }: Props) {
 						</div>
 					)}
 					<div>
-						<span className="flex items-center gap-2">
+						<span
+							className="flex items-center gap-2"
+							aria-label="Price for the venue"
+							title="Price for the venue"
+						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								fill="none"
@@ -78,7 +86,11 @@ export default function Item({ venue }: Props) {
 						</span>
 					</div>
 					<div>
-						<span className="flex items-center gap-2">
+						<span
+							className="flex items-center gap-2"
+							aria-label="Max. guests allowed"
+							title="Max. guests allowed"
+						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								fill="none"

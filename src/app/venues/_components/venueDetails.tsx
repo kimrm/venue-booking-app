@@ -60,7 +60,10 @@ function Details({ venue }: { venue: Venue }) {
 		<div className="flex flex-col gap-2 rounded  text-sm text-gray-600">
 			{venue.location.city && (
 				<div>
-					<span className="flex items-center gap-2">
+					<span
+						className="flex items-center gap-2"
+						aria-label="City and country of the venue"
+					>
 						<svg
 							className="size-4"
 							aria-hidden="true"
@@ -82,7 +85,10 @@ function Details({ venue }: { venue: Venue }) {
 			)}
 			{venue.location.continent && (
 				<div>
-					<span className="flex items-center gap-2">
+					<span
+						className="flex items-center gap-2"
+						aria-label="Continent of the venue"
+					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							fill="none"
@@ -103,7 +109,10 @@ function Details({ venue }: { venue: Venue }) {
 				</div>
 			)}
 			<div>
-				<span className="flex items-center gap-2">
+				<span
+					className="flex items-center gap-2"
+					aria-label="Price of the venue"
+				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						fill="none"
@@ -122,7 +131,10 @@ function Details({ venue }: { venue: Venue }) {
 				</span>
 			</div>
 			<div>
-				<span className="flex items-center gap-2">
+				<span
+					className="flex items-center gap-2"
+					aria-label="Max. guests allowed for the venue"
+				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						fill="none"
@@ -153,7 +165,11 @@ function Accommodations({ venue }: { venue: Venue }) {
 				)
 				.map((key) => {
 					return (
-						<div key={key} className="flex items-center gap-2">
+						<div
+							key={key}
+							className="flex items-center gap-2"
+							aria-label="Included accommodations"
+						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								fill="none"
@@ -161,6 +177,7 @@ function Accommodations({ venue }: { venue: Venue }) {
 								strokeWidth={1.5}
 								stroke="currentColor"
 								className="size-4"
+								aria-hidden="true"
 							>
 								<path
 									strokeLinecap="round"
