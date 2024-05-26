@@ -8,7 +8,7 @@ export default function ModalCancelButton({
 	return (
 		<button
 			onClick={onClick}
-			className="rounded-lg bg-gray-500 px-4 py-2 text-white"
+			className="rounded-lg bg-yellow-100 px-4 py-2 text-yellow-950 hover:bg-yellow-200"
 		>
 			Cancel
 		</button>
