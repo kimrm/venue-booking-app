@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, useContext } from "react";
+import { useState, useContext } from "react";
 import { rateVenue } from "@/actions/bookings";
 import Booking from "@/types/Booking";
 import { UserContext } from "@/context/UserContext";
@@ -21,10 +21,6 @@ export default function RateBooking({
 		rateVenue(booking?.id ?? "", rating);
 		setRateSuccess(true);
 	}
-
-	useEffect(() => {
-		console.log(rating);
-	}, [rating]);
 	return (
 		<div className="relative rounded bg-yellow-100 p-6">
 			<svg
