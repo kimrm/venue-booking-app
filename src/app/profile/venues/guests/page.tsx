@@ -1,8 +1,20 @@
 import { getAllBookings } from "@/actions/bookings";
+import { getProfile } from "@/actions/profile";
+import UserProfile from "@/types/UserProfile";
 import Link from "next/link";
 
 export default async function Guests() {
+	const profile: UserProfile = await getProfile();
 	const bookings = await getAllBookings();
+
+	if (!profile.venueManager) {
+		return (
+			<span className="text-red-500">
+				You are not registered as a venue mananger!
+			</span>
+		);
+	}
+
 	return (
 		<div>
 			<h2 className="mb-3 border-spacing-2 border-spacing-y-24 border-b border-dashed border-b-gray-200  pb-2 text-xs font-bold uppercase text-gray-700">
