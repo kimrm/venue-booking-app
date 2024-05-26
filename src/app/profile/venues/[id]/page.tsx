@@ -40,7 +40,7 @@ export default async function page({ params }: { params: { id: string } }) {
 					{venue?.rating}
 				</div>
 			</div>
-			<LinkButton href={`/profile/venues/${venue.id}/bookings`}>
+			<LinkButton href={`/profile/venues/${venue.id}/guests`}>
 				Manage bookings
 			</LinkButton>
 
