@@ -21,11 +21,11 @@ export default async function VenuePage({ params }: Props) {
 	}
 
 	return (
-		<div>
+		<div className="mt-5">
 			<Header venue={venue} />
 
 			<h3 className="mt-10 font-serif text-3xl font-bold">Location</h3>
-			{venue.location?.lat && venue.location?.lng && (
+			{venue.location?.lat !== 0 && venue.location?.lng !== 0 && (
 				<section id="location" className="mt-5 h-72">
 					<Map
 						location={{
