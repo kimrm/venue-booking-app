@@ -124,7 +124,7 @@ export default function Item({ venue }: Props) {
 						className="mt-10 w-fit rounded-2xl border border-white bg-yellow-400 px-4 py-2 text-sm font-bold uppercase tracking-wider text-gray-800 transition-transform duration-300 hover:scale-105 hover:rounded-2xl hover:border-0 hover:border-b-4 hover:border-r-4 hover:border-b-white hover:border-r-white hover:bg-yellow-500 hover:text-gray-700 hover:outline-black"
 						href={`/venues/${venue.id}`}
 					>
-						Book today
+						Book it today
 					</Link>
 				</motion.div>
 			</div>
