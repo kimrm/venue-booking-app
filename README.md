@@ -25,3 +25,7 @@ This is a booking app made for a student project exam. It is still work in progr
 ## Preview
 
 Although this project <strong><em>is not entirely finished</em></strong>, a demo preview can be viewed here: [https://venue-booking-app.vercel.app](https://venue-booking-app.vercel.app)
+
+## Running this project locally
+
+This project needs a Postgres database for the featured venues and rating features to work.
