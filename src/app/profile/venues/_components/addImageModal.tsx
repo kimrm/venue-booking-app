@@ -22,7 +22,7 @@ export default function AddImageModal({
 			<motion.div
 				initial={{ y: -100 }}
 				animate={{ y: 0 }}
-				className="mx-auto w-full max-w-full rounded-3xl bg-offwhite px-4 py-4 "
+				className="mx-auto w-full max-w-96 rounded-3xl bg-offwhite px-4 py-4 "
 			>
 				<h2 className="text-xl font-bold">Add image</h2>
 				<p className="my-3 max-w-prose">
