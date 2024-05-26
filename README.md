@@ -22,10 +22,16 @@ This is a booking app made for a student project exam. It is still work in progr
 - vercel/postgres
 - mapbox
 
-## Preview
+## Demo deployment
 
-Although this project <strong><em>is not entirely finished</em></strong>, a demo preview can be viewed here: [https://venue-booking-app.vercel.app](https://venue-booking-app.vercel.app)
+A demo deployment can be viewed here: [https://venue-booking-app.vercel.app](https://venue-booking-app.vercel.app)
 
 ## Running this project locally
 
-This project needs a Postgres database for the featured venues and rating features to work.
+- Clone the repo
+- Run `npm install`
+- Run `npm run dev`
+
+This project needs a Postgres database for the "featured venues" and "rating" features to work.
+It also needs a public Mapbox key and an API-Key for the Noroff API.
+Check the `.env.example` file for configuration.
