@@ -42,7 +42,6 @@ export default function BookingForm({ venue }: { venue: Venue }) {
 	}, [state]);
 
 	useEffect(() => {
-		console.log(bookingState);
 		if (bookingState.success) {
 			setBookingSuccess(true);
 		}

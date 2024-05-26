@@ -59,12 +59,17 @@ export default function ListingCard({ venue }: { venue: Venue }) {
 				<div className="mt-2">
 					<div className="flex items-start justify-between p-2">
 						<h2 className="font-bold">{formatName(venue.name)}</h2>
-						<span className="flex items-center gap-2 text-gray-600">
+						<span
+							className="flex items-center gap-2 text-gray-600"
+							aria-label="Venue rating"
+							title="Venue rating"
+						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								viewBox="0 0 24 24"
 								fill="currentColor"
 								className="h-4 w-4"
+								aria-hidden="true"
 							>
 								<path
 									fillRule="evenodd"
@@ -79,7 +84,11 @@ export default function ListingCard({ venue }: { venue: Venue }) {
 					<div className="flex flex-col gap-2 rounded  p-2 text-sm text-gray-600">
 						{venue.location.city && (
 							<div>
-								<span className="flex items-center gap-2">
+								<span
+									className="flex items-center gap-2"
+									aria-label="City and country of venue"
+									title="City and country of venue"
+								>
 									<svg
 										className="size-4 text-gray-800 "
 										aria-hidden="true"
@@ -90,17 +99,22 @@ export default function ListingCard({ venue }: { venue: Venue }) {
 										viewBox="0 0 24 24"
 									>
 										<path
-											fill-rule="evenodd"
+											fillRule="evenodd"
 											d="M11.906 1.994a8.002 8.002 0 0 1 8.09 8.421 7.996 7.996 0 0 1-1.297 3.957.996.996 0 0 1-.133.204l-.108.129c-.178.243-.37.477-.573.699l-5.112 6.224a1 1 0 0 1-1.545 0L5.982 15.26l-.002-.002a18.146 18.146 0 0 1-.309-.38l-.133-.163a.999.999 0 0 1-.13-.202 7.995 7.995 0 0 1 6.498-12.518ZM15 9.997a3 3 0 1 1-5.999 0 3 3 0 0 1 5.999 0Z"
-											clip-rule="evenodd"
+											clipRule="evenodd"
 										/>
 									</svg>
 									{venue.location.city}
+									{venue.location.country && ", " + venue.location.country}
 								</span>
 							</div>
 						)}
 						<div>
-							<span className="flex items-center gap-2">
+							<span
+								className="flex items-center gap-2"
+								aria-label="Price for venue"
+								title="Price for venue"
+							>
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									fill="none"
@@ -115,11 +129,15 @@ export default function ListingCard({ venue }: { venue: Venue }) {
 										d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
 									/>
 								</svg>
-								{venue.price}
+								{venue.price} per night
 							</span>
 						</div>
 						<div>
-							<span className="flex items-center gap-2">
+							<span
+								className="flex items-center gap-2"
+								aria-label="Max. guests allowed"
+								title="Max. guests allowed"
+							>
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									fill="none"
@@ -134,7 +152,7 @@ export default function ListingCard({ venue }: { venue: Venue }) {
 										d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"
 									/>
 								</svg>
-								{venue.maxGuests}
+								{venue.maxGuests} guests max.
 							</span>
 						</div>
 					</div>
