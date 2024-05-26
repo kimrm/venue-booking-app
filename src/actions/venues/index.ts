@@ -4,7 +4,7 @@ import { NoroffAPIRequest } from "@/types/Request";
 import { API_URL } from "@/vars/api";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
-import { permanentRedirect, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 import { z } from "zod";
 
 const schema = z.object({
@@ -157,9 +157,8 @@ export async function create(prevState: any, formData: FormData) {
 	const data = await response.json();
 
 	revalidateTag("venues");
-	permanentRedirect(
-		`/profile/venues/${data.data.id}?toast=register-venue-successful`
-	);
+	revalidateTag("backend-search");
+	redirect(`/profile/venues/${data.data.id}?toast=register-venue-successful`);
 }
 
 export async function update(prevState: any, formData: FormData) {
@@ -226,7 +225,15 @@ export async function update(prevState: any, formData: FormData) {
 	const response = await fetch(`${API_URL}/venues/${id}`, options);
 	const data = await response.json();
 
-	revalidateTag("backend-search");
+	process.nextTick(() => {
+		try {
+			revalidateTag("venues");
+			revalidateTag("backend-search");
+			revalidatePath("/profile/venues");
+		} catch (error) {
+			console.log(error);
+		}
+	});
 
 	return { data: data, status: "ok" };
 }
@@ -241,11 +248,14 @@ export async function destroy(id: string) {
 		},
 	} as NoroffAPIRequest);
 
-	console.log("Response ----------------", response);
-
 	if (response.status === 204) {
-		revalidateTag("venues");
-		revalidatePath("/profile/venues");
+		try {
+			revalidateTag("venues");
+			revalidateTag("backend-search");
+			revalidatePath("/profile/venues");
+		} catch (error) {
+			console.error(error);
+		}
 		return { status: "ok", data: {} };
 	}
 
