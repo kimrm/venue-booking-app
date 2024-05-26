@@ -72,7 +72,7 @@ export default function Avatar({ profile, avatarChanged }: Props) {
 			</button>
 			{modalOpen && (
 				<div className="fixed left-0 top-0 flex h-screen w-screen items-center bg-black bg-opacity-80 p-2">
-					<div className="mx-auto w-full rounded-3xl bg-offwhite px-6 py-4 lg:w-1/2">
+					<div className="mx-auto w-full max-w-96 rounded-3xl bg-offwhite px-6 py-4">
 						<h2 className="text-xl font-bold">Edit avatar</h2>
 						<p className="my-3 max-w-prose">Add a new avatar image.</p>
 						<form onSubmit={updateAvatar}>
