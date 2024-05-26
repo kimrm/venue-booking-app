@@ -82,7 +82,7 @@ export default function AddImageModal({
 					<button
 						type="button"
 						onClick={() => onClose()}
-						className="rounded-lg bg-gray-200 px-4 py-2 transition-colors duration-300 hover:bg-gray-300"
+						className="rounded-lg bg-yellow-100 px-4 py-2 text-yellow-950 hover:bg-yellow-200"
 					>
 						Cancel
 					</button>
