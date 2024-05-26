@@ -39,7 +39,13 @@ export default async function confirmBooking(
 	const responseData = await response.json();
 
 	if (response.ok) {
-		revalidatePath("/profile");
+		process.nextTick(() => {
+			try {
+				revalidatePath("/venues");
+			} catch (error) {
+				console.error(error);
+			}
+		});
 		return {
 			success: true,
 			message: "Booking confirmed",
