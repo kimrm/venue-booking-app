@@ -5,9 +5,15 @@ import Item from "./item";
 import ListingCard from "../listingCard";
 import { sql } from "@vercel/postgres";
 
-async function getData() {
-	const { rows } = await sql`select venue_id from venue_booking_app_featured`;
-	const featuredVenueIds = rows.map((row: any) => row.venue_id);
+async function getFeaturedVenue() {
+	let featuredVenueIds: string[] = [];
+	try {
+		const { rows } = await sql`select venue_id from venue_booking_app_featured`;
+		featuredVenueIds = rows.map((row: any) => row.venue_id);
+	} catch (error) {
+		console.log(error);
+	}
+
 	const featuredVenues: Venue[] = [];
 	for (const id of featuredVenueIds) {
 		const venue = await fetcher(
@@ -18,9 +24,15 @@ async function getData() {
 		);
 		featuredVenues.push(venue.data);
 	}
-	const randomVenue: Venue =
-		featuredVenues[Math.floor(Math.random() * featuredVenues.length)];
+	const randomVenue: Venue | undefined =
+		featuredVenues.length > 0
+			? featuredVenues[Math.floor(Math.random() * featuredVenues.length)]
+			: undefined;
 
+	return randomVenue;
+}
+
+async function getPopularVenues() {
 	const otherVenues = await fetcher(
 		`${API_URL}/venues?_bookings=true&limit=40&_owner=true`,
 		"GET",
@@ -36,6 +48,13 @@ async function getData() {
 			return b.rating - a.rating;
 		});
 
+	return popularVenues;
+}
+
+async function getData() {
+	const randomVenue = await getFeaturedVenue();
+	const popularVenues = await getPopularVenues();
+
 	return { randomVenue, popularVenues };
 }
 export default async function FeaturedVenues() {
@@ -43,12 +62,15 @@ export default async function FeaturedVenues() {
 
 	return (
 		<div>
-			<article className="mt-3">
-				<h1 className="w-fit p-2 font-serif text-xs font-extrabold uppercase tracking-widest text-gray-700">
-					Featured venue
-				</h1>
-				<Item venue={randomVenue} />
-			</article>
+			{randomVenue && (
+				<article className="mt-3">
+					<h1 className="w-fit p-2 font-serif text-xs font-extrabold uppercase tracking-widest text-gray-700">
+						Featured venue
+					</h1>
+					<Item venue={randomVenue} />
+				</article>
+			)}
+
 			<article className="mt-10">
 				<h1 className="w-fit p-2 font-serif text-xs font-extrabold uppercase tracking-widest text-gray-700">
 					Popular venues
