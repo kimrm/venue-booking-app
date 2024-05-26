@@ -9,8 +9,7 @@ export default function SelectDates({
 	venue: Venue;
 }) {
 	return (
-		<div>
-			<p className="my-3">Select dates to start</p>
+		<div className="my-3">
 			<DateRangeSelector
 				excludeDateIntervals={venue.bookings?.map((booking) => ({
 					start: new Date(booking?.dateFrom),
