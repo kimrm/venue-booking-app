@@ -111,7 +111,7 @@ export default async function ProfilePage() {
 										className={`${index % 2 === 0 && "bg-white"}`}
 									>
 										<td className="p-2 text-left">
-											<Link href={`/venues/${booking.venue.id}`}>
+											<Link href={`/profile/bookings/${booking.id}`}>
 												{booking.venue.name}
 											</Link>
 										</td>
@@ -153,7 +153,7 @@ export default async function ProfilePage() {
 										className={`${index % 2 === 0 && "bg-white"}`}
 									>
 										<td className="p-2 text-left">
-											<Link href={`/venues/${booking.venue.id}`}>
+											<Link href={`/profile/bookings/${booking.id}`}>
 												{booking.venue.name}
 											</Link>
 										</td>
