@@ -1,26 +1,28 @@
 # Holidation
 
+![Screenshot](https://kimrm.github.io/venue-booking-app/images/screenshot.png)
+
 ## A venue booking app
 
-This is a booking app made for a student project exam. It is still work in progress.
+A fictive booking app made, Airbnb style, for a student project exam.
 
 ## Stack
 
-- Next.js
-- TypeScript
-- Tailwind
-- Postgres
+- [Next.js](https://nextjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Postgres](https://www.postgresql.org/)
 
-## Packages and libraries
+## Dependencies
 
-- SWR
-- Zod
-- Framer Motion
-- Playwright
-- Jest
-- react-datepicker
-- vercel/postgres
-- mapbox
+- [SWR](https://swr.vercel.app/)
+- [Zod](https://zod.dev/)
+- [Framer Motion](https://www.framer.com/motion/)
+- [Playwright](https://playwright.dev/)
+- [Jest](https://jestjs.io/)
+- [react-datepicker](https://www.npmjs.com/package/react-date-picker)
+- [vercel/postgres](https://www.npmjs.com/package/@vercel/postgres)
+- [mapbox](https://docs.mapbox.com/api/maps/)
 
 ## Demo deployment
 
@@ -28,10 +30,36 @@ A demo deployment can be viewed here: [https://venue-booking-app.vercel.app](htt
 
 ## Running this project locally
 
-- Clone the repo
-- Run `npm install`
-- Run `npm run dev`
+1. Clone the repo:
 
-This project needs a Postgres database for the "featured venues" and "rating" features to work.
-It also needs a public Mapbox key and an API-Key for the Noroff API.
+```bash
+git clone git@github.com:kimrm/venue-booking-app.git
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Run project:
+
+```bash
+npm run dev
+```
+
+This project needs a Postgres database for the <em>featured venues</em> and <em>rating</em> features to work.
+It also needs a <em>public Mapbox key</em>, `NEXT_PUBLIC_MAP_KEY` in the .env file, and a <em>API-Key for the Noroff API</em>, `API_KEY` in the .env file.
 Check the `.env.example` file for configuration.
+
+## Contributing
+
+As this is a student, project contributions is not requested.
+
+## Contact
+
+[My website](https://kimrune.dev)
+
+## License
+
+No license required. Project is free to clone for example or educational purposes.
