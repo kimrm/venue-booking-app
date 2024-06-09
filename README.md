@@ -2,7 +2,7 @@
 
 ![Screenshot](https://kimrm.github.io/venue-booking-app/images/screenshot.png)
 
-A fictive booking app made, Airbnb style, for a student project exam.
+A fictive, Airbnb style, booking app, made for a student project exam.
 
 ## Stack
 
