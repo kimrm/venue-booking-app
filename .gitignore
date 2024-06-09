@@ -1,0 +1,11 @@
+node_modules
+.husky
+.next
+.swc
+.vercel
+playwright-report
+src
+test-results
+.env.development.local
+.env.local
+next-env.d.ts
