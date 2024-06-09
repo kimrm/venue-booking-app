@@ -1,8 +1,6 @@
-# Holidation
+# Venue Booking App
 
 ![Screenshot](https://kimrm.github.io/venue-booking-app/images/screenshot.png)
-
-## A venue booking app
 
 A fictive booking app made, Airbnb style, for a student project exam.
 
